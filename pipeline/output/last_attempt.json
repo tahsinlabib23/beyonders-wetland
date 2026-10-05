@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "run_id": "3b01cdb5674a44ea9c6c3d17ec8c07b8",
+  "mode": "real",
+  "data_source": "NISAR",
+  "started_at": "2026-10-04T20:23:48.486176+00:00",
+  "status": "COMPLETE",
+  "completed_at": "2026-10-04T21:04:36.075157+00:00",
+  "selected_date": "2026-08-29",
+  "observation_count": 7,
+  "baseline_date": "2026-06-18",
+  "seed": null,
+  "input_origin": "NISAR_GCOV",
+  "source_run_id": null,
+  "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+  "frequency": "frequencyA",
+  "baseline_scene": "NISAR_L2_PR_GCOV_023_069_A_014_4005_DHDH_A_20260618T232135_20260618T232210_P05023_N_F_J_001",
+  "baseline_observation_dates": [
+    "2026-06-18",
+    "2026-06-30",
+    "2026-07-12",
+    "2026-07-24",
+    "2026-08-17"
+  ],
+  "baseline_method": "PER_PIXEL_MEDIAN",
+  "observation_scenes": [
+    "NISAR_L2_PR_GCOV_024_069_A_014_4005_DHDH_A_20260630T232134_20260630T232209_P05023_N_F_J_001",
+    "NISAR_L2_PR_GCOV_025_069_A_014_4005_DHDH_A_20260712T232134_20260712T232208_P05023_N_F_J_001",
+    "NISAR_L2_PR_GCOV_026_069_A_014_4005_DHDH_A_20260724T232133_20260724T232208_P05023_N_F_J_001",
+    "NISAR_L2_PR_GCOV_028_069_A_014_4005_DHDH_A_20260817T232132_20260817T232206_P05023_N_F_J_001",
+    "NISAR_L2_PR_GCOV_029_069_A_014_4005_DHDH_A_20260829T232132_20260829T232206_P05023_N_F_J_001",
+    "NISAR_L2_PR_GCOV_030_069_A_014_4005_DHDH_A_20260910T232131_20260910T232206_P05023_N_F_J_001",
+    "NISAR_L2_PR_GCOV_031_069_A_014_4005_DHDH_A_20260922T232132_20260922T232206_P05023_N_F_J_001"
+  ],
+  "polarizations": [
+    "HHHH",
+    "HVHV"
+  ],
+  "site_bounds": [
+    90.96007981000008,
+    25.08921642300004,
+    91.12858784900004,
+    25.18931361600005
+  ],
+  "product_maturity": "PROVISIONAL",
+  "site_name": "Tanguar Haor mapped boundary",
+  "wetland_boundary_source": "Bangladesh CRIIPS Haor Boundary layer 147, OBJECTID 202; mapped haor, not Ramsar site 1031",
+  "reference_validated": false,
+  "cross_sensor_check_completed": false,
+  "reference_check_status": "INCONCLUSIVE",
+  "reference_validation_status": "INCONCLUSIVE",
+  "quality_mask_method": "finite positive HHHH/HVHV; GCOV numberOfLooks > 0 and metadata-declared fill exclusions where raw quality layers are present; optional external binary mask; GCOV averaging-ensemble mask recorded but not treated as validity"
+}

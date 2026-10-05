@@ -1,0 +1,67 @@
+{
+  "site": "Hakaluki Haor",
+  "dates": [
+    {
+      "date": "2026-06-18",
+      "area_km2": 8.4,
+      "fraction": 0.15,
+      "mean_delta_db": 1.1,
+      "patches": 6
+    },
+    {
+      "date": "2026-06-30",
+      "area_km2": 21.7,
+      "fraction": 0.4,
+      "mean_delta_db": 1.9,
+      "patches": 14
+    },
+    {
+      "date": "2026-07-12",
+      "area_km2": 38.2,
+      "fraction": 0.65,
+      "mean_delta_db": 2.7,
+      "patches": 22
+    },
+    {
+      "date": "2026-07-24",
+      "area_km2": 48.9,
+      "fraction": 0.85,
+      "mean_delta_db": 3.4,
+      "patches": 28
+    },
+    {
+      "date": "2026-08-05",
+      "area_km2": 43.1,
+      "fraction": 0.75,
+      "mean_delta_db": 2.9,
+      "patches": 24
+    },
+    {
+      "date": "2026-08-17",
+      "area_km2": 27.5,
+      "fraction": 0.5,
+      "mean_delta_db": 2.2,
+      "patches": 18
+    },
+    {
+      "date": "2026-08-29",
+      "area_km2": 15.3,
+      "fraction": 0.28,
+      "mean_delta_db": 1.5,
+      "patches": 10
+    },
+    {
+      "date": "2026-09-10",
+      "area_km2": 9.8,
+      "fraction": 0.18,
+      "mean_delta_db": 1.2,
+      "patches": 7
+    }
+  ],
+  "onset": "2026-06-18",
+  "peak": {
+    "date": "2026-07-24",
+    "area_km2": 48.9
+  },
+  "recession_start": "2026-08-05"
+}

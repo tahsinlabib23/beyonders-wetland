@@ -1,0 +1,12 @@
+earthaccess
+h5py
+numpy
+scipy
+pandas
+matplotlib
+pillow
+rasterio
+geopandas
+shapely
+pyproj
+pyyaml

@@ -1,0 +1,63 @@
+{
+  "patch_id": "global_sweep",
+  "data_source": "SIMULATED_DEMO",
+  "thresholds": [
+    {
+      "delta_db": 0.5,
+      "area_km2": 2.4984,
+      "patches": 3
+    },
+    {
+      "delta_db": 1.0,
+      "area_km2": 2.4984,
+      "patches": 3
+    },
+    {
+      "delta_db": 1.5,
+      "area_km2": 2.4984,
+      "patches": 3
+    },
+    {
+      "delta_db": 2.0,
+      "area_km2": 2.4984,
+      "patches": 3
+    },
+    {
+      "delta_db": 2.5,
+      "area_km2": 2.4984,
+      "patches": 3
+    },
+    {
+      "delta_db": 3.0,
+      "area_km2": 2.0932,
+      "patches": 3
+    },
+    {
+      "delta_db": 3.5,
+      "area_km2": 1.2896,
+      "patches": 3
+    },
+    {
+      "delta_db": 4.0,
+      "area_km2": 0.826,
+      "patches": 3
+    },
+    {
+      "delta_db": 4.5,
+      "area_km2": 0.2452,
+      "patches": 1
+    },
+    {
+      "delta_db": 5.0,
+      "area_km2": 0.1328,
+      "patches": 1
+    }
+  ],
+  "base_threshold_db": 2.5,
+  "stable_range": [
+    2.0,
+    3.0
+  ],
+  "stability_verdict": "STABLE",
+  "sensitivity_note": "Shared water/vegetation cutoff; areas use the raster CRS and counts use connected regions. Rule stability is not accuracy."
+}

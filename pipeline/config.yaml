@@ -1,0 +1,42 @@
+site:
+  name: "Hakaluki Haor"
+  bbox:
+    min_lon: 91.95
+    min_lat: 24.55
+    max_lon: 92.15
+    max_lat: 24.75
+  boundary: "data/hakaluki_haor_boundary.geojson"
+  boundary_source: "Bangladesh Haor Boundary feature, ArcGIS service ADB005/CRIIPS layer 147; attributes report 173.02 km²"
+
+nisar:
+  product: "NISAR_L2_GCOV_PROVISIONAL_V1"
+  frequency: "frequencyA"
+  preferred_polarizations:
+    - "HHHH"
+    - "HVHV"
+  temporal: ["2026-06-17", "2026-09-30"]
+  search_limit: 100
+
+demo:
+  seed: 42
+  pixel_spacing_m: 20
+  baseline_date: "2025-05-20"
+  dates: ["2025-06-01", "2025-06-13", "2025-06-25", "2025-07-07", "2025-07-19", "2025-07-31", "2025-08-12", "2025-08-24"]
+
+processing:
+  minimum_valid_fraction: 0.85
+  minimum_region_pixels: 50
+  base_threshold_db: 2.5
+  open_water_delta_hh: -2.5 # Illustrative negative HH change cutoff
+  vegetated_delta_hh: 2.5 # Threshold for HH increase (double-bounce)
+  vegetated_delta_hv_max: 1.5 # Max HV change to rule out wind/roughness effects
+
+validation:
+  use_reference: true
+  reference_product: "HLSS30"
+  reference_products: ["HLSS30", "HLSL30"]
+  date_tolerance_days: 5
+  mndwi_water_threshold: 0.0
+  minimum_clear_coverage: 0.2
+  minimum_comparison_pixels: 100
+  maximum_reference_pairs: 32

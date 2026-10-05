@@ -2,6 +2,15 @@
 
 # dependencies
 /node_modules
+/pipeline/venv/
+/pipeline/__pycache__/
+/pipeline/output/runs/
+/pipeline/output/downloads/
+/pipeline/output/jobs/
+/pipeline/output/reference_qa_cache/
+/pipeline/output/current_run.json
+/pipeline/output/site_name_override.json
+/pipeline/output/.run.lock
 /.pnp
 .pnp.*
 .yarn/*

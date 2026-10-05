@@ -1,0 +1,103 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.56,
+              24.669999999999998
+            ],
+            [
+              91.56,
+              24.65
+            ],
+            [
+              91.58,
+              24.65
+            ],
+            [
+              91.58,
+              24.669999999999998
+            ],
+            [
+              91.56,
+              24.669999999999998
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_3b5a9662",
+        "date": "2026-07-24",
+        "area_km2": 4.474601624668402,
+        "classification": "VEGETATED_INUNDATION",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PARTIAL",
+        "threshold_stability": "STABLE",
+        "evidence_state": "SUPPORTED",
+        "mean_delta_db": 3.5,
+        "valid_fraction": 0.95,
+        "centroid": [
+          24.659999999999997,
+          91.56999999999998
+        ],
+        "contextual_land_cover": "Wetland / Seasonally Flooded",
+        "distance_to_water_m": 150
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.52,
+              24.66
+            ],
+            [
+              91.52,
+              24.64
+            ],
+            [
+              91.54,
+              24.64
+            ],
+            [
+              91.54,
+              24.66
+            ],
+            [
+              91.52,
+              24.66
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_c9f750f3",
+        "date": "2026-07-24",
+        "area_km2": 4.474960100080324,
+        "classification": "OPEN_WATER",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PARTIAL",
+        "threshold_stability": "STABLE",
+        "evidence_state": "SUPPORTED",
+        "mean_delta_db": -4.0,
+        "valid_fraction": 0.95,
+        "centroid": [
+          24.649999999999995,
+          91.53
+        ],
+        "contextual_land_cover": "Wetland / Seasonally Flooded",
+        "distance_to_water_m": 0
+      }
+    }
+  ]
+}

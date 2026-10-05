@@ -1,0 +1,567 @@
+{
+  "demo_version": "wetland-demo-v1",
+  "notice": "SIMULATED DEMO — fictional dates, signals, geometry and evidence verdicts. No satellite observations or field validation are used.",
+  "settings": {
+    "date": "2025-07-31",
+    "threshold_db": 1,
+    "filter": "ALL",
+    "map_mode": "AFTER"
+  },
+  "regions": [
+    {
+      "id": "wetland_patch_001",
+      "date": "2025-07-31",
+      "area_km2": 4.7212,
+      "mean_delta_db": -4.1298,
+      "median_delta_db": -4.1298,
+      "valid_fraction": 0.94,
+      "vegetated_fraction": 0.12,
+      "classification": "OPEN_WATER",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -6.8,
+      "hh_after": -10.9298,
+      "hv_before": -13.1,
+      "hv_after": -16.867,
+      "delta_hh": -4.1298,
+      "delta_hv": -3.767,
+      "centroid": [
+        24.64,
+        91.49
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_002",
+      "date": "2025-07-31",
+      "area_km2": 3.2886,
+      "mean_delta_db": 2.2881,
+      "median_delta_db": 2.2881,
+      "valid_fraction": 0.91,
+      "vegetated_fraction": 0.73,
+      "classification": "VEGETATED_INUNDATION",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -8.2,
+      "hh_after": -5.9119,
+      "hv_before": -14.5,
+      "hv_after": -14.0117,
+      "delta_hh": 2.2881,
+      "delta_hv": 0.4883,
+      "centroid": [
+        24.64,
+        91.535
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_003",
+      "date": "2025-07-31",
+      "area_km2": 1.7852,
+      "mean_delta_db": 2.0098,
+      "median_delta_db": 2.0098,
+      "valid_fraction": 0.88,
+      "vegetated_fraction": 0.67,
+      "classification": "VEGETATED_INUNDATION",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "MODERATE",
+      "hh_before": -7.9,
+      "hh_after": -5.8902,
+      "hv_before": -15.1,
+      "hv_after": -14.7512,
+      "delta_hh": 2.0098,
+      "delta_hv": 0.3488,
+      "centroid": [
+        24.64,
+        91.58
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_004",
+      "date": "2025-07-31",
+      "area_km2": 0.569,
+      "mean_delta_db": 1.2577,
+      "median_delta_db": 1.2577,
+      "valid_fraction": 0.79,
+      "vegetated_fraction": 0.41,
+      "classification": "UNCERTAIN",
+      "quality_status": "PASS",
+      "spatial_status": "PARTIAL",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "UNCERTAIN",
+      "hh_before": -9.1,
+      "hh_after": -7.8423,
+      "hv_before": -16.2,
+      "hv_after": -15.3629,
+      "delta_hh": 1.2577,
+      "delta_hv": 0.8371,
+      "centroid": [
+        24.64,
+        91.625
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_005",
+      "date": "2025-07-31",
+      "area_km2": 4.0078,
+      "mean_delta_db": -4.8553,
+      "median_delta_db": -4.8553,
+      "valid_fraction": 0.96,
+      "vegetated_fraction": 0.08,
+      "classification": "OPEN_WATER",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -7.1,
+      "hh_after": -11.9553,
+      "hv_before": -12.8,
+      "hv_after": -17.3344,
+      "delta_hh": -4.8553,
+      "delta_hv": -4.5344,
+      "centroid": [
+        24.595,
+        91.49
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_006",
+      "date": "2025-07-31",
+      "area_km2": 2.2081,
+      "mean_delta_db": 2.0098,
+      "median_delta_db": 2.0098,
+      "valid_fraction": 0.85,
+      "vegetated_fraction": 0.82,
+      "classification": "VEGETATED_INUNDATION",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "MODERATE",
+      "hh_before": -8.6,
+      "hh_after": -6.5902,
+      "hv_before": -14.9,
+      "hv_after": -14.4814,
+      "delta_hh": 2.0098,
+      "delta_hv": 0.4186,
+      "centroid": [
+        24.595,
+        91.535
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_007",
+      "date": "2025-07-31",
+      "area_km2": 0.2103,
+      "mean_delta_db": 1.1283,
+      "median_delta_db": 1.1283,
+      "valid_fraction": 0.72,
+      "vegetated_fraction": 0.35,
+      "classification": "UNCERTAIN",
+      "quality_status": "PARTIAL",
+      "spatial_status": "PARTIAL",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "UNCERTAIN",
+      "hh_before": -10.3,
+      "hh_after": -9.1717,
+      "hv_before": -17.1,
+      "hv_after": -16.4722,
+      "delta_hh": 1.1283,
+      "delta_hv": 0.6278,
+      "centroid": [
+        24.595,
+        91.58
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_008",
+      "date": "2025-07-31",
+      "area_km2": 5.9218,
+      "mean_delta_db": -5.4134,
+      "median_delta_db": -5.4134,
+      "valid_fraction": 0.97,
+      "vegetated_fraction": 0.05,
+      "classification": "OPEN_WATER",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -6.4,
+      "hh_after": -11.8134,
+      "hv_before": -12,
+      "hv_after": -17.8598,
+      "delta_hh": -5.4134,
+      "delta_hv": -5.8598,
+      "centroid": [
+        24.595,
+        91.625
+      ],
+      "data_source": "SIMULATED_DEMO"
+    }
+  ],
+  "selected_evidence": {
+    "id": "wetland_patch_004",
+    "date": "2025-07-31",
+    "area_km2": 0.569,
+    "mean_delta_db": 1.2577,
+    "median_delta_db": 1.2577,
+    "valid_fraction": 0.79,
+    "vegetated_fraction": 0.41,
+    "classification": "UNCERTAIN",
+    "quality_status": "PASS",
+    "spatial_status": "PARTIAL",
+    "temporal_status": "PARTIAL",
+    "threshold_stability": "SENSITIVE",
+    "evidence_state": "UNCERTAIN",
+    "hh_before": -9.1,
+    "hh_after": -7.8423,
+    "hv_before": -16.2,
+    "hv_after": -15.3629,
+    "delta_hh": 1.2577,
+    "delta_hv": 0.8371,
+    "centroid": [
+      24.64,
+      91.625
+    ],
+    "data_source": "SIMULATED_DEMO"
+  },
+  "pulse": {
+    "site": "Hakaluki Haor · fictional scenario",
+    "wetland_area_km2": 54,
+    "data_source": "SIMULATED_DEMO",
+    "dates": [
+      {
+        "date": "2025-06-01",
+        "area_km2": 9.8728,
+        "fraction": 0.1828,
+        "patches": 7,
+        "mean_delta_db": -1.9325
+      },
+      {
+        "date": "2025-06-13",
+        "area_km2": 16.9492,
+        "fraction": 0.3139,
+        "patches": 8,
+        "mean_delta_db": -2.1972
+      },
+      {
+        "date": "2025-06-25",
+        "area_km2": 28.7831,
+        "fraction": 0.533,
+        "patches": 8,
+        "mean_delta_db": -2.6685
+      },
+      {
+        "date": "2025-07-07",
+        "area_km2": 40.976,
+        "fraction": 0.7588,
+        "patches": 8,
+        "mean_delta_db": -3.2326
+      },
+      {
+        "date": "2025-07-19",
+        "area_km2": 35.8354,
+        "fraction": 0.6636,
+        "patches": 8,
+        "mean_delta_db": -2.9777
+      },
+      {
+        "date": "2025-07-31",
+        "area_km2": 22.712,
+        "fraction": 0.4206,
+        "patches": 8,
+        "mean_delta_db": -2.4001
+      },
+      {
+        "date": "2025-08-12",
+        "area_km2": 13.0511,
+        "fraction": 0.2417,
+        "patches": 7,
+        "mean_delta_db": -2.075
+      },
+      {
+        "date": "2025-08-24",
+        "area_km2": 7.5868,
+        "fraction": 0.1405,
+        "patches": 6,
+        "mean_delta_db": -1.8201
+      }
+    ],
+    "onset": "2025-06-01",
+    "peak": {
+      "date": "2025-07-07",
+      "area_km2": 40.976
+    },
+    "recession_start": "2025-07-19"
+  },
+  "sensitivity": {
+    "patch_id": "wetland_patch_004",
+    "thresholds": [
+      {
+        "delta_db": 0.5,
+        "area_km2": 1.138,
+        "patches": 1
+      },
+      {
+        "delta_db": 1,
+        "area_km2": 0.569,
+        "patches": 1
+      },
+      {
+        "delta_db": 1.5,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 2,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 2.5,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 3,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 3.5,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 4,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 4.5,
+        "area_km2": 0,
+        "patches": 0
+      },
+      {
+        "delta_db": 5,
+        "area_km2": 0,
+        "patches": 0
+      }
+    ],
+    "stability_verdict": "SENSITIVE",
+    "stable_range": [
+      0.5,
+      1.5
+    ],
+    "data_source": "SIMULATED_DEMO",
+    "sensitivity_note": "Simulated area changes by 100.0% across 0.5–1.5 dB. Stable means ≤20% change with nonzero area. This is a demonstration rule, not measured accuracy."
+  },
+  "limitations": [
+    "No accuracy estimate or ground truth is available.",
+    "Map geometry and quality inputs are illustrative.",
+    "Vegetated inundation is a hypothesis requiring validation."
+  ],
+  "baseline_regions": [
+    {
+      "id": "wetland_patch_001",
+      "date": "2025-06-01",
+      "area_km2": 2.2792,
+      "mean_delta_db": -2.8511,
+      "median_delta_db": -2.8511,
+      "valid_fraction": 0.94,
+      "vegetated_fraction": 0.12,
+      "classification": "OPEN_WATER",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -6.8,
+      "hh_after": -9.6511,
+      "hv_before": -13.1,
+      "hv_after": -15.7006,
+      "delta_hh": -2.8511,
+      "delta_hv": -2.6006,
+      "centroid": [
+        24.64,
+        91.49
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_002",
+      "date": "2025-06-01",
+      "area_km2": 1.2701,
+      "mean_delta_db": 1.7667,
+      "median_delta_db": 1.7667,
+      "valid_fraction": 0.91,
+      "vegetated_fraction": 0.73,
+      "classification": "VEGETATED_INUNDATION",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "MODERATE",
+      "hh_before": -8.2,
+      "hh_after": -6.4333,
+      "hv_before": -14.5,
+      "hv_after": -14.1629,
+      "delta_hh": 1.7667,
+      "delta_hv": 0.3371,
+      "centroid": [
+        24.64,
+        91.535
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_003",
+      "date": "2025-06-01",
+      "area_km2": 0.6703,
+      "mean_delta_db": 1.5426,
+      "median_delta_db": 1.5426,
+      "valid_fraction": 0.88,
+      "vegetated_fraction": 0.67,
+      "classification": "VEGETATED_INUNDATION",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "MODERATE",
+      "hh_before": -7.9,
+      "hh_after": -6.3574,
+      "hv_before": -15.1,
+      "hv_after": -14.8592,
+      "delta_hh": 1.5426,
+      "delta_hv": 0.2408,
+      "centroid": [
+        24.64,
+        91.58
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_004",
+      "date": "2025-06-01",
+      "area_km2": 0.0305,
+      "mean_delta_db": 1.0234,
+      "median_delta_db": 1.0234,
+      "valid_fraction": 0.79,
+      "vegetated_fraction": 0.41,
+      "classification": "UNCERTAIN",
+      "quality_status": "PASS",
+      "spatial_status": "PARTIAL",
+      "temporal_status": "PARTIAL",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "UNCERTAIN",
+      "hh_before": -9.1,
+      "hh_after": -8.0766,
+      "hv_before": -16.2,
+      "hv_after": -15.6221,
+      "delta_hh": 1.0234,
+      "delta_hv": 0.5779,
+      "centroid": [
+        24.64,
+        91.625
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_005",
+      "date": "2025-06-01",
+      "area_km2": 1.9348,
+      "mean_delta_db": -3.3519,
+      "median_delta_db": -3.3519,
+      "valid_fraction": 0.96,
+      "vegetated_fraction": 0.08,
+      "classification": "OPEN_WATER",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -7.1,
+      "hh_after": -10.4519,
+      "hv_before": -12.8,
+      "hv_after": -15.9304,
+      "delta_hh": -3.3519,
+      "delta_hv": -3.1304,
+      "centroid": [
+        24.595,
+        91.49
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_006",
+      "date": "2025-06-01",
+      "area_km2": 0.8291,
+      "mean_delta_db": 1.5426,
+      "median_delta_db": 1.5426,
+      "valid_fraction": 0.85,
+      "vegetated_fraction": 0.82,
+      "classification": "VEGETATED_INUNDATION",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "SENSITIVE",
+      "evidence_state": "MODERATE",
+      "hh_before": -8.6,
+      "hh_after": -7.0574,
+      "hv_before": -14.9,
+      "hv_after": -14.611,
+      "delta_hh": 1.5426,
+      "delta_hv": 0.289,
+      "centroid": [
+        24.595,
+        91.535
+      ],
+      "data_source": "SIMULATED_DEMO"
+    },
+    {
+      "id": "wetland_patch_008",
+      "date": "2025-06-01",
+      "area_km2": 2.8588,
+      "mean_delta_db": -3.7372,
+      "median_delta_db": -3.7372,
+      "valid_fraction": 0.97,
+      "vegetated_fraction": 0.05,
+      "classification": "OPEN_WATER",
+      "quality_status": "PASS",
+      "spatial_status": "PASS",
+      "temporal_status": "PASS",
+      "threshold_stability": "STABLE",
+      "evidence_state": "SUPPORTED",
+      "hh_before": -6.4,
+      "hh_after": -10.1372,
+      "hv_before": -12,
+      "hv_after": -16.0454,
+      "delta_hh": -3.7372,
+      "delta_hv": -4.0454,
+      "centroid": [
+        24.595,
+        91.625
+      ],
+      "data_source": "SIMULATED_DEMO"
+    }
+  ],
+  "export_scope": "Current fictional date and selected class filter; baseline regions included separately for map comparisons."
+}
