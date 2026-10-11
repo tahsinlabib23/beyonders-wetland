@@ -1,0 +1,57 @@
+/* ══════════════════════════════════════════════════════
+   Beyonders — "Scientific Field Atlas" design tokens
+   One system for the dark map workspace and the warm editorial surfaces.
+   Loaded after globals.css so these tokens win.
+   ══════════════════════════════════════════════════════ */
+
+@font-face { font-family: "Inter"; font-style: normal; font-weight: 100 900; font-display: swap; src: url("/fonts/inter-latin.woff2") format("woff2"); }
+@font-face { font-family: "JetBrains Mono"; font-style: normal; font-weight: 100 800; font-display: swap; src: url("/fonts/jetbrains-mono-latin.woff2") format("woff2"); }
+@font-face { font-family: "Playfair Display"; font-style: normal; font-weight: 400 900; font-display: swap; src: url("/fonts/playfair-display-latin.woff2") format("woff2"); }
+
+:root {
+  /* Type roles: display serif / interface sans / telemetry mono. System fallbacks always present. */
+  --font-display: "Playfair Display", "Iowan Old Style", "Palatino Linotype", Georgia, serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-body: var(--font-sans);
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
+  /* Type scale (rem) */
+  --fs-micro: 0.6875rem;   /* 11px: category micro-labels only */
+  --fs-small: 0.8125rem;   /* 13px */
+  --fs-body: 0.9375rem;    /* 15px */
+  --fs-lead: 1.0625rem;    /* 17px */
+  --fs-h3: 1.25rem; --fs-h2: 1.75rem; --fs-h1: 2.5rem; --fs-hero: clamp(2.75rem, 6vw, 4.75rem);
+  --lh-tight: 1.15; --lh-body: 1.55;
+
+  /* 8-point spacing */
+  --s1: 4px; --s2: 8px; --s3: 16px; --s4: 24px; --s5: 32px; --s6: 48px; --s7: 64px;
+  --r-1: 2px; --r-2: 6px;                 /* the only two radii */
+  --t-fast: 160ms; --t-panel: 200ms;
+
+  /* Workspace (dark) */
+  --ws-bg: #0B1117; --ws-panel: #121D25; --ws-panel-2: #182630; --ws-text: #F0F3F2; --ws-text-2: #A7B5BE; --ws-border: #31414B;
+  /* Editorial (light) */
+  --ed-bg: #F4F2EC; --ed-text: #18242A; --ed-text-2: #62717A; --ed-border: #D5D8D2;
+  /* Semantic data colours: used consistently on maps, charts, legends, labels */
+  --c-observed: #5AC8D8;      /* direct observation / measured radar */
+  --c-derived: #F2A45A;       /* derived radar-change candidates: never "confirmed flood" */
+  --c-support: #67C9A5;       /* corroborating independent evidence */
+  --c-unassessed: #8996A0;    /* unassessed / unavailable */
+  --c-warn: #E7AE5C;          /* warning / inconclusive: not an error */
+  --c-error: #E66C68;
+  /* Editorial-surface (light) variants with AA contrast on #F4F2EC */
+  --c-observed-ink: #0E6475; --c-derived-ink: #9A4F0B; --c-support-ink: #1D6B50; --c-unassessed-ink: #55636C; --c-warn-ink: #8A5A06; --c-error-ink: #A3302C;
+
+  /* Re-point the legacy variables used by the classic dashboard and the global page to the Atlas palette. */
+  --bg-primary: var(--ed-bg); --bg-secondary: #ECE9E0; --bg-tertiary: #E1DED3; --bg-elevated: #FBFAF6;
+  --text-primary: var(--ed-text); --text-secondary: #2E3C43; --text-muted: var(--ed-text-2); --text-dim: #6E7B83;
+  --border-subtle: var(--ed-border); --border-default: #18242A;
+  --accent-primary: var(--c-observed-ink); --accent-secondary: #0A4B59; --accent-glow: rgba(14, 100, 117, 0.08); --accent-glow-strong: rgba(14, 100, 117, 0.16); --border-accent: rgba(14, 100, 117, 0.5);
+  --color-pass: var(--c-support-ink); --color-partial: var(--c-warn-ink); --color-fail: var(--c-error-ink); --color-info: var(--c-observed-ink);
+  --color-observed: var(--c-observed-ink); --color-derived: var(--c-derived-ink); --color-contextual: var(--c-unassessed-ink); --color-potential: var(--c-warn-ink);
+}
+
+body { font-family: var(--font-sans); line-height: var(--lh-body); -webkit-font-smoothing: antialiased; }
+:focus-visible { outline: 2px solid var(--c-observed-ink); outline-offset: 2px; }
+.wx-root :focus-visible { outline-color: var(--c-observed); }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; } }

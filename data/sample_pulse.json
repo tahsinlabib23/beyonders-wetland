@@ -1,0 +1,69 @@
+{
+  "site": "Hakaluki Haor",
+  "wetland_area_km2": 12.96,
+  "data_source": "SIMULATED_DEMO",
+  "dates": [
+    {
+      "date": "2025-06-01",
+      "area_km2": 0.3316,
+      "fraction": 0.02558641975308642,
+      "mean_delta_db": -0.3199768428779485,
+      "patches": 3
+    },
+    {
+      "date": "2025-06-13",
+      "area_km2": 0.7824,
+      "fraction": 0.060370370370370366,
+      "mean_delta_db": 0.12724741915496093,
+      "patches": 3
+    },
+    {
+      "date": "2025-06-25",
+      "area_km2": 1.7111999999999998,
+      "fraction": 0.132037037037037,
+      "mean_delta_db": 0.091884585923823,
+      "patches": 3
+    },
+    {
+      "date": "2025-07-07",
+      "area_km2": 2.4984,
+      "fraction": 0.19277777777777777,
+      "mean_delta_db": -0.0008798269289562765,
+      "patches": 3
+    },
+    {
+      "date": "2025-07-19",
+      "area_km2": 1.9744,
+      "fraction": 0.15234567901234566,
+      "mean_delta_db": 0.0741298032541137,
+      "patches": 3
+    },
+    {
+      "date": "2025-07-31",
+      "area_km2": 1.1784,
+      "fraction": 0.09092592592592591,
+      "mean_delta_db": 0.13232916383134682,
+      "patches": 3
+    },
+    {
+      "date": "2025-08-12",
+      "area_km2": 0.6544,
+      "fraction": 0.050493827160493825,
+      "mean_delta_db": 0.06061675328497156,
+      "patches": 3
+    },
+    {
+      "date": "2025-08-24",
+      "area_km2": 0.2064,
+      "fraction": 0.015925925925925923,
+      "mean_delta_db": -0.4360013927600182,
+      "patches": 3
+    }
+  ],
+  "onset": "2025-06-01",
+  "peak": {
+    "date": "2025-07-07",
+    "area_km2": 2.4984
+  },
+  "recession_start": "2025-07-19"
+}
