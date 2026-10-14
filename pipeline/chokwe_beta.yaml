@@ -1,0 +1,51 @@
+site:
+  name: Chokwe event study box
+  bbox:
+    min_lon: 32.93
+    min_lat: -24.58
+    max_lon: 33.03
+    max_lat: -24.48
+  boundary_source: Rectangular analysis box around Chokwe; not an authoritative wetland
+    boundary
+  boundary: data/chokwe_event_box.geojson
+nisar:
+  product: NISAR_L2_GCOV_BETA_V1
+  frequency: frequencyA
+  preferred_polarizations:
+  - HHHH
+  - HVHV
+  temporal:
+  - '2026-01-01'
+  - '2026-01-20'
+  search_limit: 100
+demo:
+  seed: 42
+  pixel_spacing_m: 20
+  baseline_date: '2025-05-20'
+  dates:
+  - '2025-06-01'
+  - '2025-06-13'
+  - '2025-06-25'
+  - '2025-07-07'
+  - '2025-07-19'
+  - '2025-07-31'
+  - '2025-08-12'
+  - '2025-08-24'
+processing:
+  minimum_valid_fraction: 0.85
+  minimum_region_pixels: 50
+  base_threshold_db: 2.5
+  open_water_delta_hh: -2.5
+  vegetated_delta_hh: 2.5
+  vegetated_delta_hv_max: 1.5
+validation:
+  use_reference: true
+  reference_product: HLSS30
+  reference_products:
+  - HLSS30
+  - HLSL30
+  date_tolerance_days: 5
+  mndwi_water_threshold: 0.0
+  minimum_clear_coverage: 0.2
+  minimum_comparison_pixels: 100
+  maximum_reference_pairs: 32

@@ -1,5 +1,6 @@
 """Optional real-data discovery. Demo runs never import or call Earthaccess."""
 from collections import defaultdict
+from network_retry import remote_call
 from datetime import datetime
 from pathlib import Path
 import re
@@ -96,5 +97,5 @@ def search_scenes(config):
     if start > end:
         raise ValueError("Search start date must be on or before the end date.")
     # Search is public. Authentication happens only when opening selected data.
-    return earthaccess.search_data(short_name=config["nisar"]["product"], bounding_box=bounds,
-                                   temporal=tuple(temporal), count=config["nisar"].get("search_limit", 100))
+    return remote_call(lambda: earthaccess.search_data(short_name=config["nisar"]["product"], bounding_box=bounds,
+                                   temporal=tuple(temporal), count=config["nisar"].get("search_limit", 100)))

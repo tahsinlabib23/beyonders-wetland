@@ -1,5 +1,6 @@
 "use client";
 
+import { publicClient } from "@/lib/app-mode";
 import React from "react";
 import { useWetlandStore, MapMode } from "@/lib/store";
 
@@ -50,12 +51,13 @@ export default function MapControls() {
       <div className="map-overlay map-overlay--top-right">
         <button
           className={`toggle-btn map-probe-toggle ${probeActive ? "toggle-btn--active" : ""}`}
+          disabled={publicClient && !demoMode}
           onClick={handleProbeToggle}
           aria-pressed={probeActive}
           aria-label={probeActive ? "Stop sampling the map" : "Inspect a pixel on the map"}
           title="Turn this on, then select a map location to inspect its radar values."
         >
-          {probeActive ? "Stop sampling" : "Inspect a pixel"}
+          {publicClient && !demoMode ? "Pixel probe: local only" : probeActive ? "Stop sampling" : "Inspect a pixel"}
         </button>
       </div>
     </>

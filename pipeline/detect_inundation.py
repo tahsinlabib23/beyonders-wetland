@@ -65,6 +65,8 @@ def process_inundation(before_hh_path, after_hh_path, before_hv_path, after_hv_p
                 "temporal_overlap_fraction": temporal_overlap,
                 "threshold_stability": "STABLE" if variation <= .2 else "SENSITIVE",
                 "threshold_variation_fraction": variation,
+                "method_version": "hh-hv-change-v1" if data_source == "NISAR" else "synthetic-demo-v1",
+                "interpretation_status": "UNVERIFIED_RADAR_CHANGE" if data_source == "NISAR" else "FICTIONAL_DEMO",
                 "evidence_state": "UNCERTAIN", "centroid": [centroid.y, centroid.x],
                 "data_source": data_source,
                 "evidence_method": "Illustrative rule checks; no reference validation.",

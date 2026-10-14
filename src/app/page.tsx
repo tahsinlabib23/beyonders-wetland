@@ -19,6 +19,12 @@ export default function Home() {
         <Link href="/wetland?source=raster" className="landing__cta landing__cta--secondary">
           Hakaluki site analysis
         </Link>
+        <Link href="/volcano/global" className="landing__cta landing__cta--secondary">
+          Explore volcanoes
+        </Link>
+        <Link href="/forest/global" className="landing__cta landing__cta--secondary">
+          Explore forests
+        </Link>
       </div>
 
       <div className="landing__features">

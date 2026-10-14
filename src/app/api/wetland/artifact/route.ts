@@ -1,3 +1,4 @@
+import { publicViewer } from "@/lib/app-mode";
 import { NextRequest, NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
@@ -11,6 +12,14 @@ export async function GET(request: NextRequest) {
     if (run.manifest.data_source !== "NISAR") throw new PipelineOutputError("Choose a real NISAR run.", 400);
     const file = request.nextUrl.searchParams.get("file") || "";
     if (!/^[a-zA-Z0-9_]+\.(png|tif|json|geojson)$/.test(file)) throw new PipelineOutputError("Invalid artifact filename.", 400);
+    if (publicViewer()) {
+      const publication = readPipelineOutput("publication.json", run) as { downloads?: Record<string, string> };
+      const external = publication.downloads?.[file];
+      if (external) return NextResponse.redirect(external);
+      const target = path.join(run.folder, file);
+      if (!fs.existsSync(target)) throw new PipelineOutputError("This source artifact is available only in the local study; an operator can publish it as a release download.", 404);
+      return NextResponse.redirect(new URL(`/studies/releases/${run.manifest.publication_version}/runs/${run.manifest.run_id}/${file}`, request.url));
+    }
     const observations = readPipelineOutput("observations.json", run) as { patches_file: string; classification_file: string; rasters: Record<string, string> }[];
     const allowed = new Set(["case_study.json", "reference_validation.json", "site_boundary.geojson", "wetland_pulse.json"]);
     if (file.startsWith("reference_") && file !== "reference_validation.json") {

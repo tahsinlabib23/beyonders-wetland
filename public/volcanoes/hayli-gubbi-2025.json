@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "id": "hayli-gubbi-2025",
+  "hazard_type": "volcanic_deformation",
+  "study_area": "Hayli Gubbi and Erta Ale volcanic area, Afar, Ethiopia",
+  "event_date": "2025-11-23",
+  "product": "Published analysis: NISAR L1 RSLC · frequency A, HH",
+  "archived_nisar_inputs": {
+    "product": "NISAR L1 SLC archive · VV files listed in Zenodo preview",
+    "archive_file": "NISAR_slc.zip",
+    "archive_size": "1.3 GB",
+    "files": [
+      { "name": "20251122.vv.slc", "date": "2025-11-22", "size": "865.9 MB" },
+      { "name": "20251204.vv.slc", "date": "2025-12-04", "size": "865.9 MB" }
+    ],
+    "metadata_status": "Dates and VV file names are visible in the public archive preview. Original granule metadata and equivalence to the paper's stated HH input are not verified by Beyonders."
+  },
+  "product_maturity": "As reported by the paper; source granule maturity and metadata not independently checked by Beyonders",
+  "orbit": "Ascending, left-looking · track 172 · frame 8 (publication metadata)",
+  "input_dates_reported_by_publication": ["2024-11-22", "2025-12-04"],
+  "input_date_integrity": "The publication text lists 2024-11-22, which predates NISAR's launch. The linked Zenodo archive preview lists files dated 2025-11-22 and 2025-12-04, resolving the likely year typo for those archived VV files. The paper describes an HH analysis, so polarization and original granule metadata still need reconciliation before Beyonders can claim to reproduce it.",
+  "processing_method": "The publication reports differential InSAR processing with GAMMA: orbit/DEM-based geometric registration, dense offset matching, 2×2 multilooking, topographic phase removal, Goldstein filtering, phase unwrapping above 0.3 coherence, and geocoding to WGS84 at 15 m. Sentinel-1 ascending and descending products were combined with the left-looking NISAR observation for a three-component decomposition.",
+  "published_findings": [
+    { "area": "Erta Ale northern caldera", "measurement": "Peak line-of-sight displacement up to 60 cm", "source": "Published NISAR/Sentinel-1 study" },
+    { "area": "Erta Ale southern caldera", "measurement": "Peak line-of-sight displacement about 15 cm", "source": "Published NISAR/Sentinel-1 study" },
+    { "area": "Hayli Gubbi crater", "measurement": "Interferometric fringes were not resolved over the crater; the paper attributes this to reduced radar coherence from eruptive deposits", "source": "Published NISAR/Sentinel-1 study" }
+  ],
+  "comparison": {
+    "status": "CROSS_SENSOR_RESULTS_REPORTED_IN_PAPER",
+    "sensors": ["NISAR L-band", "Sentinel-1 C-band"],
+    "interpretation": "The paper combines viewing geometries to estimate 3D motion. Beyonders has not independently reproduced or scored that comparison.",
+    "model_rms_misfit_cm": 1.5,
+    "model_rms_note": "The reported 1.5 cm is a model residual, not an independent accuracy or uncertainty estimate."
+  },
+  "event_context": {
+    "source": "Smithsonian/USGS Global Volcanism Program weekly report",
+    "url": "https://volcano.si.edu/showreport.cfm?wvar=GVP.WVAR20251126-221091",
+    "summary": "The report records an explosive eruption at Hayli Gubbi on 2025-11-23 and describes satellite-observed ash and gas. This independently supports the event date, not the deformation measurements."
+  },
+  "source_data": {
+    "url": "https://zenodo.org/records/18500929",
+    "nisar_archive_download_url": "https://zenodo.org/records/18500929/files/NISAR_slc.zip?download=1",
+    "items": [
+      { "name": "NISAR SLC archive", "size": "1.3 GB" },
+      { "name": "Sentinel-1 ascending SLC archive", "size": "478.3 MB" },
+      { "name": "Sentinel-1 descending SLC archive", "size": "476.5 MB" },
+      { "name": "Optical data archive", "size": "28.8 MB" },
+      { "name": "SRTM DEM", "size": "11.5 MB" }
+    ]
+  },
+  "beyonders_processing": {
+    "status": "COMPLETE",
+    "method_version": "gunw-relative-los-1.0.1",
+    "publication_index": "/volcanoes/hayli-gubbi/index.json",
+    "claim": "Beyonders post-processed three official HH NISAR BETA GUNW intervals and two independent ARIA Sentinel-1 GUNWs. Published relative apparent LOS candidates, coherence, quality masks, source crops, and cross-sensor context are available. No eruption prediction, vertical or 3D displacement, or per-pixel accuracy is claimed.",
+    "paper_workflow_status": "NOT_REPRODUCED",
+    "next_gate": "Assess atmospheric and ionospheric contributions, reference stability, and phase unwrapping before stronger deformation attribution. Reproducing the paper's raw-SLC GAMMA/3D workflow is separate from the completed official-GUNW post-processing; its archive mismatch is not a blocker for the verified official HH products."
+  },
+  "sources": [
+    { "title": "Peer-reviewed NISAR/Sentinel-1 study", "url": "https://doi.org/10.1016/j.geog.2026.06.002" },
+    { "title": "Public source-data archive", "url": "https://zenodo.org/records/18500929" },
+    { "title": "Smithsonian/USGS eruption report", "url": "https://volcano.si.edu/showreport.cfm?wvar=GVP.WVAR20251126-221091" },
+    { "title": "NASA NISAR launch record", "url": "https://science.nasa.gov/mission/nisar/mission-overview/" }
+  ]
+}

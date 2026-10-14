@@ -1,0 +1,32 @@
+[
+  {
+    "file": "hayli-gubbi-modis-before-2025-11-15.jpg",
+    "date": "2025-11-15",
+    "sensor": "Aqua MODIS",
+    "source_url": "https://science.nasa.gov/earth/earth-observatory/hayli-gubbis-explosive-first-impression/",
+    "asset_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2025/hayli-gubbi%E2%80%99s-explosive-first-impression/ethiopia_hayligubbi_amo_20251115_lrg.jpg?crop=faces%2Cfocalpoint&fit=clip&h=960&w=1440",
+    "credit": "NASA Earth Observatory images by Michala Garrison; MODIS NASA EOSDIS LANCE/GIBS; Landsat USGS",
+    "role": "EVENT_CONTEXT_NOT_DEFORMATION_TRUTH",
+    "sha256": "a4e465973dea88e990e80aff2ea431e834bf829f0e28238a98719c458fcc1087"
+  },
+  {
+    "file": "hayli-gubbi-modis-eruption-2025-11-23.jpg",
+    "date": "2025-11-23",
+    "sensor": "Aqua MODIS",
+    "source_url": "https://science.nasa.gov/earth/earth-observatory/hayli-gubbis-explosive-first-impression/",
+    "asset_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2025/hayli-gubbi%E2%80%99s-explosive-first-impression/ethiopia_hayligubbi_amo_20251123_lrg.jpg?crop=faces%2Cfocalpoint&fit=clip&h=960&w=1440",
+    "credit": "NASA Earth Observatory images by Michala Garrison; MODIS NASA EOSDIS LANCE/GIBS; Landsat USGS",
+    "role": "EVENT_CONTEXT_NOT_DEFORMATION_TRUTH",
+    "sha256": "00ce3532c39387722850434c3d1d8d34d3ce80a74d248057c430e9f7ad4d5ea9"
+  },
+  {
+    "file": "hayli-gubbi-landsat-2025-11-24.jpg",
+    "date": "2025-11-24",
+    "sensor": "Landsat 9 OLI-2",
+    "source_url": "https://science.nasa.gov/earth/earth-observatory/hayli-gubbis-explosive-first-impression/",
+    "asset_url": "https://assets.science.nasa.gov/dynamicimage/assets/science/esd/eo/images/iotd/2025/hayli-gubbi%E2%80%99s-explosive-first-impression/ethiopia_hayligubbi_oli2_20251124_lrg.jpg?crop=faces%2Cfocalpoint&fit=clip&h=2142&w=2631",
+    "credit": "NASA Earth Observatory images by Michala Garrison; MODIS NASA EOSDIS LANCE/GIBS; Landsat USGS",
+    "role": "EVENT_CONTEXT_NOT_DEFORMATION_TRUTH",
+    "sha256": "32603e54046e6a5c90ba8fcfaf948b56a7a4100f774c36af6db53533b502f9ce"
+  }
+]

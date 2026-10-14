@@ -1,3 +1,4 @@
+import { publicViewer } from "@/lib/app-mode";
 import { NextRequest, NextResponse } from "next/server";
 import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
@@ -49,6 +50,7 @@ async function readSavedSiteName(configuredName: string) {
 }
 
 export async function GET() {
+  if (publicViewer()) return NextResponse.json({ siteName: "Published study", configuredSiteName: "Published study", mode: "public" });
   const configuredSiteName = await readConfiguredSiteName();
   return NextResponse.json(
     { siteName: await readSavedSiteName(configuredSiteName), configuredSiteName },
@@ -57,6 +59,7 @@ export async function GET() {
 }
 
 export async function POST(request: NextRequest) {
+  if (publicViewer()) return NextResponse.json({ error: "Public study settings are read-only." }, { status: 403 });
   if (!isLocalSameOrigin(request)) {
     return NextResponse.json({ error: "Save this setting from the local application page." }, { status: 403 });
   }

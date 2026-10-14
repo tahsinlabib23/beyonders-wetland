@@ -1,4 +1,5 @@
 "use client";
+import { publicClient } from "@/lib/app-mode";
 import { useEffect, useState } from "react";
 
 type Preview = { run_id: string; date: string; baseline_date: string; baseline_scene: string; baseline_observation_dates?: string[];
@@ -27,7 +28,7 @@ export default function RadarComparison({ runId, date, refreshKey }: { runId: st
   return <section className="nisar-tools-section" id="nisar-radar" aria-labelledby="nisar-radar-title">
     <div className="nisar-tools-heading"><div><p className="global-eyebrow">ACTUAL DETECTOR INPUTS</p><h2 id="nisar-radar-title">Baseline, after and radar change</h2><p>{baselineLabel} → {date} · measured NISAR GCOV power in dB</p></div>
       <div className="nisar-channel-buttons" role="group" aria-label="Radar polarization">{["hh", "hv"].map((pol) => <button type="button" key={pol} aria-pressed={channel === pol} onClick={() => setChannel(pol)}>{pol.toUpperCase()} · {pol === "hh" ? "HHHH" : "HVHV"}</button>)}</div></div>
-    {error ? <p className="nisar-tool-error" role="alert">{error} Use “Prepare radar images” in the processing panel to render this saved run.</p> : !layer ? <p role="status">Loading radar evidence…</p> : <>
+    {error ? <p className="nisar-tool-error" role="alert">{error} {publicClient ? "Ask the operator to publish the missing radar previews." : "Use Prepare radar images in the processing panel to render this saved run."}</p> : !layer ? <p role="status">Loading radar evidence…</p> : <>
       <div className="nisar-radar-grid">{["before", "after", "change"].map((stage) => <figure key={stage}>
         <figcaption><strong>{stage === "change" ? "After − baseline" : stage === "before" ? "Baseline" : "After"}</strong><span>{stage === "before" ? baselineLabel : stage === "after" ? date : "Change in dB"}</span></figcaption>
         <a href={artifact(layer.images[stage])} target="_blank" rel="noreferrer" aria-label={`Open full ${channel.toUpperCase()} ${stage} image`}>

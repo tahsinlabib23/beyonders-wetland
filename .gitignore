@@ -48,3 +48,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Recording tools and generated analysis distributions
+/artifacts/
+/*.mp4
+/pipeline/output/publication-downloads/
+/pipeline/output/volcano-inputs/
+/pipeline/output/volcano-dev/
+/pipeline/output/forests/

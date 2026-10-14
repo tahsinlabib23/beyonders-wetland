@@ -1,0 +1,264 @@
+{
+  "run_id": "3b01cdb5674a44ea9c6c3d17ec8c07b8",
+  "site_name": "Tanguar Haor mapped boundary",
+  "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+  "dates": [
+    "2026-06-30",
+    "2026-07-12",
+    "2026-07-24",
+    "2026-08-17",
+    "2026-08-29",
+    "2026-09-10",
+    "2026-09-22"
+  ],
+  "baseline_dates": [
+    "2026-06-18",
+    "2026-06-30",
+    "2026-07-12",
+    "2026-07-24",
+    "2026-08-17"
+  ],
+  "boundary_source": "Bangladesh CRIIPS Haor Boundary layer 147, OBJECTID 202; mapped haor, not Ramsar site 1031",
+  "method_version": "hh-hv-change-v1",
+  "reference": {
+    "status": "INCONCLUSIVE",
+    "reference_validated": false,
+    "cross_sensor_check_completed": false,
+    "site": "Tanguar Haor mapped boundary",
+    "reference_product": "NASA HLS v2.0 (Landsat L30 + Sentinel-2 S30 surface reflectance)",
+    "reference_product_short_name": "HLSS30, HLSL30",
+    "source_url": "https://hls.gsfc.nasa.gov/data-products/",
+    "selection": {
+      "method": "Maximum common cloud-free study-area coverage; ties favor closer dates. Detection agreement is not used for selection.",
+      "date_tolerance_days": 5,
+      "available_pairs": 15,
+      "evaluated_pairs": 15,
+      "attempts": [
+        {
+          "baseline_scene": "HLS.S30.T46RBN.2026195T042701.v2.0",
+          "event_scene": "HLS.L30.T46RBN.2026242T042355.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 30324,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RBN.2026197T043231.v2.0",
+          "event_scene": "HLS.L30.T46RBN.2026242T042355.v2.0",
+          "baseline_clear_pixels": 18007,
+          "event_clear_pixels": 30324,
+          "common_clear_pixels": 3880,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RBN.2026195T042701.v2.0",
+          "event_scene": "HLS.S30.T46RBN.2026237T043231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RBN.2026195T042701.v2.0",
+          "event_scene": "HLS.S30.T46RBN.2026245T042701.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RBN.2026197T043231.v2.0",
+          "event_scene": "HLS.S30.T46RBN.2026237T043231.v2.0",
+          "baseline_clear_pixels": 18007,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RBN.2026197T043231.v2.0",
+          "event_scene": "HLS.S30.T46RBN.2026245T042701.v2.0",
+          "baseline_clear_pixels": 18007,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RCN.2026197T043231.v2.0",
+          "event_scene": "HLS.L30.T46RCN.2026242T042355.v2.0",
+          "baseline_clear_pixels": 127249,
+          "event_clear_pixels": 30423,
+          "common_clear_pixels": 3415,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T46RCN.2026197T043231.v2.0",
+          "event_scene": "HLS.S30.T46RCN.2026237T043231.v2.0",
+          "baseline_clear_pixels": 127249,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZH.2026195T042701.v2.0",
+          "event_scene": "HLS.L30.T45RZH.2026242T042355.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 11318,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZH.2026197T043231.v2.0",
+          "event_scene": "HLS.L30.T45RZH.2026242T042355.v2.0",
+          "baseline_clear_pixels": 3423,
+          "event_clear_pixels": 11318,
+          "common_clear_pixels": 18,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZH.2026195T042701.v2.0",
+          "event_scene": "HLS.S30.T45RZH.2026245T042701.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZH.2026197T043231.v2.0",
+          "event_scene": "HLS.S30.T45RZH.2026245T042701.v2.0",
+          "baseline_clear_pixels": 3423,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZJ.2026197T043231.v2.0",
+          "event_scene": "HLS.L30.T45RZJ.2026242T042355.v2.0",
+          "baseline_clear_pixels": 3485,
+          "event_clear_pixels": 36,
+          "common_clear_pixels": 18,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZJ.2026197T043231.v2.0",
+          "event_scene": "HLS.S30.T45RZJ.2026240T042659.v2.0",
+          "baseline_clear_pixels": 3485,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T45RZJ.2026197T043231.v2.0",
+          "event_scene": "HLS.S30.T45RZJ.2026245T042701.v2.0",
+          "baseline_clear_pixels": 3485,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        }
+      ],
+      "catalog_searches": [
+        {
+          "collection": "HLSS30",
+          "records": 30,
+          "limit_reached": false,
+          "status": "SEARCHED"
+        },
+        {
+          "collection": "HLSL30",
+          "records": 20,
+          "limit_reached": false,
+          "status": "SEARCHED"
+        }
+      ]
+    },
+    "comparison": {
+      "baseline": {
+        "nisar_date": "2026-07-12",
+        "nisar_observation_dates": [
+          "2026-06-18",
+          "2026-06-30",
+          "2026-07-12",
+          "2026-07-24",
+          "2026-08-17"
+        ],
+        "nisar_method": "per-pixel median of preceding GCOV observations",
+        "hls_date": "2026-07-16",
+        "offset_days": 4,
+        "scene": "HLS.S30.T46RBN.2026197T043231.v2.0",
+        "product": "S30"
+      },
+      "event": {
+        "nisar_date": "2026-08-29",
+        "hls_date": "2026-08-30",
+        "offset_days": 1,
+        "scene": "HLS.L30.T46RBN.2026242T042355.v2.0",
+        "product": "L30"
+      },
+      "hls_tile": "T46RBN",
+      "spatial_resolution_m": 30,
+      "mndwi_threshold": 0.0,
+      "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+      "evaluated_class": "OPEN_WATER",
+      "vegetated_inundation_checked": false,
+      "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+    },
+    "coverage": {
+      "study_area_valid_pixels": 1166097,
+      "common_clear_pixels": 3880,
+      "common_clear_fraction": 0.0033273389778037334,
+      "common_clear_area_km2": 0.388,
+      "minimum_clear_fraction_for_check": 0.2
+    },
+    "metrics": {
+      "true_positive_pixels": 0,
+      "false_positive_pixels": 23,
+      "false_negative_pixels": 29,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "intersection_over_union": 0.0
+    },
+    "radar_grid_metrics": {
+      "note": "Legacy aligned radar-grid counts retained for reproducibility; finer radar pixels are not independent HLS samples.",
+      "true_positive_pixels": 0,
+      "false_positive_pixels": 23,
+      "false_negative_pixels": 29,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "intersection_over_union": 0.0
+    },
+    "optical_support": {
+      "support": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions",
+      "resampling": "area-weighted average from native GCOV grid to HLS grid",
+      "native_hls_pixels_assessed": 446,
+      "hls_pixel_area_km2": 0.0009,
+      "study_area_km2": 114.88660001281276,
+      "common_clear_area_km2": 0.3880000002555549,
+      "common_clear_fraction": 0.003377243300892211,
+      "radar_candidate_area_km2": 0.002300000064074993,
+      "radar_candidate_area_in_hls_footprint_km2": 24.309300476047397,
+      "candidate_assessed_area_km2": 0.002300000064074993,
+      "candidate_assessed_fraction": 9.461399624975818e-05,
+      "optical_new_water_area_km2": 0.0027,
+      "true_positive_area_km2": 0.0,
+      "false_positive_area_km2": 0.002300000064074993,
+      "false_negative_area_km2": 0.0027,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "intersection_over_union": 0.0
+    },
+    "reason": "Too few co-registered, cloud-free pixels overlap the wetland mask for a useful check.",
+    "limitations": [
+      "This is a cross-sensor agreement check, not field truth or a formal accuracy estimate.",
+      "HLS dates may differ from NISAR dates by the offsets shown; water can change between acquisitions.",
+      "Clouds and HLS's 30 m pixels reduce comparable coverage relative to the NISAR grid.",
+      "Pixels flagged with high aerosol optical thickness are excluded; lower aerosol levels can still affect reflectance.",
+      "MNDWI can miss flooded vegetation, turbid water, and mixed shoreline pixels.",
+      "S30/L30 bands are harmonized, but residual sensor and atmospheric differences can affect mixed-sensor pairs.",
+      "Only open-water candidates are evaluated; vegetated-inundation candidates are not validated."
+    ]
+  },
+  "claim": "Measured radar-change candidates; confirmed flooding is not established.",
+  "publication_version": "2026.10.07"
+}

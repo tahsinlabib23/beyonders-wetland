@@ -1,3 +1,5 @@
+import { publicViewer } from "@/lib/app-mode";
+import { pythonRuntime } from "@/lib/python-runtime";
 import { NextRequest, NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
@@ -9,8 +11,8 @@ export const dynamic = "force-dynamic";
 const jobs = path.join(process.cwd(), "pipeline", "output", "jobs");
 const activePath = path.join(jobs, "active.json");
 const idPattern = /^[a-f0-9]{32}$/;
-const python = path.join(process.cwd(), "pipeline", "venv", "Scripts", "python.exe");
-const loginCommand = `& "${python}" -c "import earthaccess; earthaccess.login(persist=True)"`;
+const python = publicViewer() ? "" : pythonRuntime();
+const loginCommand = python ? `& "${python}" -c "import earthaccess; earthaccess.login(persist=True)"` : "";
 type Job = { id: string; status: string; action: string; stage?: string; pid?: number; error?: string; result?: unknown };
 
 function localOrigin(request: NextRequest) {
@@ -36,6 +38,7 @@ function readJob(id: string): Job {
 }
 
 export async function GET(request: NextRequest) {
+  if (publicViewer()) return NextResponse.json({ mode: "public", job: null, message: "Processing is managed by local operators." });
   try {
     const id = request.nextUrl.searchParams.get("id") || (fs.existsSync(activePath) ? JSON.parse(fs.readFileSync(activePath, "utf8")).id : "");
     const job = id ? readJob(id) : null;
@@ -52,6 +55,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (publicViewer()) return NextResponse.json({ error: "Public viewer: processing is available only to local operators." }, { status: 403 });
   if (!localOrigin(request)) return NextResponse.json({ error: "Start processing from the local application page." }, { status: 403 });
   const text = await request.text();
   if (Buffer.byteLength(text, "utf8") > 1_000_000) return NextResponse.json({ error: "Use a boundary GeoJSON smaller than 1 MB." }, { status: 413 });
@@ -68,7 +72,7 @@ export async function POST(request: NextRequest) {
       fs.unlinkSync(activePath);
     } catch { if (fs.existsSync(activePath)) fs.unlinkSync(activePath); }
   }
-  if (!fs.existsSync(python)) return NextResponse.json({ error: "The local pipeline Python environment is missing." }, { status: 503 });
+  if (path.isAbsolute(python) && !fs.existsSync(python)) return NextResponse.json({ error: "The local pipeline Python environment is missing." }, { status: 503 });
   let log: number | undefined;
   try {
     fs.writeFileSync(activePath, JSON.stringify({ id }), { flag: "wx" });

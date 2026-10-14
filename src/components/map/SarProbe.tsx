@@ -1,5 +1,6 @@
 "use client";
 
+import { publicClient } from "@/lib/app-mode";
 import React from "react";
 import { useMapEvents, CircleMarker, Popup } from "react-leaflet";
 import { useWetlandStore } from "@/lib/store";
@@ -19,9 +20,10 @@ export function ProbeHandler() {
         return;
       }
 
+      if (publicClient) return;
       try {
         const date = state.pulseData?.dates[state.selectedDateIndex]?.date;
-        const res = await fetch(`/api/wetland/probe?lat=${lat}&lng=${lng}${date ? `&date=${encodeURIComponent(date)}` : ""}`);
+        const res = await fetch(`/api/wetland/probe?lat=${lat}&lng=${lng}${date ? `&date=${encodeURIComponent(date)}` : ""}&run=${encodeURIComponent(state.pipelineRunId || "")}`);
         if (res.ok) {
           const data = await res.json();
           if (data.run_id !== useWetlandStore.getState().pipelineRunId || data.acquisition_date !== date) return;

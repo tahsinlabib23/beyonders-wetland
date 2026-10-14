@@ -1,4 +1,5 @@
 """Run a safe, offline fake-data pipeline by default. Real access is explicit."""
+from network_retry import remote_call
 import argparse
 import json
 import logging
@@ -137,7 +138,7 @@ def _real_inputs(config, run):
     opened = []
 
     def open_science_file(granule):
-        handles = earthaccess.open([granule])
+        handles = remote_call(lambda: earthaccess.open([granule]))
         opened.extend(handles)
         if len(handles) != 1:
             raise ValueError("Granule did not resolve to exactly one science file.")
@@ -618,7 +619,7 @@ def run_pipeline(config_path=None, mode="demo", output_root=None, site_name=None
             "baseline_scenes": per_observation_baselines[peak_index].get("baseline_scene_names", []),
             "product": config["nisar"]["product"] if mode == "real" else None,
             "frequency": config["nisar"]["frequency"] if mode == "real" else None,
-            "product_maturity": "PROVISIONAL" if mode == "real" else "SIMULATED",
+            "product_maturity": ("BETA" if "BETA" in config["nisar"]["product"] else "PROVISIONAL") if mode == "real" else "SIMULATED",
             "input_origin": "SAVED_NISAR_DB_SUBSETS" if cached_run_id else "NISAR_GCOV" if mode == "real" else "SIMULATED",
             "source_run_id": cached_run_id,
             "date_pair_selection": reference_case_selection,
@@ -673,7 +674,7 @@ def run_pipeline(config_path=None, mode="demo", output_root=None, site_name=None
                         observation_scenes=inputs.get("scene_names", []),
                         polarizations=["HHHH", "HVHV"] if mode == "real" else None,
                         site_bounds=inputs.get("boundary_bounds"),
-                        product_maturity="PROVISIONAL" if mode == "real" else "SIMULATED",
+                        product_maturity=("BETA" if "BETA" in config["nisar"]["product"] else "PROVISIONAL") if mode == "real" else "SIMULATED",
                         site_name=config["site"]["name"],
                         wetland_boundary_source=config["site"].get("boundary_source") if mode == "real" else None,
                         # A satellite-to-satellite comparison is not field or ground-truth validation.

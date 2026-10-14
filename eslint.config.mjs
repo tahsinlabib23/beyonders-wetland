@@ -7,6 +7,9 @@ const eslintConfig = defineConfig([
   ...nextTs,
   // Override default ignores of eslint-config-next.
   globalIgnores([
+    "artifacts/**",
+    "pipeline/venv/**",
+    "public/studies/**",
     // Default ignores of eslint-config-next:
     ".next/**",
     "out/**",
@@ -14,6 +17,7 @@ const eslintConfig = defineConfig([
     "next-env.d.ts",
     "pipeline/venv/**",
     "pipeline/__pycache__/**",
+    "pipeline/output/**",
   ]),
 ]);
 

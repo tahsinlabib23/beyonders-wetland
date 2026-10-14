@@ -1,13 +1,16 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import HazardNavigation from "@/components/layout/HazardNavigation";
 
 export const metadata: Metadata = {
-  title: "Beyonders — Wetland Pulse | NASA Space Apps 2026",
+  title: "Beyonders — Earth in Motion | NASA Space Apps 2026",
   description:
-    "Track wetland inundation dynamics using real NISAR satellite radar observations. Detect flooded vegetation, monitor wetland pulse, and validate every signal with forensic evidence.",
+    "Explore NISAR observations of wetlands, volcanic ground deformation and forest change, with clear evidence status and uncertainty.",
   keywords: [
     "NISAR",
     "wetland",
+    "volcano",
+    "forest",
     "SAR",
     "radar",
     "inundation",
@@ -24,7 +27,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <HazardNavigation />
+        {children}
+      </body>
     </html>
   );
 }

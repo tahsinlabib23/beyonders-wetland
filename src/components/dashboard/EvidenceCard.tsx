@@ -69,7 +69,7 @@ export default function EvidenceCard() {
 
       <Card className="animate-fade-in" style={{ padding: 0, overflow: "hidden" }}>
         <div className="evidence-card__header">
-          <div className="evidence-card__title">Wetland Evidence Card</div>
+          <div className="evidence-card__title">Wetland flood-change evidence</div>
           <div className="evidence-card__subtitle">
             {data.region_name} — {data.date}
           </div>

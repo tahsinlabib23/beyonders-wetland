@@ -1,3 +1,4 @@
+import { publicViewer } from "@/lib/app-mode";
 import { NextRequest, NextResponse } from "next/server";
 import { execFile } from "node:child_process";
 import fs from "node:fs";
@@ -8,6 +9,7 @@ import { PipelineOutputError, pipelineRun, readPipelineOutput } from "@/lib/pipe
 const execFileAsync = promisify(execFile);
 
 export async function GET(req: NextRequest) {
+  if (publicViewer()) return NextResponse.json({ error: "Exact raster probing is available in the local operator application." }, { status: 403 });
   const latStr = req.nextUrl.searchParams.get("lat")?.trim();
   const lngStr = req.nextUrl.searchParams.get("lng")?.trim();
   const date = req.nextUrl.searchParams.get("date");
@@ -17,7 +19,7 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: "Invalid lat/lng parameters." }, { status: 400 });
   }
   try {
-    const run = pipelineRun();
+    const run = pipelineRun(req.nextUrl.searchParams.get("run"));
     if (date !== null) {
       const observations = readPipelineOutput("observations.json", run) as { date: string }[];
       if (!observations.some((item) => item.date === date)) return NextResponse.json({ error: "Date is not present in the completed run." }, { status: 400 });

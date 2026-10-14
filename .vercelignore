@@ -1,0 +1,9 @@
+pipeline/
+artifacts/
+*.mp4
+*.zip
+!public/volcanoes/**/evidence.zip
+!public/forests/**/evidence.zip
+.env*
+docs/
+data/demo-export-examples/

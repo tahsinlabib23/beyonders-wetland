@@ -4,6 +4,7 @@ HLS is used only as a date-matched reference layer. It never drives the NISAR
 classification. The reported scores are cross-sensor agreement on common clear
 pixels, not field-measured accuracy or ground truth.
 """
+from network_retry import remote_call
 from datetime import date, datetime, timedelta
 import logging
 import re
@@ -129,13 +130,13 @@ def _best_clear_pair(pairs, target_profile, boundary_bounds, study_valid, maximu
                              "baseline_clear_pixels": int((study_valid & before_valid & np.isfinite(before)).sum()),
                              "event_clear_pixels": int((study_valid & after_valid & np.isfinite(after)).sum()),
                              "common_clear_pixels": pixels, "status": "READ"})
-            logging.info("HLS pair checked: %s / %s, %s common clear pixels", first["date"], second["date"], pixels)
+            logging.info("HLS pair checked: %s / %s, %s common clear pixels", first.get("date", "unknown"), second.get("date", "unknown"), pixels)
             if best is None or pixels > best[0]:
                 best = (pixels, first, second, before, before_valid, after, after_valid, before_native, after_native)
         except Exception as error:
             attempts.append({"baseline_scene": first["granule_id"], "event_scene": second["granule_id"],
                              "status": "UNAVAILABLE", "error_type": type(error).__name__})
-            logging.warning("HLS pair unavailable (%s): %s / %s", type(error).__name__, first["date"], second["date"])
+            logging.warning("HLS pair unavailable (%s): %s / %s", type(error).__name__, first.get("date", "unknown"), second.get("date", "unknown"))
     if best is None:
         raise ReferenceUnavailable("None of the date-matched HLS pairs could be read.")
     return best[1:], attempts
@@ -166,7 +167,7 @@ def _read_hls_qa(granule, target_profile, boundary_bounds, cache_dir=None):
             values = saved["qa"]
         if values.shape == (target_profile["height"], target_profile["width"]) and values.dtype == np.uint8:
             return values
-    handles = earthaccess.open([_band_url(granule, "Fmask")], show_progress=False)
+    handles = remote_call(lambda: earthaccess.open([_band_url(granule, "Fmask")], show_progress=False))
     if len(handles) != 1:
         raise ReferenceUnavailable("HLS quality mask could not be opened.")
     try:
@@ -292,7 +293,7 @@ def _read_hls_scene(granule, target_profile, boundary_bounds, details=False, cac
             if cached and cached.is_file():
                 handle = cached
             else:
-                opened = earthaccess.open([_band_url(granule, band)], show_progress=False)
+                opened = remote_call(lambda: earthaccess.open([_band_url(granule, band)], show_progress=False))
                 if len(opened) != 1:
                     raise ReferenceUnavailable(f"HLS {band} layer could not be opened.")
                 handle = opened[0]

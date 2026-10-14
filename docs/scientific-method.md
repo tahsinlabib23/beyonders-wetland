@@ -1,0 +1,25 @@
+# Scientific method and limitations
+
+## Product and detector
+
+The app uses NISAR L2 GCOV gamma-zero power, usually frequency A HHHH/HH and HVHV/HV. It reads actual scene CRS, spacing, power units and quality layers, masks invalid/fill/look-count pixels and study boundaries, and aligns HH/HV before calculating change. The real pipeline uses a per-pixel median of preceding compatible observations after the first date. The current configured thresholds flag illustrative HH-darkening/open-water and HH-increase with stable-HV/vegetated-inundation candidates. These rules do not uniquely identify flooding; soil moisture, crop state, surface roughness, seasonal water, wind, viewing geometry and calibration can influence backscatter.
+
+A polygon's reported area comes from the original native-grid result. The publisher simplifies only its separate web display geometry and records that simplification; use source GeoTIFFs/original GeoJSON for measurement. Visual previews may be resampled and must not be mistaken for detection input.
+
+## Independent HLS comparison
+
+NASA HLS Landsat L30 and Sentinel-2 S30 reflectance supplies a cross-sensor optical water-change indicator using green/SWIR MNDWI and HLS Fmask exclusions. Candidate and validity fractions are area averaged to native HLS cells; zero means measured absence, while masked pixels are excluded. HLS is an imperfect reference: clouds, temporal offsets, mixed pixels, vegetation and index thresholds all affect agreement. It is not field truth and this workflow evaluates open water, not flooded vegetation.
+
+Only report scores when the recorded reference status is usable and common clear coverage meets the configured 20% floor. State the native optical resolution, common clear area/fraction, candidate fraction assessed, and NISAR↔HLS offsets. Low coverage is `INCONCLUSIVE`, never a zero score. `reference_validated` remains false for satellite-to-satellite comparisons.
+
+## Baseline-water diagnostic
+
+`baseline_water_experiment.py` accepts an independent baseline-water mask and an explicit known-data mask. It returns candidate-over-baseline-water, new-water-eligible and unknown-baseline masks separately. It is an experimental screen, not an updated production classifier. Never derive a mask from the held-out reference dates used for the reported final score. Unknown baseline pixels remain unassessed.
+
+## Provenance and interpretation
+
+NISAR BETA and PROVISIONAL are different maturities and must not be silently combined. Each case names its exact collection, scene IDs, time span, boundary source, HH/HV rules, mask, thresholds, reference scenes, offsets, coverage and software method version. A runnable pipeline does not validate an interpretation. Supported wording follows evidence; otherwise say “unverified radar-change candidates.”
+
+## Known cases
+
+Hakaluki's clearest saved HLS check has weak agreement and many radar-only pixels over water on both dates. Tanguar's mapped boundary has very limited common-clear HLS coverage. These cases currently do not support a confirmed flood claim. NASA's January 2026 Chókwè before/after visualization is a strong event-context reference, but the app still needs to process its matching January BETA pair and check local independent evidence before attributing detector results to it.
