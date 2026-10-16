@@ -210,7 +210,9 @@ export default function Home() {
         <header className="g3-top">
           <span className="g3-brand"><em>GeoNexSAR</em> · mission control</span>
           <nav aria-label="Primary">
-            <Link href="/wetland">Processed case</Link>
+            <Link href="/wetland">Wetlands</Link>
+            <Link href="/forest/global">Forests</Link>
+            <Link href="/volcano/global">Volcanoes</Link>
             <Link href="/wetland/global">NISAR worldwide</Link>
           </nav>
         </header>
@@ -325,7 +327,7 @@ export default function Home() {
       <footer className="g3-foot">
         <p><strong>GeoNexSAR</strong></p>
         <p>GeoNexSAR shows observed data and derived results with provenance. A radar-change candidate is never presented as a confirmed flood.</p>
-        <nav aria-label="Footer"><Link href="/wetland">Processed case</Link><Link href="/wetland/global">NISAR worldwide</Link></nav>
+        <nav aria-label="Footer"><Link href="/wetland">Wetlands</Link><Link href="/forest/global">Forests</Link><Link href="/volcano/global">Volcanoes</Link><Link href="/wetland/global">NISAR worldwide</Link></nav>
       </footer>
     </main>
   );

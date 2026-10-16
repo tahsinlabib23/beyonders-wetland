@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "studies": [
+    {
+      "run_id": "d6e65a58802e4cf4907ddefa42a435d6",
+      "site_name": "Hakaluki Haor",
+      "hazard_type": "wetland_flood_change",
+      "publication_version": "2026.10.07",
+      "dates": [
+        "2026-07-05",
+        "2026-07-17",
+        "2026-08-10",
+        "2026-08-22",
+        "2026-09-03",
+        "2026-09-15",
+        "2026-09-27"
+      ],
+      "method_version": "hh-hv-change-v1",
+      "evidence_status": "INCONCLUSIVE",
+      "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+      "path": "releases/2026.10.07/runs/d6e65a58802e4cf4907ddefa42a435d6",
+      "published_at": "2026-10-07T13:06:27.967220+00:00"
+    },
+    {
+      "run_id": "3b01cdb5674a44ea9c6c3d17ec8c07b8",
+      "site_name": "Tanguar Haor mapped boundary",
+      "hazard_type": "wetland_flood_change",
+      "publication_version": "2026.10.07",
+      "dates": [
+        "2026-06-30",
+        "2026-07-12",
+        "2026-07-24",
+        "2026-08-17",
+        "2026-08-29",
+        "2026-09-10",
+        "2026-09-22"
+      ],
+      "method_version": "hh-hv-change-v1",
+      "evidence_status": "INCONCLUSIVE",
+      "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+      "path": "releases/2026.10.07/runs/3b01cdb5674a44ea9c6c3d17ec8c07b8",
+      "published_at": "2026-10-07T12:57:39.372230+00:00"
+    }
+  ],
+  "releases": [
+    {
+      "run_id": "d6e65a58802e4cf4907ddefa42a435d6",
+      "site_name": "Hakaluki Haor",
+      "hazard_type": "wetland_flood_change",
+      "publication_version": "2026.10.07",
+      "dates": [
+        "2026-07-05",
+        "2026-07-17",
+        "2026-08-10",
+        "2026-08-22",
+        "2026-09-03",
+        "2026-09-15",
+        "2026-09-27"
+      ],
+      "method_version": "hh-hv-change-v1",
+      "evidence_status": "INCONCLUSIVE",
+      "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+      "path": "releases/2026.10.07/runs/d6e65a58802e4cf4907ddefa42a435d6",
+      "published_at": "2026-10-07T13:06:27.967220+00:00"
+    },
+    {
+      "run_id": "3b01cdb5674a44ea9c6c3d17ec8c07b8",
+      "site_name": "Tanguar Haor mapped boundary",
+      "hazard_type": "wetland_flood_change",
+      "publication_version": "2026.10.07",
+      "dates": [
+        "2026-06-30",
+        "2026-07-12",
+        "2026-07-24",
+        "2026-08-17",
+        "2026-08-29",
+        "2026-09-10",
+        "2026-09-22"
+      ],
+      "method_version": "hh-hv-change-v1",
+      "evidence_status": "INCONCLUSIVE",
+      "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+      "path": "releases/2026.10.07/runs/3b01cdb5674a44ea9c6c3d17ec8c07b8",
+      "published_at": "2026-10-07T12:57:39.372230+00:00"
+    }
+  ]
+}

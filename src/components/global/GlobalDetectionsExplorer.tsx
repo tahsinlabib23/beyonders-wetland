@@ -6,7 +6,8 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import NisarProcessingPanel, { type AreaBounds, type ProcessingProgress } from "./NisarProcessingPanel";
+import NisarProcessingPanel, { type AreaBounds } from "./NisarProcessingPanel";
+import type { ProcessingProgress } from "@/lib/processing-progress";
 import RadarComparison from "./RadarComparison";
 import ReferenceEvidence from "./ReferenceEvidence";
 import SavedDateCheck from "./SavedDateCheck";

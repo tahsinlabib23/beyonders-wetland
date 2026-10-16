@@ -1,0 +1,38 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "source": "Beyonders analyst-defined WGS84 rectangle; not an authoritative forest boundary"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              -62.55,
+              -10.4
+            ],
+            [
+              -62.55,
+              -10.2
+            ],
+            [
+              -62.75,
+              -10.2
+            ],
+            [
+              -62.75,
+              -10.4
+            ],
+            [
+              -62.55,
+              -10.4
+            ]
+          ]
+        ]
+      }
+    }
+  ]
+}

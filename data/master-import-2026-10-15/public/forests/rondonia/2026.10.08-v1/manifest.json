@@ -1,0 +1,680 @@
+{
+  "schema_version": 1,
+  "id": "rondonia",
+  "run_id": "03111a500c5846af95e207984e1ebd0b",
+  "hazard_type": "forest_disturbance",
+  "title": "Rond\u00f4nia forest-change study",
+  "created": "2026-10-07T22:19:49.949714+00:00",
+  "processing_status": "COMPLETE",
+  "method_version": "forest-hv-persistence-1.0.0",
+  "scientific_interpretation": "UNVERIFIED_RADAR_CHANGE_CANDIDATES",
+  "reference_availability": "AVAILABLE",
+  "bbox": [
+    -62.75,
+    -10.4,
+    -62.55,
+    -10.2
+  ],
+  "boundary_source": "Beyonders analyst-defined WGS84 rectangle; not an authoritative forest boundary",
+  "inputs": [
+    {
+      "date": "2026-06-25",
+      "granule_id": "NISAR_L2_PR_GCOV_023_161_A_172_2005_DHDH_A_20260625T100047_20260625T100122_P05023_N_F_J_001",
+      "cmr_concept_id": "G4250796722-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-06-25_hh.tif",
+        "hv": "2026-06-25_hv.tif",
+        "quality": "2026-06-25_quality.tif",
+        "looks": "2026-06-25_looks.tif",
+        "quality_metadata": "2026-06-25_quality_metadata.json",
+        "ensemble": "2026-06-25_ensemble.tif"
+      }
+    },
+    {
+      "date": "2026-07-07",
+      "granule_id": "NISAR_L2_PR_GCOV_024_161_A_172_2005_DHDH_A_20260707T100047_20260707T100121_P05023_N_F_J_001",
+      "cmr_concept_id": "G4240619738-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-07-07_hh.tif",
+        "hv": "2026-07-07_hv.tif",
+        "quality": "2026-07-07_quality.tif",
+        "looks": "2026-07-07_looks.tif",
+        "quality_metadata": "2026-07-07_quality_metadata.json",
+        "ensemble": "2026-07-07_ensemble.tif"
+      }
+    },
+    {
+      "date": "2026-07-19",
+      "granule_id": "NISAR_L2_PR_GCOV_025_161_A_172_2005_DHDH_A_20260719T100046_20260719T100121_P05023_N_F_J_001",
+      "cmr_concept_id": "G4259795038-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-07-19_hh.tif",
+        "hv": "2026-07-19_hv.tif",
+        "quality": "2026-07-19_quality.tif",
+        "looks": "2026-07-19_looks.tif",
+        "quality_metadata": "2026-07-19_quality_metadata.json",
+        "ensemble": "2026-07-19_ensemble.tif"
+      }
+    },
+    {
+      "date": "2026-08-24",
+      "granule_id": "NISAR_L2_PR_GCOV_028_161_A_172_2005_DHDH_A_20260824T100044_20260824T100119_P05023_N_F_J_001",
+      "cmr_concept_id": "G4289876146-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-08-24_hh.tif",
+        "hv": "2026-08-24_hv.tif",
+        "quality": "2026-08-24_quality.tif",
+        "looks": "2026-08-24_looks.tif",
+        "quality_metadata": "2026-08-24_quality_metadata.json",
+        "ensemble": "2026-08-24_ensemble.tif"
+      }
+    },
+    {
+      "date": "2026-09-05",
+      "granule_id": "NISAR_L2_PR_GCOV_029_161_A_172_2005_DHDH_A_20260905T100044_20260905T100118_P05023_N_F_J_001",
+      "cmr_concept_id": "G4300884410-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-09-05_hh.tif",
+        "hv": "2026-09-05_hv.tif",
+        "quality": "2026-09-05_quality.tif",
+        "looks": "2026-09-05_looks.tif",
+        "quality_metadata": "2026-09-05_quality_metadata.json",
+        "ensemble": "2026-09-05_ensemble.tif"
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "granule_id": "NISAR_L2_PR_GCOV_030_161_A_172_2005_DHDH_A_20260917T100044_20260917T100118_P05023_N_F_J_001",
+      "cmr_concept_id": "G4316346722-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-09-17_hh.tif",
+        "hv": "2026-09-17_hv.tif",
+        "quality": "2026-09-17_quality.tif",
+        "looks": "2026-09-17_looks.tif",
+        "quality_metadata": "2026-09-17_quality_metadata.json",
+        "ensemble": "2026-09-17_ensemble.tif"
+      }
+    },
+    {
+      "date": "2026-09-29",
+      "granule_id": "NISAR_L2_PR_GCOV_031_161_A_172_2005_DHDH_A_20260929T100044_20260929T100118_P05023_N_F_J_001",
+      "cmr_concept_id": "G4331339908-ASF",
+      "collection": "NISAR_L2_GCOV_PROVISIONAL_V1",
+      "maturity": "PROVISIONAL",
+      "frequency": "frequencyA",
+      "compatibility": [
+        "NISAR",
+        "L2",
+        "PR",
+        "GCOV",
+        "161",
+        "A",
+        "172",
+        "20",
+        "DH",
+        "A",
+        "P05023"
+      ],
+      "files": {
+        "hh": "2026-09-29_hh.tif",
+        "hv": "2026-09-29_hv.tif",
+        "quality": "2026-09-29_quality.tif",
+        "looks": "2026-09-29_looks.tif",
+        "quality_metadata": "2026-09-29_quality_metadata.json",
+        "ensemble": "2026-09-29_ensemble.tif"
+      }
+    }
+  ],
+  "baseline_dates": [
+    "2026-06-25",
+    "2026-07-07",
+    "2026-07-19"
+  ],
+  "frames": [
+    {
+      "date": "2026-08-24",
+      "stats": {
+        "candidate_area_km2": 0.0,
+        "candidate_pixels": 0,
+        "patch_count": 0,
+        "assessed_area_km2": 0.0,
+        "eligible_area_km2": 148.3488,
+        "study_area_km2": 484.2452,
+        "valid_area_km2": 484.2452,
+        "median_hh_db": -11.341373443603516,
+        "median_hv_db": -18.98158836364746
+      },
+      "reference": {
+        "status": "CROSS_SENSOR_CHECK",
+        "common_clear_fraction": 0.9970625110456796,
+        "common_clear_area_km2": 482.76751708984375,
+        "candidate_assessed_area_km2": 0.0,
+        "candidate_supported_area_km2": 0.0,
+        "candidate_without_optical_support_area_km2": 0.0,
+        "candidate_unassessed_area_km2": 0.0,
+        "support_overlap_fraction": null,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "metric_note": "Optical index decreases are supporting signatures, not a reference classification with assessed negatives. No accuracy score is inferred.",
+        "source": "NASA HLS v2.0",
+        "selection": "Greatest common clear QA coverage among the first 12 date/overlap-ranked same-sensor pairs; independent of radar classifications.",
+        "baseline_target": "2026-07-07",
+        "baseline_dates": [
+          "2026-06-25",
+          "2026-07-07",
+          "2026-07-19"
+        ],
+        "before_scene": "HLS.S30.T20LNP.2026189T142711.v2.0",
+        "after_scene": "HLS.S30.T20LNP.2026234T142709.v2.0",
+        "before_date": "2026-07-08",
+        "after_date": "2026-08-22",
+        "before_offset_days": 1,
+        "after_offset_days": -2,
+        "support_rule": "NDVI and NBR both decrease on common clear non-water HLS cells; direction-only exploratory optical support, not forest-loss truth.",
+        "attempts": [
+          {
+            "before": "HLS.L30.T20LNP.2026188T141420.v2.0",
+            "after": "HLS.L30.T20LNP.2026236T141442.v2.0",
+            "common_clear_pixels": 72153
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026234T142709.v2.0",
+            "common_clear_pixels": 1206300
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026239T142711.v2.0",
+            "common_clear_pixels": 67254
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026234T142709.v2.0",
+            "common_clear_pixels": 87846
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026234T142709.v2.0",
+            "common_clear_pixels": 1201919
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026231T142811.v2.0",
+            "common_clear_pixels": 335727
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026241T143031.v2.0",
+            "common_clear_pixels": 68743
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026239T142711.v2.0",
+            "common_clear_pixels": 7610
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026239T142711.v2.0",
+            "common_clear_pixels": 67169
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026180T141425.v2.0",
+            "after": "HLS.L30.T20LNP.2026236T141442.v2.0",
+            "common_clear_pixels": 77207
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026188T141420.v2.0",
+            "after": "HLS.L30.T20LNP.2026228T141444.v2.0",
+            "common_clear_pixels": 24432
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026196T141432.v2.0",
+            "after": "HLS.L30.T20LNP.2026236T141442.v2.0",
+            "common_clear_pixels": 19913
+          }
+        ],
+        "native_hls_cells": 537088,
+        "median_ndvi_change": -0.05729231238365173,
+        "median_nbr_change": -0.090223029255867
+      }
+    },
+    {
+      "date": "2026-09-05",
+      "stats": {
+        "candidate_area_km2": 0.0,
+        "candidate_pixels": 0,
+        "patch_count": 0,
+        "assessed_area_km2": 148.3488,
+        "eligible_area_km2": 148.3488,
+        "study_area_km2": 484.2452,
+        "valid_area_km2": 484.2452,
+        "median_hh_db": -8.348821640014648,
+        "median_hv_db": -15.819942474365234
+      },
+      "reference": {
+        "status": "CROSS_SENSOR_CHECK",
+        "common_clear_fraction": 0.9963004379446477,
+        "common_clear_area_km2": 482.3985290527344,
+        "candidate_assessed_area_km2": 0.0,
+        "candidate_supported_area_km2": 0.0,
+        "candidate_without_optical_support_area_km2": 0.0,
+        "candidate_unassessed_area_km2": 0.0,
+        "support_overlap_fraction": null,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "metric_note": "Optical index decreases are supporting signatures, not a reference classification with assessed negatives. No accuracy score is inferred.",
+        "source": "NASA HLS v2.0",
+        "selection": "Greatest common clear QA coverage among the first 12 date/overlap-ranked same-sensor pairs; independent of radar classifications.",
+        "baseline_target": "2026-07-07",
+        "baseline_dates": [
+          "2026-06-25",
+          "2026-07-07",
+          "2026-07-19"
+        ],
+        "before_scene": "HLS.S30.T20LNP.2026189T142711.v2.0",
+        "after_scene": "HLS.S30.T20LNP.2026251T142811.v2.0",
+        "before_date": "2026-07-08",
+        "after_date": "2026-09-08",
+        "before_offset_days": 1,
+        "after_offset_days": 3,
+        "support_rule": "NDVI and NBR both decrease on common clear non-water HLS cells; direction-only exploratory optical support, not forest-loss truth.",
+        "attempts": [
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026249T142711.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026251T142811.v2.0",
+            "common_clear_pixels": 1205341
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026249T142711.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026249T142711.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026244T142709.v2.0",
+            "common_clear_pixels": 144632
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026251T142811.v2.0",
+            "common_clear_pixels": 87818
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026251T142811.v2.0",
+            "common_clear_pixels": 1200937
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026254T142709.v2.0",
+            "common_clear_pixels": 1039896
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026244T142709.v2.0",
+            "common_clear_pixels": 17643
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026244T142709.v2.0",
+            "common_clear_pixels": 144124
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026241T143031.v2.0",
+            "common_clear_pixels": 68743
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026254T142709.v2.0",
+            "common_clear_pixels": 61697
+          }
+        ],
+        "native_hls_cells": 536678,
+        "median_ndvi_change": -0.03827367722988129,
+        "median_nbr_change": -0.06969046592712402
+      }
+    },
+    {
+      "date": "2026-09-17",
+      "stats": {
+        "candidate_area_km2": 0.0,
+        "candidate_pixels": 0,
+        "patch_count": 0,
+        "assessed_area_km2": 148.3488,
+        "eligible_area_km2": 148.3488,
+        "study_area_km2": 484.2452,
+        "valid_area_km2": 484.2452,
+        "median_hh_db": -10.413202285766602,
+        "median_hv_db": -18.046188354492188
+      },
+      "reference": {
+        "status": "CROSS_SENSOR_CHECK",
+        "common_clear_fraction": 0.9945866401040923,
+        "common_clear_area_km2": 481.5687255859375,
+        "candidate_assessed_area_km2": 0.0,
+        "candidate_supported_area_km2": 0.0,
+        "candidate_without_optical_support_area_km2": 0.0,
+        "candidate_unassessed_area_km2": 0.0,
+        "support_overlap_fraction": null,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "metric_note": "Optical index decreases are supporting signatures, not a reference classification with assessed negatives. No accuracy score is inferred.",
+        "source": "NASA HLS v2.0",
+        "selection": "Greatest common clear QA coverage among the first 12 date/overlap-ranked same-sensor pairs; independent of radar classifications.",
+        "baseline_target": "2026-07-07",
+        "baseline_dates": [
+          "2026-06-25",
+          "2026-07-07",
+          "2026-07-19"
+        ],
+        "before_scene": "HLS.S30.T20LNP.2026189T142711.v2.0",
+        "after_scene": "HLS.S30.T20LNP.2026259T142711.v2.0",
+        "before_date": "2026-07-08",
+        "after_date": "2026-09-16",
+        "before_offset_days": 1,
+        "after_offset_days": -1,
+        "support_rule": "NDVI and NBR both decrease on common clear non-water HLS cells; direction-only exploratory optical support, not forest-loss truth.",
+        "attempts": [
+          {
+            "before": "HLS.L30.T20LNP.2026188T141420.v2.0",
+            "after": "HLS.L30.T20LNP.2026260T141454.v2.0",
+            "common_clear_pixels": 180262
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026259T142711.v2.0",
+            "common_clear_pixels": 1203147
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026261T143021.v2.0",
+            "common_clear_pixels": 2871
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026259T142711.v2.0",
+            "common_clear_pixels": 87824
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026261T143021.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026259T142711.v2.0",
+            "common_clear_pixels": 1198721
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026261T143021.v2.0",
+            "common_clear_pixels": 2871
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026264T142709.v2.0",
+            "common_clear_pixels": 1386
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026254T142709.v2.0",
+            "common_clear_pixels": 1039896
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026264T142709.v2.0",
+            "common_clear_pixels": 459
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026180T141425.v2.0",
+            "after": "HLS.L30.T20LNP.2026260T141454.v2.0",
+            "common_clear_pixels": 272151
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026188T141420.v2.0",
+            "after": "HLS.L30.T20LNP.2026268T141454.v2.0",
+            "common_clear_pixels": 744844
+          }
+        ],
+        "native_hls_cells": 535756,
+        "median_ndvi_change": -0.0063515305519104,
+        "median_nbr_change": -0.007884904742240906
+      }
+    },
+    {
+      "date": "2026-09-29",
+      "stats": {
+        "candidate_area_km2": 0.0128,
+        "candidate_pixels": 32,
+        "patch_count": 1,
+        "assessed_area_km2": 148.3488,
+        "eligible_area_km2": 148.3488,
+        "study_area_km2": 484.2452,
+        "valid_area_km2": 484.2452,
+        "median_hh_db": -10.767345428466797,
+        "median_hv_db": -18.230195999145508
+      },
+      "reference": {
+        "status": "CROSS_SENSOR_CHECK",
+        "common_clear_fraction": 0.9745399765989164,
+        "common_clear_area_km2": 471.8623352050781,
+        "candidate_assessed_area_km2": 0.012799999676644802,
+        "candidate_supported_area_km2": 0.009099999442696571,
+        "candidate_without_optical_support_area_km2": 0.0037000002339482307,
+        "candidate_unassessed_area_km2": 0.0,
+        "support_overlap_fraction": 0.7109374744204608,
+        "precision": null,
+        "recall": null,
+        "f1": null,
+        "metric_note": "Optical index decreases are supporting signatures, not a reference classification with assessed negatives. No accuracy score is inferred.",
+        "source": "NASA HLS v2.0",
+        "selection": "Greatest common clear QA coverage among the first 12 date/overlap-ranked same-sensor pairs; independent of radar classifications.",
+        "baseline_target": "2026-07-07",
+        "baseline_dates": [
+          "2026-06-25",
+          "2026-07-07",
+          "2026-07-19"
+        ],
+        "before_scene": "HLS.S30.T20LNP.2026189T142711.v2.0",
+        "after_scene": "HLS.S30.T20LNP.2026271T142801.v2.0",
+        "before_date": "2026-07-08",
+        "after_date": "2026-09-28",
+        "before_offset_days": 1,
+        "after_offset_days": -1,
+        "support_rule": "NDVI and NBR both decrease on common clear non-water HLS cells; direction-only exploratory optical support, not forest-loss truth.",
+        "attempts": [
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026271T142801.v2.0",
+            "common_clear_pixels": 1179061
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026274T142709.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026188T141420.v2.0",
+            "after": "HLS.L30.T20LNP.2026268T141454.v2.0",
+            "common_clear_pixels": 744844
+          },
+          {
+            "before": "HLS.L30.T20LNP.2026188T141420.v2.0",
+            "after": "HLS.L30.T20LNP.2026276T141502.v2.0",
+            "common_clear_pixels": 388042
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026269T142711.v2.0",
+            "common_clear_pixels": 952431
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026271T142801.v2.0",
+            "common_clear_pixels": 87785
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026271T142801.v2.0",
+            "common_clear_pixels": 1174621
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026274T142709.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026274T142709.v2.0",
+            "common_clear_pixels": 0
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026191T143031.v2.0",
+            "after": "HLS.S30.T20LNP.2026269T142711.v2.0",
+            "common_clear_pixels": 66950
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026184T142709.v2.0",
+            "after": "HLS.S30.T20LNP.2026269T142711.v2.0",
+            "common_clear_pixels": 948179
+          },
+          {
+            "before": "HLS.S30.T20LNP.2026189T142711.v2.0",
+            "after": "HLS.S30.T20LNP.2026264T142709.v2.0",
+            "common_clear_pixels": 1386
+          }
+        ],
+        "native_hls_cells": 524908,
+        "median_ndvi_change": 0.012719392776489258,
+        "median_nbr_change": 0.015524566173553467
+      }
+    }
+  ],
+  "pixel_area_km2": 0.0004,
+  "native_crs": "EPSG:32720",
+  "native_transform": [
+    20.0,
+    0.0,
+    527360.0,
+    0.0,
+    -20.0,
+    8872480.0,
+    0.0,
+    0.0,
+    1.0
+  ],
+  "native_shape": [
+    1108,
+    1097
+  ]
+}

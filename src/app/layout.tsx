@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/styles/atlas.css";
+import "@/styles/forest-volcano.css";
 
 export const metadata: Metadata = {
   title: "GeoNexSAR — Watch Earth's surface change with NISAR radar",

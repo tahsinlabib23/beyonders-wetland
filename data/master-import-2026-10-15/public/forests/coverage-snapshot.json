@@ -1,0 +1,1259 @@
+{
+  "retrieved": "2026-10-07T22:16:20.305039+00:00",
+  "bbox": [
+    -62.75,
+    -10.4,
+    -62.55,
+    -10.2
+  ],
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.96034,
+                -11.89625
+              ],
+              [
+                -60.40138,
+                -9.80865
+              ],
+              [
+                -62.79542,
+                -10.29249
+              ],
+              [
+                -62.3722,
+                -12.37343
+              ],
+              [
+                -59.96034,
+                -11.89625
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_023_060_A_172_2005_DHDH_A_20260618T095228_20260618T095302_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-18T09:52:28.000000Z",
+        "end": "2026-06-18T09:53:02.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.37622,
+                -9.92793
+              ],
+              [
+                -60.83268,
+                -7.78054
+              ],
+              [
+                -63.2094,
+                -8.27038
+              ],
+              [
+                -62.7708,
+                -10.41131
+              ],
+              [
+                -60.37622,
+                -9.92793
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_023_060_A_173_2005_DHDH_A_20260618T095301_20260618T095336_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-18T09:53:01.000000Z",
+        "end": "2026-06-18T09:53:36.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.78972,
+                -9.76839
+              ],
+              [
+                -64.2459,
+                -11.91514
+              ],
+              [
+                -61.9679,
+                -12.36603
+              ],
+              [
+                -61.53196,
+                -10.22509
+              ],
+              [
+                -63.78972,
+                -9.76839
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_023_068_D_094_2005_DHDH_A_20260618T222706_20260618T222741_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-18T22:27:06.000000Z",
+        "end": "2026-06-18T22:27:41.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.09262,
+                -11.9182
+              ],
+              [
+                -62.54574,
+                -9.77103
+              ],
+              [
+                -64.78806,
+                -10.22459
+              ],
+              [
+                -64.35313,
+                -12.36558
+              ],
+              [
+                -62.09262,
+                -11.9182
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_023_161_A_172_2005_DHDH_A_20260625T100047_20260625T100122_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-25T10:00:47.000000Z",
+        "end": "2026-06-25T10:01:22.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.95624,
+                -11.91771
+              ],
+              [
+                -60.40952,
+                -9.77039
+              ],
+              [
+                -62.80275,
+                -10.25422
+              ],
+              [
+                -62.36794,
+                -12.39473
+              ],
+              [
+                -59.95624,
+                -11.91771
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_024_060_A_172_2005_DHDH_A_20260630T095227_20260630T095302_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-30T09:52:27.000000Z",
+        "end": "2026-06-30T09:53:02.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.38419,
+                -9.88963
+              ],
+              [
+                -60.82821,
+                -7.80195
+              ],
+              [
+                -63.20524,
+                -8.29172
+              ],
+              [
+                -62.77922,
+                -10.37325
+              ],
+              [
+                -60.38419,
+                -9.88963
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_024_060_A_173_2005_DHDH_A_20260630T095301_20260630T095335_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-30T09:53:01.000000Z",
+        "end": "2026-06-30T09:53:35.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.81436,
+                -9.74238
+              ],
+              [
+                -64.2704,
+                -11.88926
+              ],
+              [
+                -61.96204,
+                -12.34634
+              ],
+              [
+                -61.52491,
+                -10.20564
+              ],
+              [
+                -63.81436,
+                -9.74238
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_024_068_D_094_2005_SHSH_A_20260630T222705_20260630T222740_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-06-30T22:27:05.000000Z",
+        "end": "2026-06-30T22:27:40.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.10063,
+                -11.87905
+              ],
+              [
+                -62.54123,
+                -9.79152
+              ],
+              [
+                -64.78425,
+                -10.24517
+              ],
+              [
+                -64.36113,
+                -12.32664
+              ],
+              [
+                -62.10063,
+                -11.87905
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_024_161_A_172_2005_DHDH_A_20260707T100047_20260707T100121_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-07T10:00:47.000000Z",
+        "end": "2026-07-07T10:01:21.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.96271,
+                -11.8841
+              ],
+              [
+                -60.40361,
+                -9.79647
+              ],
+              [
+                -62.79756,
+                -10.28034
+              ],
+              [
+                -62.37467,
+                -12.36135
+              ],
+              [
+                -59.96271,
+                -11.8841
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_025_060_A_172_2005_DHDH_A_20260712T095227_20260712T095301_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-12T09:52:27.000000Z",
+        "end": "2026-07-12T09:53:01.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.37872,
+                -9.9158
+              ],
+              [
+                -60.83559,
+                -7.7685
+              ],
+              [
+                -63.21192,
+                -8.2583
+              ],
+              [
+                -62.7739,
+                -10.39935
+              ],
+              [
+                -60.37872,
+                -9.9158
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_025_060_A_173_2005_DHDH_A_20260712T095300_20260712T095335_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-12T09:53:00.000000Z",
+        "end": "2026-07-12T09:53:35.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.79245,
+                -9.78122
+              ],
+              [
+                -64.23564,
+                -11.86841
+              ],
+              [
+                -61.95809,
+                -12.3194
+              ],
+              [
+                -61.5345,
+                -10.23788
+              ],
+              [
+                -63.79245,
+                -9.78122
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_025_068_D_094_2005_DHDH_A_20260712T222705_20260712T222739_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-12T22:27:05.000000Z",
+        "end": "2026-07-12T22:27:39.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.09735,
+                -11.894
+              ],
+              [
+                -62.55102,
+                -9.74693
+              ],
+              [
+                -64.79312,
+                -10.20056
+              ],
+              [
+                -64.35925,
+                -12.34177
+              ],
+              [
+                -62.09735,
+                -11.894
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_025_161_A_172_2005_DHDH_A_20260719T100046_20260719T100121_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-19T10:00:46.000000Z",
+        "end": "2026-07-19T10:01:21.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.95821,
+                -11.90652
+              ],
+              [
+                -60.39886,
+                -9.81884
+              ],
+              [
+                -62.79266,
+                -10.3026
+              ],
+              [
+                -62.36982,
+                -12.38361
+              ],
+              [
+                -59.95821,
+                -11.90652
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_026_060_A_172_2005_DHDH_A_20260724T095226_20260724T095300_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-24T09:52:26.000000Z",
+        "end": "2026-07-24T09:53:00.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.37353,
+                -9.93809
+              ],
+              [
+                -60.83006,
+                -7.79072
+              ],
+              [
+                -63.20721,
+                -8.28061
+              ],
+              [
+                -62.76896,
+                -10.4216
+              ],
+              [
+                -60.37353,
+                -9.93809
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_026_060_A_173_2005_DHDH_A_20260724T095259_20260724T095334_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-24T09:52:59.000000Z",
+        "end": "2026-07-24T09:53:34.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.81666,
+                -9.7527
+              ],
+              [
+                -64.27266,
+                -11.89959
+              ],
+              [
+                -61.96419,
+                -12.35668
+              ],
+              [
+                -61.52803,
+                -10.21579
+              ],
+              [
+                -63.81666,
+                -9.7527
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_026_068_D_094_2005_SHSH_A_20260724T222704_20260724T222739_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-07-24T22:27:04.000000Z",
+        "end": "2026-07-24T22:27:39.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.95884,
+                -11.90422
+              ],
+              [
+                -60.39962,
+                -9.81657
+              ],
+              [
+                -62.79301,
+                -10.30026
+              ],
+              [
+                -62.37008,
+                -12.38126
+              ],
+              [
+                -59.95884,
+                -11.90422
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_028_060_A_172_2005_DHDH_A_20260817T095225_20260817T095259_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-17T09:52:25.000000Z",
+        "end": "2026-08-17T09:52:59.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.37429,
+                -9.93582
+              ],
+              [
+                -60.83066,
+                -7.78842
+              ],
+              [
+                -63.20759,
+                -8.27828
+              ],
+              [
+                -62.76883,
+                -10.41917
+              ],
+              [
+                -60.37429,
+                -9.93582
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_028_060_A_173_2005_DHDH_A_20260817T095258_20260817T095333_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-17T09:52:58.000000Z",
+        "end": "2026-08-17T09:53:33.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.81706,
+                -9.75259
+              ],
+              [
+                -64.26036,
+                -11.83986
+              ],
+              [
+                -61.95174,
+                -12.29727
+              ],
+              [
+                -61.52815,
+                -10.21575
+              ],
+              [
+                -63.81706,
+                -9.75259
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_028_068_D_094_2005_SHSH_A_20260817T222703_20260817T222737_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-17T22:27:03.000000Z",
+        "end": "2026-08-17T22:27:37.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.04164,
+                -11.92166
+              ],
+              [
+                -62.49627,
+                -9.77463
+              ],
+              [
+                -64.78538,
+                -10.23776
+              ],
+              [
+                -64.35127,
+                -12.3789
+              ],
+              [
+                -62.04164,
+                -11.92166
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_028_161_A_172_2005_DHDH_A_20260824T100044_20260824T100119_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-24T10:00:44.000000Z",
+        "end": "2026-08-24T10:01:19.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.96296,
+                -11.88482
+              ],
+              [
+                -60.40388,
+                -9.79719
+              ],
+              [
+                -62.7978,
+                -10.28104
+              ],
+              [
+                -62.37492,
+                -12.36206
+              ],
+              [
+                -59.96296,
+                -11.88482
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_029_060_A_172_2005_DHDH_A_20260829T095225_20260829T095259_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-29T09:52:25.000000Z",
+        "end": "2026-08-29T09:52:59.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.37899,
+                -9.91653
+              ],
+              [
+                -60.82247,
+                -7.82874
+              ],
+              [
+                -63.20003,
+                -8.3185
+              ],
+              [
+                -62.77387,
+                -10.4
+              ],
+              [
+                -60.37899,
+                -9.91653
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_029_060_A_173_2005_DHDH_A_20260829T095258_20260829T095332_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-29T09:52:58.000000Z",
+        "end": "2026-08-29T09:53:32.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.79283,
+                -9.77937
+              ],
+              [
+                -64.23597,
+                -11.86656
+              ],
+              [
+                -61.95793,
+                -12.31766
+              ],
+              [
+                -61.53441,
+                -10.23613
+              ],
+              [
+                -63.79283,
+                -9.77937
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_029_068_D_094_2005_DHDH_A_20260829T222703_20260829T222737_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-08-29T22:27:03.000000Z",
+        "end": "2026-08-29T22:27:37.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.0441,
+                -11.9111
+              ],
+              [
+                -62.48582,
+                -9.82366
+              ],
+              [
+                -64.77522,
+                -10.28664
+              ],
+              [
+                -64.35277,
+                -12.36822
+              ],
+              [
+                -62.0441,
+                -11.9111
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_029_161_A_172_2005_DHDH_A_20260905T100044_20260905T100118_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-05T10:00:44.000000Z",
+        "end": "2026-09-05T10:01:18.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.0441,
+                -11.9111
+              ],
+              [
+                -62.48582,
+                -9.82366
+              ],
+              [
+                -64.77522,
+                -10.28664
+              ],
+              [
+                -64.35277,
+                -12.36822
+              ],
+              [
+                -62.0441,
+                -11.9111
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_029_161_A_172_2005_DHDH_A_20260905T100044_20260905T100118_P05023_N_F_J_002",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-05T10:00:44.000000Z",
+        "end": "2026-09-05T10:01:18.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.95279,
+                -11.93082
+              ],
+              [
+                -60.40596,
+                -9.78349
+              ],
+              [
+                -62.79973,
+                -10.26738
+              ],
+              [
+                -62.36506,
+                -12.4079
+              ],
+              [
+                -59.95279,
+                -11.93082
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_030_060_A_172_2005_DHDH_A_20260910T095224_20260910T095259_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-10T09:52:24.000000Z",
+        "end": "2026-09-10T09:52:59.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.38086,
+                -9.90278
+              ],
+              [
+                -60.82482,
+                -7.8151
+              ],
+              [
+                -63.20205,
+                -8.30486
+              ],
+              [
+                -62.7758,
+                -10.38633
+              ],
+              [
+                -60.38086,
+                -9.90278
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_030_060_A_173_2005_DHDH_A_20260910T095258_20260910T095332_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-10T09:52:58.000000Z",
+        "end": "2026-09-10T09:53:32.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.82295,
+                -9.78449
+              ],
+              [
+                -64.26667,
+                -11.87165
+              ],
+              [
+                -61.9584,
+                -12.32881
+              ],
+              [
+                -61.53438,
+                -10.24739
+              ],
+              [
+                -63.82295,
+                -9.78449
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_030_068_D_094_2005_SHSH_A_20260910T222703_20260910T222737_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-10T22:27:03.000000Z",
+        "end": "2026-09-10T22:27:37.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.04413,
+                -11.90933
+              ],
+              [
+                -62.48577,
+                -9.82188
+              ],
+              [
+                -64.77568,
+                -10.28498
+              ],
+              [
+                -64.35295,
+                -12.3665
+              ],
+              [
+                -62.04413,
+                -11.90933
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_030_161_A_172_2005_DHDH_A_20260917T100044_20260917T100118_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-17T10:00:44.000000Z",
+        "end": "2026-09-17T10:01:18.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -59.951,
+                -11.93926
+              ],
+              [
+                -60.40398,
+                -9.79188
+              ],
+              [
+                -62.7983,
+                -10.27587
+              ],
+              [
+                -62.36335,
+                -12.41634
+              ],
+              [
+                -59.951,
+                -11.93926
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_031_060_A_172_2005_SHSH_A_20260922T095224_20260922T095259_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-22T09:52:24.000000Z",
+        "end": "2026-09-22T09:52:59.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -60.37901,
+                -9.9112
+              ],
+              [
+                -60.82317,
+                -7.82354
+              ],
+              [
+                -63.20049,
+                -8.31332
+              ],
+              [
+                -62.77476,
+                -10.3949
+              ],
+              [
+                -60.37901,
+                -9.9112
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_031_060_A_173_2005_SHSH_A_20260922T095258_20260922T095332_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-22T09:52:58.000000Z",
+        "end": "2026-09-22T09:53:32.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -63.79253,
+                -9.78558
+              ],
+              [
+                -64.23588,
+                -11.87272
+              ],
+              [
+                -61.9579,
+                -12.3238
+              ],
+              [
+                -61.53409,
+                -10.24233
+              ],
+              [
+                -63.79253,
+                -9.78558
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_031_068_D_094_2005_DHDH_A_20260922T222703_20260922T222737_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-22T22:27:03.000000Z",
+        "end": "2026-09-22T22:27:37.999342Z"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "MultiPolygon",
+        "coordinates": [
+          [
+            [
+              [
+                -62.0441,
+                -11.91107
+              ],
+              [
+                -62.48579,
+                -9.82362
+              ],
+              [
+                -64.77555,
+                -10.28665
+              ],
+              [
+                -64.35302,
+                -12.36821
+              ],
+              [
+                -62.0441,
+                -11.91107
+              ]
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "sceneId": "NISAR_L2_PR_GCOV_031_161_A_172_2005_DHDH_A_20260929T100044_20260929T100118_P05023_N_F_J_001",
+        "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+        "maturity": "PROVISIONAL",
+        "start": "2026-09-29T10:00:44.000000Z",
+        "end": "2026-09-29T10:01:18.999342Z"
+      }
+    }
+  ]
+}

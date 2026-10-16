@@ -1,0 +1,33 @@
+{
+  "schema_version": 1,
+  "hazard_type": "forest_disturbance",
+  "studies": [
+    {
+      "id": "rondonia",
+      "title": "Rond\u00f4nia forest-change study",
+      "bbox": [
+        -62.75,
+        -10.4,
+        -62.55,
+        -10.2
+      ],
+      "path": "/forest/rondonia",
+      "index_url": "/forests/rondonia/index.json",
+      "publication_version": "2026.10.08-v1",
+      "method_version": "forest-hv-persistence-1.0.0",
+      "run_id": "03111a500c5846af95e207984e1ebd0b",
+      "processing_status": "COMPLETE",
+      "scientific_interpretation": "UNVERIFIED_RADAR_CHANGE_CANDIDATES",
+      "reference_availability": "AVAILABLE",
+      "available_dates": [
+        "2026-06-25",
+        "2026-07-07",
+        "2026-07-19",
+        "2026-08-24",
+        "2026-09-05",
+        "2026-09-17",
+        "2026-09-29"
+      ]
+    }
+  ]
+}

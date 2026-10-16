@@ -1,0 +1,35 @@
+{
+  "id": "rondonia",
+  "title": "Rond\u00f4nia forest-change study",
+  "bbox": [
+    -62.75,
+    -10.4,
+    -62.55,
+    -10.2
+  ],
+  "boundary_source": "Beyonders analyst-defined WGS84 rectangle; not an authoritative forest boundary",
+  "product": "NISAR_L2_GCOV_PROVISIONAL_V1",
+  "frequency": "frequencyA",
+  "track": "161",
+  "frame": "172",
+  "dates": [
+    "2026-06-25",
+    "2026-07-07",
+    "2026-07-19",
+    "2026-08-24",
+    "2026-09-05",
+    "2026-09-17",
+    "2026-09-29"
+  ],
+  "baseline_observations": 3,
+  "drop_db": 3,
+  "minimum_patch_ha": 1,
+  "common_clear_floor": 0.2,
+  "optical_tolerance_days": 30,
+  "maximum_optical_pairs": 12,
+  "worldcover_url": "https://esa-worldcover.s3.eu-central-1.amazonaws.com/v200/2021/map/ESA_WorldCover_10m_2021_v200_S12W063_Map.tif",
+  "worldcover_source": "https://esa-worldcover.org/en/data-access",
+  "worldcover_year": 2021,
+  "tree_cover_class": 10,
+  "display_spacing_degrees": 0.0004
+}

@@ -1,0 +1,41 @@
+{
+  "granule_id": "S1-GUNW-D-R-079-tops-20251130_20251118-030819-00039E_00012N-PP-5dbd-v3_0_1",
+  "cmr_concept_id": "G4159260485-ASF",
+  "sensor": "Sentinel-1",
+  "start": "2025-11-18",
+  "end": "2025-11-30",
+  "label": "Sentinel-1 descending",
+  "collection": "ARIA_S1_GUNW",
+  "maturity": "ARIA v3.0.1",
+  "data_url": "https://cumulus.asf.earthdatacloud.nasa.gov/ARIA/ARIA_S1_GUNW/S1-GUNW-D-R-079-tops-20251130_20251118-030819-00039E_00012N-PP-5dbd-v3_0_1/S1-GUNW-D-R-079-tops-20251130_20251118-030819-00039E_00012N-PP-5dbd-v3_0_1.nc",
+  "track": "079",
+  "direction": "DESCENDING",
+  "look_direction": "Right",
+  "polarization": "VV",
+  "product_version": "3.0.1",
+  "upstream_processor_version": null,
+  "wavelength_m": 0.055465761572122574,
+  "native_crs": "EPSG:4326",
+  "transform": [
+    0.0008333330000027672,
+    0.0,
+    40.54989898,
+    0.0,
+    -0.0008333329999992145,
+    13.7501005
+  ],
+  "native_spacing": [
+    0.0008333330000027672,
+    0.0008333329999992145
+  ],
+  "phase_sign": "ARIA later reference; positive phase is toward sensor. LOS = phase * wavelength / (4 pi).",
+  "phase_to_toward_sign": 1,
+  "original_dates_verified": false,
+  "crop_bbox": [
+    40.55,
+    13.4,
+    40.85,
+    13.75
+  ],
+  "subset_sha256": "6fba990fc437ff344d7e261a6eaba67853c61dfa4ebfdbb86d2aa44e47a58ef7"
+}

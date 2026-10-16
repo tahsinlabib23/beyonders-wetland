@@ -275,8 +275,8 @@ export default function WetlandExperience({ preferLocalRun, initialCaseId }: { p
         <TierBadge tier={dataTier} completeness={s.showcase?.manifest.completeness} />
         <nav className="wx-nav" aria-label="GeoNexSAR">
           <Link href="/wetland/global" aria-label="Explore NISAR worldwide">{Icon.globe}<span>Explore NISAR worldwide</span></Link>
-          <Link href="/forest" aria-label="Forest change briefing">Forest <span className="wx-nav__long">· planned</span></Link>
-          <Link href="/volcano" aria-label="Volcano change briefing">Volcano <span className="wx-nav__long">· planned</span></Link>
+          <Link href="/forest/global" aria-label="Open Forests">Forests</Link>
+          <Link href="/volcano/global" aria-label="Open Volcanoes">Volcanoes</Link>
           <button onClick={() => setSatelliteBasemap(!satelliteBasemap)} aria-pressed={satelliteBasemap} aria-label="Satellite basemap" title="Toggle the satellite basemap">{Icon.layers}<span>Basemap</span></button>
           <button onClick={returnToOverview} title="Clear selection, comparison and filters (Esc)">Return<span className="wx-nav__long"> to overview</span></button>
         </nav>

@@ -1,0 +1,61 @@
+{
+  "patch_id": "global_sweep",
+  "thresholds": [
+    {
+      "delta_db": 0.5,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 1.0,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 1.5,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 2.0,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 2.5,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 3.0,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 3.5,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 4.0,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 4.5,
+      "area_km2": 4.0,
+      "patches": 8
+    },
+    {
+      "delta_db": 5.0,
+      "area_km2": 3.45,
+      "patches": 6
+    }
+  ],
+  "stability_verdict": "STABLE",
+  "stable_range": [
+    1.0,
+    3.0
+  ],
+  "sensitivity_note": "Result remains relatively constant across key threshold ranges."
+}

@@ -1,6 +1,6 @@
 # GeoNexSAR — Earth Change Atlas
 
-GeoNexSAR is a real-data-first research prototype for inspecting NISAR observations and investigating radar-derived surface-change candidates. The current complete scientific workflow focuses on wetlands. Forest and volcano pages are planned module briefings; they do not claim to run those scientific analyses yet.
+GeoNexSAR is a real-data-first research prototype for exploring NISAR observations and evidence-labelled surface-change studies across wetlands, forests, and volcanoes. Each hazard has its own methods and study artifacts; a radar-change candidate is not automatically a confirmed environmental event.
 
 **Data integrity rule:** the application does not generate simulated detections for the user interface. It serves the bundled real NISAR showcase or a completed local run whose manifest identifies its source as `NISAR`. If real data or a service is unavailable, GeoNexSAR displays an empty/error state rather than substituting fictional results. Synthetic raster inputs exist only in isolated Python unit-test fixtures and are not available through the application or production CLI.
 
@@ -23,12 +23,14 @@ Useful routes:
 - `/wetland` — Wetland Time Machine with the packaged Tanguar Haor case.
 - `/wetland/global` — the Global Change Investigator: worldwide NASA imagery, place-name/coordinate search, map-click location selection, actual acquisition footprints, existing cases, local processing, and reproducible result exports.
 - `/wetland/global/scenes` — worldwide scene discovery and metadata.
-- `/forest` — planned forest-monitoring briefing; no forest detections are generated here.
-- `/volcano` — planned volcano-monitoring briefing; no deformation analysis is generated here.
+- `/forest/global` — worldwide forest context and NISAR coverage, with the published Rondônia study at `/forest/rondonia`.
+- `/volcano/global` — Smithsonian Global Volcanism Program directory and NISAR GUNW observation coverage, with the Hayli Gubbi evidence case at `/volcano/hayli-gubbi`.
 
 ## Data currently included
 
 The ZIP includes `public/showcase/featured/`, a packaged Tanguar Haor, Bangladesh case derived from real NISAR L2 GCOV provisional observations. It contains seven acquisition dates, HH/HV-derived candidate polygons, radar previews, a GIS study mask and metadata for an independent optical comparison. It can be explored without Earthdata credentials or a local Python environment.
+
+The Forests section includes the published Rondônia time series and compact evidence package under `public/forests/`; its persistent radar-change candidates remain unverified. The Volcanoes section includes the Hayli Gubbi/Erta Ale published phase study, Sentinel-1 comparison, and supporting imagery under `public/volcanoes/`. These folders contain web-ready study artifacts, not the full original NISAR scene granules.
 
 The featured case has an independent optical comparison outcome of **inconclusive**. Common clear coverage is approximately 0.333% of the mapped study area, far below the configured 20% minimum. `reference_validated` remains false. Candidate area is a radar-derived rule output, **not confirmed flood extent**. The mapped polygon is a reference study mask, not a legal or official wetland boundary.
 
@@ -82,9 +84,9 @@ The region register supports searching, class filtering, sorting, region selecti
 
 Exports identify their data source and retain relevant provenance and limitations. Before sharing results, check the acquisition dates, product maturity, study boundary, valid-data coverage, sensitivity and independent-reference status. An agreement with optical or another satellite product is not field truth.
 
-## Forest and volcano roadmap
+## Forest and volcano modules
 
-Forest and volcano are intentionally separate modules, not aliases for the wetland detector. Forest monitoring needs forest-specific change interpretation and suitable reference data. Volcano deformation requires deformation-appropriate methods, often including interferometric processing when suitable observations are available. Until those methods are built and validated, the corresponding pages remain planned briefings and the product does not display synthetic detections for them.
+Forest and volcano are separate modules, not aliases for the wetland detector. Forest studies use their own GCOV backscatter screening method and historical tree-cover context; volcanic studies use deformation-appropriate geocoded interferometric products. The published Rondônia forest outputs are exploratory persistent radar-change candidates. The Hayli Gubbi case presents published NISAR/Sentinel-1 context and official NISAR phase products; it does not claim the app reproduces the paper's raw-SLC inversion. Catalog locations and scene footprints show context or acquired coverage, not global detections. See the forest and volcano method documents under `docs/` for data provenance and limits.
 
 ## Tests and quality checks
 
@@ -112,9 +114,8 @@ Python test fixtures can generate synthetic rasters inside temporary test direct
 - The current NISAR product is provisional.
 - The Tanguar optical comparison is inconclusive due to insufficient common clear coverage; it is not independent validation.
 - Satellite imagery and scene footprints indicate observations and context, not global classifications.
-- Forest and volcano processing is planned and does not yet exist as a completed scientific workflow.
+- Forest and volcano outputs are separate from the wetland detector and retain their own evidence status, methods, and limitations. Their presence does not establish globally validated forest-loss or volcanic-deformation detections.
 
 ## Design architecture
 
-`src/components/global/atlas-global.css` defines the Atlas/global-workspace design system, including the Global Change Investigator controls and responsive report tools. `src/components/wetland/` contains the map-first Wetland Time Machine and its Explore/Check/Learn drawers. `src/components/global/` contains worldwide observation browsing, real place lookup, map-pin selection, study-area selection and local NISAR processing. `src/lib/investigation-report.ts` provides pure, tested CSV, GeoJSON, JSON and printable HTML report builders; `src/lib/place-search.ts` validates real place-search results. The shared UI/data discovery architecture is intended to be reused by future forest and volcano workflows, but their scientific algorithms and validation remain separate.
- Future phenomenon-specific pages should reuse the shared layout and workflow state patterns, while keeping scientific algorithms and validation isolated per module.
+`src/components/global/atlas-global.css` defines the Atlas/global-workspace design system, including the Global Change Investigator controls and responsive report tools. `src/components/wetland/` contains the map-first Wetland Time Machine. `src/components/forest/` and `src/components/volcano/` contain the separate forest and volcanic study experiences. The modules share navigation and map infrastructure while keeping scientific algorithms and validation isolated.

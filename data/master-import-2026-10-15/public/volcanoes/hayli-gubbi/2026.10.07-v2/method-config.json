@@ -1,0 +1,82 @@
+{
+  "id": "hayli-gubbi",
+  "title": "Hayli Gubbi and Erta Ale",
+  "event_date": "2025-11-23",
+  "bbox": [
+    40.55,
+    13.4,
+    40.85,
+    13.75
+  ],
+  "boundary_source": "Beyonders analysis rectangle in WGS84; not a geological volcano boundary",
+  "reference_bbox": [
+    40.58,
+    13.64,
+    40.61,
+    13.67
+  ],
+  "reference_note": "West of the volcanic chain; assumed stable for relative referencing, not surveyed or proven stationary",
+  "coherence_floor": 0.3,
+  "display_spacing_degrees": 0.0008,
+  "display_limit_cm": 60,
+  "nisar_pairs": [
+    {
+      "start": "2025-11-10",
+      "end": "2025-11-22",
+      "track": "172",
+      "frame": "008",
+      "release": "X05010",
+      "label": "Before the eruption"
+    },
+    {
+      "start": "2025-11-22",
+      "end": "2025-12-04",
+      "track": "172",
+      "frame": "008",
+      "release": "X05010",
+      "label": "Spans the eruption"
+    },
+    {
+      "start": "2025-12-04",
+      "end": "2025-12-16",
+      "track": "172",
+      "frame": "008",
+      "release": "X05010",
+      "label": "After the eruption"
+    }
+  ],
+  "sentinel_pairs": [
+    {
+      "name": "S1-GUNW-A-R-014-tops-20251125_20251119-152734-00040E_00012N-PP-75d4-v3_0_1",
+      "start": "2025-11-19",
+      "end": "2025-11-25",
+      "label": "Sentinel-1 ascending"
+    },
+    {
+      "name": "S1-GUNW-D-R-079-tops-20251130_20251118-030819-00039E_00012N-PP-5dbd-v3_0_1",
+      "start": "2025-11-18",
+      "end": "2025-11-30",
+      "label": "Sentinel-1 descending"
+    }
+  ],
+  "regions": [
+    {
+      "name": "Erta Ale north",
+      "lon": 40.665,
+      "lat": 13.606,
+      "radius_km": 1
+    },
+    {
+      "name": "Erta Ale south",
+      "lon": 40.668,
+      "lat": 13.595,
+      "radius_km": 1
+    },
+    {
+      "name": "Hayli Gubbi",
+      "lon": 40.722,
+      "lat": 13.505,
+      "radius_km": 1.5
+    }
+  ]
+}

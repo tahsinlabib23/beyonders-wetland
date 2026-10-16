@@ -1,5 +1,4 @@
-/* GeoNexSAR phenomena registry — one conceptual backbone, several modules.
-   Wetlands is built. Forest and volcano are declared with honest briefings, not faked. */
+/* GeoNexSAR phenomena registry — separate, evidence-labelled Earth-change modules. */
 export type PhenomenonStatus = "AVAILABLE" | "PLANNED";
 export type PhenomenonId = "wetland" | "forest" | "volcano";
 export interface PhenomenonBriefing {
@@ -15,14 +14,14 @@ export interface Phenomenon {
   href?: string;
   /** Every module exposes the same five capabilities. */
   contract: readonly ["time", "change", "evidence", "investigation", "uncertainty"];
-  /** Honest briefing shown while the module is PLANNED. */
+  /** Optional science context for a module introduction. */
   briefing?: PhenomenonBriefing;
 }
 const CONTRACT = ["time", "change", "evidence", "investigation", "uncertainty"] as const;
 export const PHENOMENA: Phenomenon[] = [
   { id: "wetland", name: "Wetlands", tagline: "Water moves.", status: "AVAILABLE", href: "/wetland", contract: CONTRACT },
   {
-    id: "forest", name: "Forests", tagline: "Vegetation changes.", status: "PLANNED", href: "/forest", contract: CONTRACT,
+    id: "forest", name: "Forests", tagline: "Vegetation changes.", status: "AVAILABLE", href: "/forest/global", contract: CONTRACT,
     briefing: {
       lede: "NISAR's L-band radar penetrates the canopy, so it can watch forests structurally — not just photograph their tops. The forest module will apply the same five-capability backbone the wetland module already uses: a timeline, change candidates, evidence, interrogation, and stated uncertainty.",
       radarSees: [
@@ -39,7 +38,7 @@ export const PHENOMENA: Phenomenon[] = [
     },
   },
   {
-    id: "volcano", name: "Volcanoes", tagline: "The surface transforms.", status: "PLANNED", href: "/volcano", contract: CONTRACT,
+    id: "volcano", name: "Volcanoes", tagline: "The surface transforms.", status: "AVAILABLE", href: "/volcano/global", contract: CONTRACT,
     briefing: {
       lede: "NISAR was built for deformation: repeat-pass interferometry (InSAR) measures ground movement down to centimetres — the classic precursor signal of volcanic unrest. The volcano module will track how a volcano's surface breathes, flows, and reshapes between eruptions.",
       radarSees: [
