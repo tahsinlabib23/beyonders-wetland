@@ -1,0 +1,61 @@
+{
+  "patch_id": "global_sensitivity",
+  "thresholds": [
+    {
+      "delta_db": 0.5,
+      "area_km2": 48.9,
+      "patches": 28
+    },
+    {
+      "delta_db": 1.0,
+      "area_km2": 47.8,
+      "patches": 27
+    },
+    {
+      "delta_db": 1.5,
+      "area_km2": 45.8,
+      "patches": 26
+    },
+    {
+      "delta_db": 2.0,
+      "area_km2": 43.2,
+      "patches": 24
+    },
+    {
+      "delta_db": 2.5,
+      "area_km2": 40.0,
+      "patches": 22
+    },
+    {
+      "delta_db": 3.0,
+      "area_km2": 36.5,
+      "patches": 20
+    },
+    {
+      "delta_db": 3.5,
+      "area_km2": 32.6,
+      "patches": 18
+    },
+    {
+      "delta_db": 4.0,
+      "area_km2": 28.4,
+      "patches": 16
+    },
+    {
+      "delta_db": 4.5,
+      "area_km2": 23.9,
+      "patches": 13
+    },
+    {
+      "delta_db": 5.0,
+      "area_km2": 19.0,
+      "patches": 10
+    }
+  ],
+  "stability_verdict": "STABLE",
+  "stable_range": [
+    1.5,
+    3.0
+  ],
+  "sensitivity_note": "Total candidate area remains relatively stable for thresholds between 1.5 and 3.0 dB, indicating robust detection of core inundation."
+}

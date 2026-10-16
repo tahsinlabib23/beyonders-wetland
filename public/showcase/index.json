@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "cases": [
+    {
+      "id": "featured",
+      "label": "REAL NISAR-DERIVED SHOWCASE",
+      "site_name": "Tanguar Haor mapped boundary",
+      "site_display_name": "Tanguar Haor mapped boundary",
+      "site_bounds": [
+        90.96007981000008,
+        25.08921642300004,
+        91.12858784900004,
+        25.18931361600005
+      ],
+      "observation_count": 7,
+      "exported_at": "2026-10-09T07:22:11.751917+00:00"
+    }
+  ]
+}

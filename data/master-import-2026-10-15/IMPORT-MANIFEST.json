@@ -1,0 +1,19 @@
+{
+  "source_branch": "master",
+  "source_commit": "2f999da0b51dac6105c922a07059fbb9e7836798",
+  "imported_at": "2026-10-14T20:43:34.4713520Z",
+  "file_count": 408,
+  "total_bytes": 207272778.0,
+  "preserved_paths": [
+    "artifacts",
+    "data",
+    "pipeline/data",
+    "pipeline/output",
+    "public/evidence",
+    "public/studies",
+    "public/forests",
+    "public/volcanoes"
+  ],
+  "website_integrated": false,
+  "note": "Staged snapshot of Git-tracked data. Stored outside public/ and not connected to website routes."
+}

@@ -1,0 +1,584 @@
+{
+  "type": "FeatureCollection",
+  "demo_version": "wetland-demo-v1",
+  "notice": "SIMULATED DEMO — fictional dates, signals, geometry and evidence verdicts. No satellite observations or field validation are used.",
+  "threshold_db": 1,
+  "features": [
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.48097124696976,
+              24.648206642348896
+            ],
+            [
+              91.47723141501332,
+              24.64
+            ],
+            [
+              91.48097124696976,
+              24.631793357651105
+            ],
+            [
+              91.49,
+              24.62839405508865
+            ],
+            [
+              91.49902875303023,
+              24.631793357651105
+            ],
+            [
+              91.50276858498667,
+              24.64
+            ],
+            [
+              91.49902875303023,
+              24.648206642348896
+            ],
+            [
+              91.49,
+              24.651605944911353
+            ],
+            [
+              91.48097124696976,
+              24.648206642348896
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_001",
+        "date": "2025-07-31",
+        "area_km2": 4.7212,
+        "mean_delta_db": -4.1298,
+        "median_delta_db": -4.1298,
+        "valid_fraction": 0.94,
+        "vegetated_fraction": 0.12,
+        "classification": "OPEN_WATER",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PASS",
+        "threshold_stability": "STABLE",
+        "evidence_state": "SUPPORTED",
+        "hh_before": -6.8,
+        "hh_after": -10.9298,
+        "hv_before": -13.1,
+        "hv_after": -16.867,
+        "delta_hh": -4.1298,
+        "delta_hv": -3.767,
+        "centroid": [
+          24.64,
+          91.49
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.52746458629613,
+              24.646849278633656
+            ],
+            [
+              91.5243433157419,
+              24.64
+            ],
+            [
+              91.52746458629613,
+              24.633150721366345
+            ],
+            [
+              91.535,
+              24.630313657263812
+            ],
+            [
+              91.54253541370386,
+              24.633150721366345
+            ],
+            [
+              91.54565668425809,
+              24.64
+            ],
+            [
+              91.54253541370386,
+              24.646849278633656
+            ],
+            [
+              91.535,
+              24.64968634273619
+            ],
+            [
+              91.52746458629613,
+              24.646849278633656
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_002",
+        "date": "2025-07-31",
+        "area_km2": 3.2886,
+        "mean_delta_db": 2.2881,
+        "median_delta_db": 2.2881,
+        "valid_fraction": 0.91,
+        "vegetated_fraction": 0.73,
+        "classification": "VEGETATED_INUNDATION",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PARTIAL",
+        "threshold_stability": "STABLE",
+        "evidence_state": "SUPPORTED",
+        "hh_before": -8.2,
+        "hh_after": -5.9119,
+        "hv_before": -14.5,
+        "hv_after": -14.0117,
+        "delta_hh": 2.2881,
+        "delta_hv": 0.4883,
+        "centroid": [
+          24.64,
+          91.535
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.57444805681111,
+              24.64504641249351
+            ],
+            [
+              91.57214836664474,
+              24.64
+            ],
+            [
+              91.57444805681111,
+              24.63495358750649
+            ],
+            [
+              91.58,
+              24.63286329501035
+            ],
+            [
+              91.58555194318889,
+              24.63495358750649
+            ],
+            [
+              91.58785163335526,
+              24.64
+            ],
+            [
+              91.58555194318889,
+              24.64504641249351
+            ],
+            [
+              91.58,
+              24.647136704989652
+            ],
+            [
+              91.57444805681111,
+              24.64504641249351
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_003",
+        "date": "2025-07-31",
+        "area_km2": 1.7852,
+        "mean_delta_db": 2.0098,
+        "median_delta_db": 2.0098,
+        "valid_fraction": 0.88,
+        "vegetated_fraction": 0.67,
+        "classification": "VEGETATED_INUNDATION",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PARTIAL",
+        "threshold_stability": "SENSITIVE",
+        "evidence_state": "MODERATE",
+        "hh_before": -7.9,
+        "hh_after": -5.8902,
+        "hv_before": -15.1,
+        "hv_after": -14.7512,
+        "delta_hh": 2.0098,
+        "delta_hv": 0.3488,
+        "centroid": [
+          24.64,
+          91.58
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.62186557626285,
+              24.64284901962592
+            ],
+            [
+              91.62056725544069,
+              24.64
+            ],
+            [
+              91.62186557626285,
+              24.63715098037408
+            ],
+            [
+              91.625,
+              24.63597087780556
+            ],
+            [
+              91.62813442373715,
+              24.63715098037408
+            ],
+            [
+              91.62943274455931,
+              24.64
+            ],
+            [
+              91.62813442373715,
+              24.64284901962592
+            ],
+            [
+              91.625,
+              24.644029122194443
+            ],
+            [
+              91.62186557626285,
+              24.64284901962592
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_004",
+        "date": "2025-07-31",
+        "area_km2": 0.569,
+        "mean_delta_db": 1.2577,
+        "median_delta_db": 1.2577,
+        "valid_fraction": 0.79,
+        "vegetated_fraction": 0.41,
+        "classification": "UNCERTAIN",
+        "quality_status": "PASS",
+        "spatial_status": "PARTIAL",
+        "temporal_status": "PARTIAL",
+        "threshold_stability": "SENSITIVE",
+        "evidence_state": "UNCERTAIN",
+        "hh_before": -9.1,
+        "hh_after": -7.8423,
+        "hv_before": -16.2,
+        "hv_after": -15.3629,
+        "delta_hh": 1.2577,
+        "delta_hv": 0.8371,
+        "centroid": [
+          24.64,
+          91.625
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.48168430975439,
+              24.602561227901177
+            ],
+            [
+              91.47823983807416,
+              24.595
+            ],
+            [
+              91.48168430975439,
+              24.58743877209882
+            ],
+            [
+              91.49,
+              24.584306808953958
+            ],
+            [
+              91.4983156902456,
+              24.58743877209882
+            ],
+            [
+              91.50176016192583,
+              24.595
+            ],
+            [
+              91.4983156902456,
+              24.602561227901177
+            ],
+            [
+              91.49,
+              24.60569319104604
+            ],
+            [
+              91.48168430975439,
+              24.602561227901177
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_005",
+        "date": "2025-07-31",
+        "area_km2": 4.0078,
+        "mean_delta_db": -4.8553,
+        "median_delta_db": -4.8553,
+        "valid_fraction": 0.96,
+        "vegetated_fraction": 0.08,
+        "classification": "OPEN_WATER",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PASS",
+        "threshold_stability": "STABLE",
+        "evidence_state": "SUPPORTED",
+        "hh_before": -7.1,
+        "hh_after": -11.9553,
+        "hv_before": -12.8,
+        "hv_after": -17.3344,
+        "delta_hh": -4.8553,
+        "delta_hv": -4.5344,
+        "centroid": [
+          24.595,
+          91.49
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.52882759162073,
+              24.6006124007841
+            ],
+            [
+              91.52627089635752,
+              24.595
+            ],
+            [
+              91.52882759162073,
+              24.589387599215897
+            ],
+            [
+              91.535,
+              24.587062866693646
+            ],
+            [
+              91.54117240837927,
+              24.589387599215897
+            ],
+            [
+              91.54372910364248,
+              24.595
+            ],
+            [
+              91.54117240837927,
+              24.6006124007841
+            ],
+            [
+              91.535,
+              24.60293713330635
+            ],
+            [
+              91.52882759162073,
+              24.6006124007841
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_006",
+        "date": "2025-07-31",
+        "area_km2": 2.2081,
+        "mean_delta_db": 2.0098,
+        "median_delta_db": 2.0098,
+        "valid_fraction": 0.85,
+        "vegetated_fraction": 0.82,
+        "classification": "VEGETATED_INUNDATION",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PASS",
+        "threshold_stability": "SENSITIVE",
+        "evidence_state": "MODERATE",
+        "hh_before": -8.6,
+        "hh_after": -6.5902,
+        "hv_before": -14.9,
+        "hv_after": -14.4814,
+        "delta_hh": 2.0098,
+        "delta_hv": 0.4186,
+        "centroid": [
+          24.595,
+          91.535
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.57809513185303,
+              24.596732044094416
+            ],
+            [
+              91.57730610963202,
+              24.595
+            ],
+            [
+              91.57809513185303,
+              24.59326795590558
+            ],
+            [
+              91.58,
+              24.592550519751043
+            ],
+            [
+              91.58190486814696,
+              24.59326795590558
+            ],
+            [
+              91.58269389036798,
+              24.595
+            ],
+            [
+              91.58190486814696,
+              24.596732044094416
+            ],
+            [
+              91.58,
+              24.597449480248955
+            ],
+            [
+              91.57809513185303,
+              24.596732044094416
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_007",
+        "date": "2025-07-31",
+        "area_km2": 0.2103,
+        "mean_delta_db": 1.1283,
+        "median_delta_db": 1.1283,
+        "valid_fraction": 0.72,
+        "vegetated_fraction": 0.35,
+        "classification": "UNCERTAIN",
+        "quality_status": "PARTIAL",
+        "spatial_status": "PARTIAL",
+        "temporal_status": "PARTIAL",
+        "threshold_stability": "SENSITIVE",
+        "evidence_state": "UNCERTAIN",
+        "hh_before": -10.3,
+        "hh_after": -9.1717,
+        "hv_before": -17.1,
+        "hv_after": -16.4722,
+        "delta_hh": 1.1283,
+        "delta_hv": 0.6278,
+        "centroid": [
+          24.595,
+          91.58
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    },
+    {
+      "type": "Feature",
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [
+            [
+              91.61489183898867,
+              24.604191072155295
+            ],
+            [
+              91.61070490160712,
+              24.595
+            ],
+            [
+              91.61489183898867,
+              24.585808927844703
+            ],
+            [
+              91.625,
+              24.58200186110523
+            ],
+            [
+              91.63510816101133,
+              24.585808927844703
+            ],
+            [
+              91.63929509839288,
+              24.595
+            ],
+            [
+              91.63510816101133,
+              24.604191072155295
+            ],
+            [
+              91.625,
+              24.607998138894768
+            ],
+            [
+              91.61489183898867,
+              24.604191072155295
+            ]
+          ]
+        ]
+      },
+      "properties": {
+        "id": "wetland_patch_008",
+        "date": "2025-07-31",
+        "area_km2": 5.9218,
+        "mean_delta_db": -5.4134,
+        "median_delta_db": -5.4134,
+        "valid_fraction": 0.97,
+        "vegetated_fraction": 0.05,
+        "classification": "OPEN_WATER",
+        "quality_status": "PASS",
+        "spatial_status": "PASS",
+        "temporal_status": "PASS",
+        "threshold_stability": "STABLE",
+        "evidence_state": "SUPPORTED",
+        "hh_before": -6.4,
+        "hh_after": -11.8134,
+        "hv_before": -12,
+        "hv_after": -17.8598,
+        "delta_hh": -5.4134,
+        "delta_hv": -5.8598,
+        "centroid": [
+          24.595,
+          91.625
+        ],
+        "data_source": "SIMULATED_DEMO"
+      }
+    }
+  ]
+}

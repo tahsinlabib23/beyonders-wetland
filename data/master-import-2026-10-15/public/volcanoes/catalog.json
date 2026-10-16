@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "hazard_type": "volcanic_deformation",
+  "source": {
+    "name": "Smithsonian Global Volcanism Program · Volcanoes of the World",
+    "version": "5.4.0",
+    "updated": "2026-08-07",
+    "url": "https://volcano.si.edu/database/webservices.cfm"
+  },
+  "case_studies": [
+    {
+      "id": "hayli-gubbi-2025",
+      "name": "Hayli Gubbi and Erta Ale",
+      "country": "Ethiopia",
+      "event_date": "2025-11-23",
+      "hazard_type": "volcanic_deformation",
+      "evidence_status": "CROSS_SENSOR_CONTEXT",
+      "beyonders_processing_status": "COMPLETE",
+      "scientific_interpretation": "PHASE_DERIVED_LOS_CANDIDATES",
+      "reference_availability": "AVAILABLE",
+      "publication": {
+        "version": "2026.10.07-v2",
+        "method_version": "gunw-relative-los-1.0.1",
+        "index_url": "/volcanoes/hayli-gubbi/index.json",
+        "study_url": "/volcanoes/hayli-gubbi/2026.10.07-v2/study.json",
+        "evidence_url": "/volcanoes/hayli-gubbi/2026.10.07-v2/evidence.zip",
+        "bbox": [40.55, 13.4, 40.85, 13.75],
+        "available_dates": ["2025-11-10", "2025-11-22", "2025-12-04", "2025-12-16"],
+        "previous_versions": ["2026.10.07-v1"]
+      },
+      "path": "/volcano/hayli-gubbi",
+      "case_file": "hayli-gubbi-2025.json"
+    }
+  ]
+}
