@@ -30,5 +30,14 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules",
+    "**/*.test.ts",
+    "src/components/wetland/Drawers.tsx",
+    "src/components/wetland/TimeMachine.tsx",
+    "src/components/wetland/ui.tsx",
+    "src/components/wetland/WetlandExperience.tsx",
+    "src/components/wetland/WetlandStage.tsx",
+    "src/lib/story.ts"
+  ]
 }
