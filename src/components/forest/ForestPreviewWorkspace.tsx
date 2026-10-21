@@ -3,7 +3,6 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import type { ForestBoundaryGeoJson, ForestDiscoveryResult } from "./ForestWorkflowControls";
-import "./forest.css";
 
 const ForestMap = dynamic(() => import("./ForestMap"), {
   ssr: false,

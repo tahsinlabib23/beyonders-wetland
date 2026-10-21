@@ -25,6 +25,9 @@ export type RadarStage = "before" | "after" | "change";
 export interface ComparisonLock { beforeIndex: number; afterIndex: number; before: WetlandPatch[]; after: WetlandPatch[] }
 
 interface WetlandStore {
+  /** Compatibility state for the published demo dashboard components. */
+  demoMode: boolean;
+  resetDemo: () => void;
   /* ── Experience state (map-first redesign) ────────── */
   dataTier: DataTier;
   showcase: ShowcaseBundle | null;
@@ -79,6 +82,7 @@ interface WetlandStore {
 
   /* ── Threshold ────────────────────────────────────── */
   threshold: number;
+  setThreshold: (t: number) => void;
 
   /* ── SAR Probe ────────────────────────────────────── */
   probeActive: boolean;
@@ -117,6 +121,8 @@ async function loadPatches(date: string, expectedRunId: string): Promise<Wetland
 }
 
 export const useWetlandStore = create<WetlandStore>((set, get) => ({
+  demoMode: false,
+  resetDemo: () => set({ demoMode: false, dataTier: "EMPTY", showcase: null, selectedPatch: null, probeResult: null }),
   pipelineRunId: null,
   satelliteBasemap: false,
   setSatelliteBasemap: (satelliteBasemap) => set({ satelliteBasemap }),
@@ -157,6 +163,7 @@ export const useWetlandStore = create<WetlandStore>((set, get) => ({
   },
 
   threshold: 2.0,
+  setThreshold: (threshold) => set({ threshold: normalizeThreshold(threshold) }),
   probeActive: false,
   setProbeActive: (a) => set({ probeActive: a }),
   probeResult: null,

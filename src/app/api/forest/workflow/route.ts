@@ -6,6 +6,7 @@ import { randomUUID } from "node:crypto";
 import { NextResponse } from "next/server";
 import { JOBS, PIPELINE, SANITIZE_ROOTS, WORKER, findPython, missingPackages, processAlive, workerEnv } from "@/lib/forest-runtime";
 import { classifyJob, repairCommands, sanitizeLog, tailLines, workerSpawnOptions, type ForestJobRecord } from "@/lib/forest-job";
+import { publicViewer } from "@/lib/app-mode";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -83,6 +84,7 @@ async function cancelJob(id: string) {
 }
 
 export async function POST(request: Request) {
+  if (publicViewer()) return NextResponse.json({ error: "Local processing is unavailable in the public viewer." }, { status: 403 });
   let raw: unknown;
   try { raw = await request.json(); }
   catch { return fail("Request body must be valid JSON."); }
@@ -129,6 +131,7 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
+  if (publicViewer()) return NextResponse.json({ error: "Local processing is unavailable in the public viewer." }, { status: 403 });
   const id = new URL(request.url).searchParams.get("jobId");
   if (!id || !JOB_ID.test(id)) return fail("A valid 32-character forest job ID is required.");
   const job = await readJob(id);

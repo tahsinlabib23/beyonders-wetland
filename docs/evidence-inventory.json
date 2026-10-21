@@ -1,0 +1,327 @@
+{
+  "schema_version": 1,
+  "selection": "all complete local NISAR runs; no ranking by agreement",
+  "checks": [
+    {
+      "run_id": "3b01cdb5674a44ea9c6c3d17ec8c07b8",
+      "site_name": "Tanguar Haor mapped boundary",
+      "check": "3b01cdb5674a44ea9c6c3d17ec8c07b8",
+      "status": "INCONCLUSIVE",
+      "coverage_fraction": 0.003377243300892211,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-07-12",
+          "nisar_observation_dates": [
+            "2026-06-18",
+            "2026-06-30",
+            "2026-07-12",
+            "2026-07-24",
+            "2026-08-17"
+          ],
+          "nisar_method": "per-pixel median of preceding GCOV observations",
+          "hls_date": "2026-07-16",
+          "offset_days": 4,
+          "scene": "HLS.S30.T46RBN.2026197T043231.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-08-29",
+          "hls_date": "2026-08-30",
+          "offset_days": 1,
+          "scene": "HLS.L30.T46RBN.2026242T042355.v2.0",
+          "product": "L30"
+        },
+        "hls_tile": "T46RBN",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false,
+        "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+      },
+      "metrics_reportable": false,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "radar_only_categories": null,
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
+      "run_id": "49f40700785144a7969c15b1cfc516b4",
+      "site_name": "Hakaluki Haor",
+      "check": "49f40700785144a7969c15b1cfc516b4",
+      "status": "INCONCLUSIVE",
+      "coverage_fraction": 0.0,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-06-23",
+          "hls_date": "2026-06-26",
+          "offset_days": 3,
+          "scene": "HLS.S30.T46RCN.2026177T043231.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-07-17",
+          "hls_date": "2026-07-16",
+          "offset_days": -1,
+          "scene": "HLS.S30.T46RCN.2026197T043231.v2.0",
+          "product": "S30"
+        },
+        "hls_tile": "T46RCN",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false
+      },
+      "metrics_reportable": false,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "radar_only_categories": null,
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
+      "run_id": "ab8c780a3e204035a34cbb0c09d886a4",
+      "site_name": "Hakaluki Haor",
+      "check": "ab8c780a3e204035a34cbb0c09d886a4",
+      "status": "CROSS_SENSOR_CHECK",
+      "coverage_fraction": 0.47589553366366033,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-09-15",
+          "hls_date": "2026-09-14",
+          "offset_days": -1,
+          "scene": "HLS.S30.T46RCN.2026257T043231.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-09-27",
+          "hls_date": "2026-09-22",
+          "offset_days": -5,
+          "scene": "HLS.S30.T46RCN.2026265T042701.v2.0",
+          "product": "S30"
+        },
+        "hls_tile": "T46RCN",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false,
+        "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+      },
+      "metrics_reportable": true,
+      "precision": 0.0,
+      "recall": 0.0,
+      "f1": 0.0,
+      "radar_only_categories": [
+        {
+          "key": "water_on_both_optical_dates",
+          "pixels": 1088,
+          "area_km2": 0.10880000000000001,
+          "fraction_of_radar_only": 1.0
+        },
+        {
+          "key": "not_water_on_either_optical_date",
+          "pixels": 0,
+          "area_km2": 0.0,
+          "fraction_of_radar_only": 0.0
+        },
+        {
+          "key": "optical_water_recession",
+          "pixels": 0,
+          "area_km2": 0.0,
+          "fraction_of_radar_only": 0.0
+        }
+      ],
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
+      "run_id": "d6e65a58802e4cf4907ddefa42a435d6",
+      "site_name": "Hakaluki Haor",
+      "check": "d6e65a58802e4cf4907ddefa42a435d6",
+      "status": "INCONCLUSIVE",
+      "coverage_fraction": 5.525238367054439e-06,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-06-29",
+          "nisar_observation_dates": [
+            "2026-06-23",
+            "2026-07-05"
+          ],
+          "nisar_method": "per-pixel median of preceding GCOV observations",
+          "hls_date": "2026-07-04",
+          "offset_days": 5,
+          "scene": "HLS.S30.T46RCN.2026185T042701.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-07-17",
+          "hls_date": "2026-07-14",
+          "offset_days": -3,
+          "scene": "HLS.L30.T46RCN.2026195T041739.v2.0",
+          "product": "L30"
+        },
+        "hls_tile": "T46RCN",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false,
+        "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+      },
+      "metrics_reportable": false,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "radar_only_categories": null,
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
+      "run_id": "d6e65a58802e4cf4907ddefa42a435d6",
+      "site_name": "Hakaluki Haor",
+      "check": "2026-09-27",
+      "status": "CROSS_SENSOR_CHECK",
+      "coverage_fraction": 0.5071696106763574,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-08-10",
+          "nisar_observation_dates": [
+            "2026-06-23",
+            "2026-07-05",
+            "2026-07-17",
+            "2026-08-10",
+            "2026-08-22",
+            "2026-09-03",
+            "2026-09-15"
+          ],
+          "nisar_method": "per-pixel median of preceding GCOV observations",
+          "hls_date": "2026-08-07",
+          "offset_days": -3,
+          "scene": "HLS.L30.T46RCN.2026219T041739.v2.0",
+          "product": "L30"
+        },
+        "event": {
+          "nisar_date": "2026-09-27",
+          "hls_date": "2026-09-24",
+          "offset_days": -3,
+          "scene": "HLS.L30.T46RCN.2026267T041753.v2.0",
+          "product": "L30"
+        },
+        "hls_tile": "T46RCN",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false
+      },
+      "metrics_reportable": true,
+      "precision": 0.12877939539996486,
+      "recall": 0.05220154449887552,
+      "f1": 0.07428940686535383,
+      "radar_only_categories": {
+        "water_on_both_optical_dates": 637,
+        "not_water_on_either_optical_date": 122,
+        "optical_water_recession": 14
+      },
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
+      "run_id": "f6e80781dbbc43bc895f80d8236520cf",
+      "site_name": "Tanguar Haor study box",
+      "check": "f6e80781dbbc43bc895f80d8236520cf",
+      "status": "INCONCLUSIVE",
+      "coverage_fraction": 2.9509536406926948e-05,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-07-24",
+          "nisar_observation_dates": [
+            "2026-06-18",
+            "2026-06-30",
+            "2026-07-12",
+            "2026-07-24",
+            "2026-08-17",
+            "2026-08-29"
+          ],
+          "nisar_method": "per-pixel median of preceding GCOV observations",
+          "hls_date": "2026-07-24",
+          "offset_days": 0,
+          "scene": "HLS.S30.T45RZH.2026205T042701.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-09-10",
+          "hls_date": "2026-09-14",
+          "offset_days": 4,
+          "scene": "HLS.S30.T45RZH.2026257T043231.v2.0",
+          "product": "S30"
+        },
+        "hls_tile": "T45RZH",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false,
+        "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+      },
+      "metrics_reportable": false,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "radar_only_categories": null,
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
+      "run_id": "f6e80781dbbc43bc895f80d8236520cf",
+      "site_name": "Tanguar Haor study box",
+      "check": "2026-09-22",
+      "status": "INCONCLUSIVE",
+      "coverage_fraction": 2.9509536406926948e-05,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-07-24",
+          "nisar_observation_dates": [
+            "2026-06-18",
+            "2026-06-30",
+            "2026-07-12",
+            "2026-07-24",
+            "2026-08-17",
+            "2026-08-29",
+            "2026-09-10"
+          ],
+          "nisar_method": "per-pixel median of preceding GCOV observations",
+          "hls_date": "2026-07-24",
+          "offset_days": 0,
+          "scene": "HLS.S30.T45RZH.2026205T042701.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-09-22",
+          "hls_date": "2026-09-22",
+          "offset_days": 0,
+          "scene": "HLS.S30.T45RZH.2026265T042701.v2.0",
+          "product": "S30"
+        },
+        "hls_tile": "T45RZH",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false
+      },
+      "metrics_reportable": false,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "radar_only_categories": null,
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    }
+  ]
+}

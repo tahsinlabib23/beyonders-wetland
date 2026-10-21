@@ -27,7 +27,7 @@ export interface PulseObservation {
 export interface WetlandPulseData {
   site: string;
   wetland_area_km2: number;
-  data_source?: "NISAR" | "UNVERIFIED";
+  data_source?: "NISAR" | "UNVERIFIED" | "SIMULATED" | "SIMULATED_DEMO";
   product?: string;
   product_maturity?: "PROVISIONAL" | string;
   /** Cross-sensor agreement check only; not field/ground-truth validation. */
@@ -88,7 +88,7 @@ export interface WetlandPatch {
   centroid: [number, number]; // [lat, lng]
   geometry?: WetlandGeometry;
   run_id?: string;
-  data_source?: "NISAR" | "UNVERIFIED";
+  data_source?: "NISAR" | "UNVERIFIED" | "SIMULATED" | "SIMULATED_DEMO";
 }
 
 /* ── Threshold Sensitivity (Counterfactual Lab) ───── */
@@ -105,7 +105,7 @@ export interface SensitivityData {
   stability_verdict: StabilityVerdict;
   stable_range: [number, number];
   sensitivity_note: string;
-  data_source?: "NISAR" | "UNVERIFIED";
+  data_source?: "NISAR" | "UNVERIFIED" | "SIMULATED" | "SIMULATED_DEMO";
 }
 
 /* ── SAR Probe ─────────────────────────────────────── */
@@ -123,7 +123,7 @@ export interface ProbeResult {
   acquisition_date: string;
   land_cover: string;
   classification: InundationClass;
-  data_source?: "NISAR" | "UNVERIFIED";
+  data_source?: "NISAR" | "UNVERIFIED" | "SIMULATED" | "SIMULATED_DEMO";
   run_id?: string;
   /** PIXEL = measured raster cell (local run); REGION = region-average lookup (packaged showcase). */
   resolution?: "PIXEL" | "REGION";
@@ -145,7 +145,7 @@ export interface EvidenceCardData {
   threshold_stability: StabilityVerdict;
   vegetated_signal: "POTENTIAL" | "NONE" | "STRONG";
   evidence_strength: EvidenceState;
-  data_source?: "NISAR" | "UNVERIFIED";
+  data_source?: "NISAR" | "UNVERIFIED" | "SIMULATED" | "SIMULATED_DEMO";
   provenance: {
     observed: string[];
     derived: string[];

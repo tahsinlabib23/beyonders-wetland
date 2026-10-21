@@ -6,14 +6,27 @@ import type { LatLngBoundsExpression } from "leaflet";
 import type { Feature, GeoJsonObject, GeoJsonProperties, Geometry } from "geojson";
 import { forestCandidateGeoJson, type ForestAnalysisDocument, type ForestCandidate } from "@/lib/forest-analysis";
 
+export type ForestFocus = { lat: number; lon: number; zoom: number };
+
 type Props = {
-  analysis: ForestAnalysisDocument | null;
-  selectedCandidateId: string | null;
-  activeDate: string | null;
-  onSelectCandidate: (id: string) => void;
+  analysis?: ForestAnalysisDocument | null;
+  selectedCandidateId?: string | null;
+  activeDate?: string | null;
+  onSelectCandidate?: (id: string) => void;
   studyBounds?: [number, number, number, number] | null;
   onStudyBoundsChange?: (bounds: [number, number, number, number]) => void;
   studyBoundaryGeoJson?: { type: "FeatureCollection"; features: Array<{ type: "Feature"; geometry: { type: "Polygon" | "MultiPolygon"; coordinates: unknown }; properties?: Record<string, unknown> }> } | null;
+  globalView?: boolean;
+  focus?: ForestFocus | null;
+  treeCover?: boolean;
+  imagery?: boolean;
+  mosaicDate?: string;
+  coverage?: unknown;
+  candidates?: unknown;
+  bbox?: number[];
+  studyPublished?: boolean;
+  imageUrl?: string;
+  gladImageUrl?: string;
 };
 
 type RadarPreviewMetadata = {
@@ -54,7 +67,7 @@ function candidateStyle(selectedCandidateId: string | null) {
   };
 }
 
-export default function ForestMap({ analysis, selectedCandidateId, activeDate, onSelectCandidate, studyBounds = null, onStudyBoundsChange, studyBoundaryGeoJson = null }: Props) {
+export default function ForestMap({ analysis = null, selectedCandidateId = null, activeDate = null, onSelectCandidate, studyBounds = null, onStudyBoundsChange, studyBoundaryGeoJson = null }: Props) {
   const [radarChannel, setRadarChannel] = useState<"none" | "hh" | "hv">("none");
   const [drawingMode, setDrawingMode] = useState(false);
   const [firstCorner, setFirstCorner] = useState<[number, number] | null>(null);
@@ -162,7 +175,7 @@ export default function ForestMap({ analysis, selectedCandidateId, activeDate, o
               const candidate = candidates.find((item: ForestCandidate) => item.id === id);
               if (id && candidate) {
                 layer.bindTooltip(`${candidate.id} · ${candidate.date} · ${candidate.areaKm2.toFixed(3)} km²`);
-                layer.on({ click: () => onSelectCandidate(id) });
+                layer.on({ click: () => onSelectCandidate?.(id) });
               }
             }}
           />

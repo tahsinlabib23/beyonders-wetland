@@ -21,14 +21,6 @@ export default function PhenomenonBriefing({ phenomenon }: { phenomenon: Phenome
   if (!b) return null;
   return (
     <main className="pb">
-      <header className="pb-top">
-        <Link href="/" className="pb-brand" aria-label="GeoNexSAR home">GeoNexSAR</Link>
-        <nav aria-label="Primary">
-          <Link href="/wetland">Processed case</Link>
-          <Link href="/wetland/global">NISAR worldwide</Link>
-        </nav>
-      </header>
-
       <section className="pb-hero" aria-labelledby="pb-title">
         <p className="pb-eyebrow"><span className="pb-pulse" aria-hidden="true" />Signal incoming · planned module</p>
         <h1 id="pb-title">{phenomenon.name}</h1>

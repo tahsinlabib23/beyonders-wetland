@@ -1,4 +1,4 @@
-"""Process real NISAR GCOV observations. Synthetic generation is reserved for isolated unit tests."""
+﻿"""Process real NISAR GCOV observations. Synthetic generation is reserved for isolated unit tests."""
 import argparse
 import json
 import logging

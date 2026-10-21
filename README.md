@@ -1,4 +1,4 @@
-# GeoNexSAR — Earth Change Atlas
+﻿# GeoNexSAR — Earth Change Atlas
 
 GeoNexSAR is a real-data-first research prototype for inspecting NISAR observations and investigating radar-derived surface-change candidates. The current complete scientific workflow focuses on wetlands. Forest and volcano pages are planned module briefings; they do not claim to run those scientific analyses yet.
 

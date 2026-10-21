@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import "@/styles/atlas.css";
+import "@/components/forest/forest.css";
+import "./integrated.css";
+import HazardNavigation from "@/components/layout/HazardNavigation";
 
 export const metadata: Metadata = {
   title: "GeoNexSAR — Watch Earth's surface change with NISAR radar",
@@ -16,7 +19,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body><HazardNavigation />{children}</body>
     </html>
   );
 }

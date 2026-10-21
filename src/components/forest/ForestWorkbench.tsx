@@ -17,7 +17,6 @@ import {
 } from "@/lib/forest-analysis";
 import ForestWorkflowControls, { type ForestBoundaryGeoJson, type ForestDiscoveryResult, type ForestStudyBounds } from "@/components/forest/ForestWorkflowControls";
 import ForestPreviewWorkspace from "@/components/forest/ForestPreviewWorkspace";
-import "./forest.css";
 
 type ForestRunSummary = {
   runId: string;

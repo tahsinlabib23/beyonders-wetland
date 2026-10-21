@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 /* GeoNexSAR landing: a 3D mission briefing. The globe is the hero —
    drag it, drop a pin anywhere on Earth, open the real Tanguar case. */
@@ -206,14 +206,6 @@ export default function Home() {
           onCaseClick={(id) => { router.push(`/wetland?case=${encodeURIComponent(id)}`); }}
           onHoverCoord={(lat, lng) => setHover(lat == null || lng == null ? null : { lat, lng })}
         />
-
-        <header className="g3-top">
-          <span className="g3-brand"><em>GeoNexSAR</em> · mission control</span>
-          <nav aria-label="Primary">
-            <Link href="/wetland">Processed case</Link>
-            <Link href="/wetland/global">NISAR worldwide</Link>
-          </nav>
-        </header>
 
         <div className="g3-title">
           <p className="g3-eyebrow">NISAR · L-band radar · surface-change candidates</p>

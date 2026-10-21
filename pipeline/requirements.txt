@@ -1,4 +1,4 @@
-earthaccess
+﻿earthaccess
 h5py
 numpy
 scipy

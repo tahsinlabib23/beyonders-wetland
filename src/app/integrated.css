@@ -1,0 +1,87 @@
+/* Shared shell for the integrated directories and planned modules. */
+.hazard-nav {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: clamp(18px, 4vw, 56px);
+  min-height: 58px;
+  padding: 12px clamp(18px, 5vw, 72px);
+  color: #dce8e5;
+  background: #10191d;
+  border-top: 3px solid #eab56f;
+  border-bottom: 1px solid rgba(188, 215, 210, .18);
+  font: 11px var(--font-mono, monospace);
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+.hazard-nav__brand { color: #f3c982; font-weight: 800; text-decoration: none; white-space: nowrap; }
+.hazard-nav__links { display: flex; align-items: center; gap: clamp(14px, 3vw, 32px); flex-wrap: wrap; }
+.hazard-nav__links a { color: #b9cbc7; text-decoration: none; }
+.hazard-nav__links a:hover, .hazard-nav__links a[aria-current="page"] { color: #f3c982; }
+.hazard-nav__mission { margin-left: auto; color: #809794; white-space: nowrap; }
+
+/* A stable control language for the published explorers. */
+.volcano-page, .forest-page {
+  min-height: calc(100vh - 58px);
+  color: #e8f0ed;
+  background: radial-gradient(circle at 80% 0%, rgba(52, 93, 90, .24), transparent 36%), #111a1e;
+  font-family: var(--font-sans, Inter, system-ui, sans-serif);
+}
+.volcano-page *, .forest-page * { box-sizing: border-box; }
+.volcano-page a, .forest-page a { color: #f1c27d; }
+.volcano-page button, .volcano-page input, .forest-page button, .forest-page input, .forest-page select {
+  border: 1px solid rgba(184, 211, 205, .28);
+  border-radius: 4px;
+  background: #172328;
+  color: #e8f0ed;
+  font: inherit;
+}
+.volcano-page input, .forest-page input, .forest-page select { width: 100%; padding: 10px 11px; }
+.volcano-page button, .forest-page button { padding: 10px 13px; cursor: pointer; }
+.volcano-page button:hover, .forest-page button:hover { border-color: #eab56f; color: #f3c982; }
+.volcano-page button:disabled, .forest-page button:disabled { cursor: not-allowed; opacity: .52; }
+.volcano-page :focus-visible, .forest-page :focus-visible, .hazard-nav :focus-visible { outline: 2px solid #f3c982; outline-offset: 3px; }
+
+.volcano-page { padding: clamp(26px, 5vw, 72px) clamp(18px, 5vw, 72px) 30px; }
+.volcano-page__heading, .forest-heading { display: flex; justify-content: space-between; align-items: end; gap: 30px; max-width: 1440px; margin: 0 auto 24px; }
+.volcano-kicker, .forest-topic { margin: 0 0 12px; color: #eab56f; font: 10px var(--font-mono, monospace); letter-spacing: .16em; text-transform: uppercase; }
+.volcano-page h1, .forest-heading h1 { margin: 0; color: #f2f4ed; font: 500 clamp(38px, 6vw, 76px)/.98 var(--font-display, Georgia, serif); letter-spacing: -.05em; }
+.volcano-lede, .forest-heading > div > p:last-child { max-width: 760px; margin: 18px 0 0; color: #a9bbb7; font-size: 15px; line-height: 1.7; }
+.volcano-case-link, .forest-button { display: inline-flex; flex: 0 0 auto; padding: 12px 15px; color: #10191d !important; background: #eab56f; font-weight: 800; text-decoration: none; }
+.volcano-status-strip, .forest-status { max-width: 1440px; margin: 0 auto 18px; padding: 11px 14px; color: #a9bbb7; background: rgba(255, 255, 255, .035); border: 1px solid rgba(184, 211, 205, .16); font-size: 12px; }
+.volcano-status-dot { display: inline-block; width: 8px; height: 8px; margin-right: 8px; border-radius: 50%; background: #9a6b59; }
+.volcano-status-dot.is-live { background: #76b79e; box-shadow: 0 0 10px rgba(118, 183, 158, .7); }
+.volcano-muted { color: #899c99; }
+.volcano-explorer, .forest-explorer { display: grid; grid-template-columns: minmax(0, 1.45fr) minmax(300px, .55fr); gap: 18px; max-width: 1440px; margin: 0 auto; }
+.volcano-map-column, .forest-map-column, .volcano-controls, .forest-controls { min-width: 0; }
+.volcano-map-title, .forest-map-title { display: flex; justify-content: space-between; gap: 16px; padding: 13px 15px; color: #a9bbb7; background: #172328; border: 1px solid rgba(184, 211, 205, .18); font-size: 11px; }
+.volcano-map-title strong, .forest-map-title strong { color: #e8f0ed; }
+.volcano-map-frame, .forest-map-frame { position: relative; min-height: 490px; overflow: hidden; border: 1px solid rgba(184, 211, 205, .18); border-top: 0; background: #0b1114; }
+.volcano-map-frame > .leaflet-container, .forest-map-frame > .leaflet-container { min-height: 490px; }
+.volcano-map-legend, .forest-legend { display: flex; flex-wrap: wrap; gap: 9px 18px; padding: 11px 13px; color: #91a6a1; background: #172328; font-size: 10px; }
+.volcano-map-legend span, .forest-legend span { display: inline-flex; align-items: center; gap: 6px; }
+.volcano-map-legend i, .forest-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 50%; }
+.volcano-legend-pin { background: #74b7c3; }.volcano-legend-footprint { border: 1px solid #eab56f; }.volcano-legend-processed { background: #eab56f; }
+.volcano-controls, .forest-controls { display: grid; align-content: start; gap: 13px; padding: 18px; background: #172328; border: 1px solid rgba(184, 211, 205, .18); }
+.volcano-controls > label, .forest-controls > label, .forest-controls form > label { display: grid; gap: 7px; color: #b9cbc7; font-size: 11px; }
+.volcano-results { display: grid; gap: 5px; max-height: 245px; overflow: auto; }
+.volcano-results button { display: flex; justify-content: space-between; align-items: center; width: 100%; text-align: left; }
+.volcano-results button span:first-child { display: grid; gap: 3px; }.volcano-results small { color: #899c99; font-size: 10px; }
+.volcano-selected, .volcano-date-range, .volcano-api-message { display: grid; gap: 11px; padding-top: 15px; border-top: 1px solid rgba(184, 211, 205, .16); }
+.volcano-selected__title { display: grid; gap: 4px; }.volcano-selected__title span, .volcano-selected dt { color: #899c99; font-size: 10px; text-transform: uppercase; letter-spacing: .08em; }.volcano-selected__title strong { font: 22px var(--font-display, Georgia, serif); }
+.volcano-selected dl { display: grid; gap: 8px; }.volcano-selected dd { margin: 2px 0 0; color: #e1eae6; font-size: 12px; }
+.volcano-date-range > div, .forest-two-fields { display: grid; grid-template-columns: 1fr 1fr; align-items: end; gap: 8px; }.volcano-date-range p, .forest-controls small { color: #899c99; font-size: 10px; line-height: 1.5; }
+.volcano-explainer, .forest-explain { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; max-width: 1440px; margin: 28px auto; }.volcano-explainer > div, .forest-explain article { padding: 18px; border-top: 1px solid #eab56f; background: rgba(255,255,255,.035); }.volcano-explainer h2, .forest-explain h2 { margin: 9px 0; color: #f2f4ed; font: 23px var(--font-display, Georgia, serif); }.volcano-explainer p, .forest-explain p { color: #a9bbb7; font-size: 12px; line-height: 1.7; }.volcano-explainer span { color: #eab56f; font: 11px var(--font-mono, monospace); }
+.volcano-footer, .forest-footer { display: flex; flex-wrap: wrap; gap: 18px; max-width: 1440px; margin: 0 auto; padding-top: 20px; color: #819591; font: 10px var(--font-mono, monospace); text-transform: uppercase; }.volcano-footer a, .forest-footer a { color: #a9c6bf; text-decoration: none; }
+
+/* ForestDirectory has a published light-workbench markup, so give its controls a complete shell here. */
+.forest-page { padding: clamp(26px, 5vw, 72px) clamp(18px, 5vw, 72px) 30px; }
+.forest-status { text-transform: uppercase; letter-spacing: .12em; font: 10px var(--font-mono, monospace); }
+.forest-controls form { display: grid; gap: 9px; padding-top: 4px; }.forest-controls fieldset { display: grid; gap: 8px; padding: 12px; border: 1px solid rgba(184,211,205,.2); }.forest-controls legend { padding: 0 5px; color: #eab56f; font: 10px var(--font-mono, monospace); text-transform: uppercase; }.forest-check { display: flex; align-items: center; gap: 8px; color: #b9cbc7; font-size: 11px; }.forest-check input { width: auto; accent-color: #eab56f; }.forest-input-row { display: grid; grid-template-columns: 1fr auto; gap: 7px; }.forest-places { display: grid; gap: 4px; padding: 0; list-style: none; }.forest-places button { width: 100%; text-align: left; }.forest-message { padding: 10px; color: #f3c982; background: rgba(234,181,111,.08); font-size: 11px; }.forest-secondary { justify-self: start; color: #b9cbc7 !important; background: transparent !important; }
+
+@media (max-width: 860px) {
+  .hazard-nav { align-items: flex-start; flex-wrap: wrap; gap: 10px 22px; }.hazard-nav__mission { width: 100%; margin-left: 0; }
+  .volcano-page__heading, .forest-heading { align-items: flex-start; flex-direction: column; }.volcano-explorer, .forest-explorer { grid-template-columns: 1fr; }.volcano-explainer, .forest-explain { grid-template-columns: 1fr; }.volcano-map-frame, .forest-map-frame, .volcano-map-frame > .leaflet-container, .forest-map-frame > .leaflet-container { min-height: 390px; }
+}
+@media (max-width: 520px) { .volcano-page, .forest-page { padding: 24px 12px; }.volcano-date-range > div, .forest-two-fields { grid-template-columns: 1fr; }.volcano-map-title, .forest-map-title { display: grid; }.hazard-nav__links { gap: 12px; } }

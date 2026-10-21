@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import { pipelineRun, readPipelineOutput, PipelineOutputError } from "@/lib/pipeline-output";

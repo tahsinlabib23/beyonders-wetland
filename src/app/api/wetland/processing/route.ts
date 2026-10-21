@@ -1,9 +1,10 @@
-import { NextRequest, NextResponse } from "next/server";
+﻿import { NextRequest, NextResponse } from "next/server";
 import fs from "node:fs";
 import path from "node:path";
 import { randomUUID } from "node:crypto";
 import { spawn, execFileSync } from "node:child_process";
 import { earthdataLoginPowerShell, windowsTerminalStartArgs } from "@/lib/earthdata-login";
+import { publicViewer } from "@/lib/app-mode";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -117,6 +118,7 @@ function readJob(id: string): Job {
 }
 
 export async function GET(request: NextRequest) {
+  if (publicViewer()) return NextResponse.json({ error: "Local processing is unavailable in the public viewer." }, { status: 403 });
   const { loginCommand, loginShell } = loginInfo(request);
   const venvReady = fs.existsSync(python);
   try {
@@ -135,6 +137,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
+  if (publicViewer()) return NextResponse.json({ error: "Local processing is unavailable in the public viewer." }, { status: 403 });
   if (!localOrigin(request)) return NextResponse.json({ error: "Start processing from the local application page." }, { status: 403 });
   const text = await request.text();
   if (Buffer.byteLength(text, "utf8") > 1_000_000) return NextResponse.json({ error: "Use a boundary GeoJSON smaller than 1 MB." }, { status: 413 });

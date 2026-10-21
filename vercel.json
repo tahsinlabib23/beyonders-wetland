@@ -1,0 +1,7 @@
+{
+  "framework": "nextjs",
+  "env": {
+    "BEYONDERS_MODE": "public",
+    "NEXT_PUBLIC_BEYONDERS_MODE": "public"
+  }
+}
