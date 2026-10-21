@@ -1,0 +1,3 @@
+src/components/global/GlobalDetectionsExplorer.tsx(9,54): error TS2614: Module '"./NisarProcessingPanel"' has no exported member 'ProcessingProgress'. Did you mean to use 'import ProcessingProgress from "./NisarProcessingPanel"' instead?
+src/components/global/GlobalDetectionsExplorer.tsx(283,25): error TS7006: Parameter 'current' implicitly has an 'any' type.
+src/components/wetland/Drawers.tsx(392,109): error TS2345: Argument of type 'string' is not assignable to parameter of type 'SetStateAction<"json" | "csv" | "geojson">'.

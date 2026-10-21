@@ -1,0 +1,20 @@
+=== BASELINE wetland_smoke.py
+FAIL 295 regions drawn at the peak  [446]
+FAIL sensitivity shows stored sweep + SENSITIVE verdict
+FAIL why radar explains clouds
+FAIL telemetry ticker
+FAIL pin mode arms
+FAIL globe click drops a pin
+FAIL pin links to a located sandbox  [/wetland/global?latitude=26.63984&longitude=113.30423&analyze=1&site=Pinned%20study%20area]
+FAIL located sandbox tier
+FAIL located sandbox names its coordinates
+FAIL /forest briefing renders
+FAIL /forest lists the five capabilities
+FAIL /forest is honest about planned status
+59/71 checks passed; application errors: ['HTTP 502 http://localhost:3301/api/wetland/global-coverage?date=2026-10-18', 'Failed to load resource: the server responded with a status of 502 (Bad Gateway)']
+=== BASELINE explore_smoke.py
+FAIL landing: telemetry ticker shows real stats
+FAIL explore: three goals offered
+FAIL explore: footprints described as observations, not detections
+FAIL /forest: briefing loads
+19/23 checks passed; application errors: ['HTTP 502 http://localhost:3301/api/wetland/global-coverage?date=2026-10-18', 'Failed to load resource: the server responded with a status of 502 (Bad Gateway)', 'HTTP 502 http://localhost:3301/api/wetland/global-coverage?date=2026-10-18', 'Failed to load resource: the server responded with a status of 502 (Bad Gateway)']

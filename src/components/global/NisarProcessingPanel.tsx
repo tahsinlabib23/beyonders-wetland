@@ -73,7 +73,11 @@ export default function NisarProcessingPanel({ bounds, boundary, drawing, onDraw
   const smallEnough = validArea(bounds) && bounds[2]-bounds[0] <= 2 && bounds[3]-bounds[1] <= 2;
   const runFinished = job?.action === "run" && job.status === "COMPLETE" && !!job.result?.run_id;
   useEffect(() => {
-    if (runFinished && loadedArea?.runId === job?.result?.run_id) setLoadedResultRunId(job?.result?.run_id ?? null);
+    if (!runFinished || loadedArea?.runId !== job?.result?.run_id) return;
+    const timer = window.setTimeout(() => {
+      setLoadedResultRunId(job?.result?.run_id ?? null);
+    }, 0);
+    return () => window.clearTimeout(timer);
   }, [runFinished, loadedArea?.runId, job?.result?.run_id]);
   const progress = processingProgress({
     areaReady: validArea(bounds) && siteName.trim().length >= 2 && smallEnough,
@@ -92,7 +96,9 @@ export default function NisarProcessingPanel({ bounds, boundary, drawing, onDraw
   }, [progressKey, onProgress, progress]);
 
   useEffect(() => {
-    if (quickStartBox && quickStartSiteName.trim()) setSiteName(quickStartSiteName.slice(0, 80));
+    if (!quickStartBox || !quickStartSiteName.trim()) return;
+    const timer = window.setTimeout(() => setSiteName(quickStartSiteName.slice(0, 80)), 0);
+    return () => window.clearTimeout(timer);
   }, [quickStartBox, quickStartSiteName]);
 
   useEffect(() => {
@@ -101,7 +107,9 @@ export default function NisarProcessingPanel({ bounds, boundary, drawing, onDraw
     const freshLocationHandoff = params.get("analyze") === "1";
     const saved = freshLocationHandoff ? null : localStorage.getItem("beyonders-nisar-job");
     const requestedSite = params.get("site")?.trim();
-    if (freshLocationHandoff && requestedSite) setSiteName(requestedSite.slice(0, 80));
+    const requestedSiteTimer = freshLocationHandoff && requestedSite
+      ? window.setTimeout(() => setSiteName(requestedSite.slice(0, 80)), 0)
+      : null;
     fetch(`/api/wetland/processing${saved ? `?id=${encodeURIComponent(saved)}` : ""}`, { signal: controller.signal })
       .then((r) => r.json()).then((r) => {
         if (r.loginCommand) setLoginCommand(r.loginCommand);
@@ -122,7 +130,10 @@ export default function NisarProcessingPanel({ bounds, boundary, drawing, onDraw
         if (r.job && !freshLocationHandoff) setJob(r.job);
       })
       .catch(() => undefined);
-    return () => controller.abort();
+    return () => {
+      controller.abort();
+      if (requestedSiteTimer !== null) window.clearTimeout(requestedSiteTimer);
+    };
   }, [onAreaChange]);
 
   useEffect(() => {

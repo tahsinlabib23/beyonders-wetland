@@ -1,0 +1,270 @@
+ERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+EERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 521, in _run_analysis
+    _authenticate_noninteractive()
+  File "<repo>/pipeline/test_forest_run_integration.py", line 92, in _authenticate
+    raise self.auth_error
+forest_workflow.WorkflowError: NASA Earthdata Login is required
+FERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+FERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 550, in _run_analysis
+    extract_polarization_to_tiff(handle, FREQUENCY, "HHHH", hh_raw, bbox=bounds)
+  File "<repo>/pipeline/test_forest_run_integration.py", line 113, in _extract_pol
+    raise ValueError("synthetic extraction failure for test")
+ValueError: synthetic extraction failure for test
+FERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+EERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 594, in _run_analysis
+    mask_info = build_worldcover_forest_mask(request["bbox"], reference_grid,
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 461, in build_worldcover_forest_mask
+    raise WorkflowError("The real ESA WorldCover tile has no class-10 tree-cover or class-95 mangrove pixels inside the selected AOI/grid. Choose a forested AOI with catalog coverage; no analysis was created.")
+forest_workflow.WorkflowError: The real ESA WorldCover tile has no class-10 tree-cover or class-95 mangrove pixels inside the selected AOI/grid. Choose a forested AOI with catalog coverage; no analysis was created.
+FEEEERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+FERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+EERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+FERROR:root:Forest workflow stopped
+Traceback (most recent call last):
+  File "<repo>/pipeline/forest_workflow.py", line 793, in run_worker
+    result = _run_analysis(request, discovery, jobs_root / job_id, progress)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 613, in _run_analysis
+    "boundarySource": manifest["site"]["boundary_source"]}}
+                      ^^^^^^^^
+UnboundLocalError: cannot access local variable 'manifest' where it is not associated with a value
+EE.E..
+======================================================================
+ERROR: test_cancel_request_stops_the_run_and_preserves_prior_results (test_forest_run_integration.CancellationTests.test_cancel_request_stops_the_run_and_preserves_prior_results)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 290, in test_cancel_request_stops_the_run_and_preserves_prior_results
+    pointer = (fx.output / "current_run.json").read_bytes()
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1021, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpilt3ox5k/forest/current_run.json'
+
+======================================================================
+ERROR: test_failure_during_extraction_keeps_last_good_result_and_reports_stage (test_forest_run_integration.FailureTests.test_failure_during_extraction_keeps_last_good_result_and_reports_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 215, in test_failure_during_extraction_keeps_last_good_result_and_reports_stage
+    pointer, analysis = self.good_run_then(fx)
+                        ^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/test_forest_run_integration.py", line 211, in good_run_then
+    return (fx.output / "current_run.json").read_bytes(), (fx.output / "forest_analysis.json").read_bytes()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1021, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpmtqhyr7l/forest/current_run.json'
+
+======================================================================
+ERROR: test_invalid_request_is_recorded_on_the_job_instead_of_crashing_the_worker (test_forest_run_integration.FailureTests.test_invalid_request_is_recorded_on_the_job_instead_of_crashing_the_worker)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 256, in test_invalid_request_is_recorded_on_the_job_instead_of_crashing_the_worker
+    self.assertEqual(fw.run_worker(job_id), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 766, in run_worker
+    request = validate_request(request_doc.get("request"))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 75, in validate_request
+    raise WorkflowError("Study-area name must be 2–80 characters and contain no control characters.")
+forest_workflow.WorkflowError: Study-area name must be 2–80 characters and contain no control characters.
+
+======================================================================
+ERROR: test_malformed_job_id_never_touches_the_filesystem (test_forest_run_integration.FailureTests.test_malformed_job_id_never_touches_the_filesystem)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 271, in test_malformed_job_id_never_touches_the_filesystem
+    self.assertEqual(fw.run_worker("../../etc/passwd"), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 758, in run_worker
+    raise WorkflowError("Invalid job identifier.")
+forest_workflow.WorkflowError: Invalid job identifier.
+
+======================================================================
+ERROR: test_missing_request_file_marks_the_job_failed_instead_of_leaving_it_running (test_forest_run_integration.FailureTests.test_missing_request_file_marks_the_job_failed_instead_of_leaving_it_running)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 266, in test_missing_request_file_marks_the_job_failed_instead_of_leaving_it_running
+    self.assertEqual(fw.run_worker("b" * 32), 1)
+                     ^^^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 763, in run_worker
+    raise WorkflowError("Forest job request file is missing.")
+forest_workflow.WorkflowError: Forest job request file is missing.
+
+======================================================================
+ERROR: test_blocked_analysis_is_saved_but_does_not_replace_a_previous_good_run (test_forest_run_integration.FullRunTests.test_blocked_analysis_is_saved_but_does_not_replace_a_previous_good_run)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 183, in test_blocked_analysis_is_saved_but_does_not_replace_a_previous_good_run
+    before = (fx.output / "current_run.json").read_bytes()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1021, in read_bytes
+    with self.open(mode='rb') as f:
+         ^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.12/pathlib.py", line 1015, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/tmp/tmpnmqyag5f/forest/current_run.json'
+
+======================================================================
+ERROR: test_every_aligned_raster_shares_the_reference_grid (test_forest_run_integration.FullRunTests.test_every_aligned_raster_shares_the_reference_grid)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 172, in test_every_aligned_raster_shares_the_reference_grid
+    run_dir = Path(fx.job(job_id)["result"]["runDirectory"])
+                   ~~~~~~~~~~~~~~^^^^^^^^^^
+KeyError: 'result'
+
+======================================================================
+ERROR: test_align_raster_same_grid_and_reprojected_branches (test_forest_run_integration.RasterioApiMisuseTests.test_align_raster_same_grid_and_reprojected_branches)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 337, in test_align_raster_same_grid_and_reprojected_branches
+    self.assertTrue(fw._same_grid(r, s))
+                    ^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 361, in _same_grid
+    return (CRS.from_user_input(a["crs"]) == CRS.from_user_input(b.crs)
+                                ~^^^^^^^
+TypeError: 'DatasetReader' object is not subscriptable
+
+======================================================================
+ERROR: test_grid_comparison_accepts_profiles_and_open_datasets_in_either_order (test_forest_run_integration.RasterioApiMisuseTests.test_grid_comparison_accepts_profiles_and_open_datasets_in_either_order)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 323, in test_grid_comparison_accepts_profiles_and_open_datasets_in_either_order
+    self.assertTrue(fw._same_grid(da, db))        # dataset first: used to raise the TypeError
+                    ^^^^^^^^^^^^^^^^^^^^^
+  File "<repo>/pipeline/forest_workflow.py", line 361, in _same_grid
+    return (CRS.from_user_input(a["crs"]) == CRS.from_user_input(b.crs)
+                                ~^^^^^^^
+TypeError: 'DatasetReader' object is not subscriptable
+
+======================================================================
+FAIL: test_authentication_failure_is_reported_with_guidance_and_no_run_directory (test_forest_run_integration.FailureTests.test_authentication_failure_is_reported_with_guidance_and_no_run_directory)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 236, in test_authentication_failure_is_reported_with_guidance_and_no_run_directory
+    self.assert_failed_safely(fx, "a" * 32, expect_stage_contains="Authenticating")
+  File "<repo>/pipeline/test_forest_run_integration.py", line 204, in assert_failed_safely
+    self.assertIn(expect_stage_contains.lower(), (job.get("failedStage") or "").lower(), job)
+AssertionError: 'authenticating' not found in '' : {'id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'action': 'run', 'status': 'FAILED', 'stage': 'Workflow stopped', 'error': 'NASA Earthdata Login is required', 'updatedAt': '2026-10-14T08:10:36.050687+00:00', 'errorType': 'WorkflowError', 'completedAt': '2026-10-14T08:10:36.050674+00:00'}
+
+======================================================================
+FAIL: test_detector_exception_is_reported_not_swallowed (test_forest_run_integration.FailureTests.test_detector_exception_is_reported_not_swallowed)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 250, in test_detector_exception_is_reported_not_swallowed
+    self.assert_failed_safely(fx, "a" * 32, expect_stage_contains="anomaly")
+  File "<repo>/pipeline/test_forest_run_integration.py", line 204, in assert_failed_safely
+    self.assertIn(expect_stage_contains.lower(), (job.get("failedStage") or "").lower(), job)
+AssertionError: 'anomaly' not found in '' : {'id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'action': 'run', 'status': 'FAILED', 'stage': 'Workflow stopped', 'error': "cannot access local variable 'manifest' where it is not associated with a value", 'updatedAt': '2026-10-14T08:10:36.140572+00:00', 'errorType': 'UnboundLocalError', 'completedAt': '2026-10-14T08:10:36.140564+00:00'}
+
+======================================================================
+FAIL: test_failed_run_leaves_no_half_finished_run_listed_as_a_result (test_forest_run_integration.FailureTests.test_failed_run_leaves_no_half_finished_run_listed_as_a_result)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 229, in test_failed_run_leaves_no_half_finished_run_listed_as_a_result
+    self.assertTrue((run / "failure.json").exists() or (run / "forest_analysis.json").exists(),
+AssertionError: False is not true : 481afb117f5c46d1b2833b16e42bf021 is a partial run with no failure marker
+
+======================================================================
+FAIL: test_forest_mask_failure_is_reported_at_the_mask_stage (test_forest_run_integration.FailureTests.test_forest_mask_failure_is_reported_at_the_mask_stage)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 243, in test_forest_mask_failure_is_reported_at_the_mask_stage
+    self.assert_failed_safely(fx, "a" * 32, expect_stage_contains="forest mask")
+  File "<repo>/pipeline/test_forest_run_integration.py", line 204, in assert_failed_safely
+    self.assertIn(expect_stage_contains.lower(), (job.get("failedStage") or "").lower(), job)
+AssertionError: 'forest mask' not found in '' : {'id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'action': 'run', 'status': 'FAILED', 'stage': 'Workflow stopped', 'error': 'The real ESA WorldCover tile has no class-10 tree-cover or class-95 mangrove pixels inside the selected AOI/grid. Choose a forested AOI with catalog coverage; no analysis was created.', 'updatedAt': '2026-10-14T08:10:36.375126+00:00', 'errorType': 'WorkflowError', 'completedAt': '2026-10-14T08:10:36.375110+00:00'}
+
+======================================================================
+FAIL: test_stale_progress_from_a_previous_job_is_not_inherited (test_forest_run_integration.FailureTests.test_stale_progress_from_a_previous_job_is_not_inherited)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 283, in test_stale_progress_from_a_previous_job_is_not_inherited
+    self.assertNotIn("result", job)
+AssertionError: 'result' unexpectedly found in {'id': 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa', 'status': 'FAILED', 'stage': 'Workflow stopped', 'result': {'runId': 'old'}, 'error': "cannot access local variable 'manifest' where it is not associated with a value", 'updatedAt': '2026-10-14T08:10:36.488684+00:00', 'errorType': 'UnboundLocalError', 'completedAt': '2026-10-14T08:10:36.488676+00:00'}
+
+======================================================================
+FAIL: test_complete_run_with_mixed_grids_writes_manifest_analysis_and_current_pointer (test_forest_run_integration.FullRunTests.test_complete_run_with_mixed_grids_writes_manifest_analysis_and_current_pointer)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "<repo>/pipeline/test_forest_run_integration.py", line 154, in test_complete_run_with_mixed_grids_writes_manifest_analysis_and_current_pointer
+    self.assertEqual(fw.run_worker(job_id), 0)
+AssertionError: 1 != 0
+
+----------------------------------------------------------------------
+Ran 18 tests in 2.646s
+
+FAILED (failures=6, errors=9)

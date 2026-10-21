@@ -6,7 +6,8 @@
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState, type FormEvent } from "react";
-import NisarProcessingPanel, { type AreaBounds, type ProcessingProgress } from "./NisarProcessingPanel";
+import NisarProcessingPanel, { type AreaBounds } from "./NisarProcessingPanel";
+import type { ProcessingProgress } from "@/lib/processing-progress";
 import RadarComparison from "./RadarComparison";
 import ReferenceEvidence from "./ReferenceEvidence";
 import SavedDateCheck from "./SavedDateCheck";
@@ -212,8 +213,8 @@ export default function GlobalDetectionsExplorer() {
         assertShowcaseCandidateCount(peak, patches, expectedCount);
         if (live) {
           setShowcaseDetections({ type: "FeatureCollection", features: patches.map((patch) => {
-            const { geometry: _geometry, ...properties } = patch;
-            return { type: "Feature" as const, geometry: patch.geometry as never, properties: { ...properties, id: patch.id, date: patch.date } };
+            const { geometry, ...properties } = patch;
+            return { type: "Feature" as const, geometry: geometry as never, properties: { ...properties, id: patch.id, date: patch.date } };
           }) });
           setShowcaseLoadError("");
         }
@@ -230,8 +231,9 @@ export default function GlobalDetectionsExplorer() {
   }, []);
 
   useEffect(() => {
-    const params = new URLSearchParams(window.location.search);
-    const requestedRun = params.get("run");
+    const urlHandoffTimer = window.setTimeout(() => {
+      const params = new URLSearchParams(window.location.search);
+      const requestedRun = params.get("run");
     const requestedDate = params.get("date");
     if (requestedRun) setSelectedRun(requestedRun);
     if (requestedDate && /^\d{4}-\d{2}-\d{2}$/.test(requestedDate)) setCandidateDate(requestedDate);
@@ -259,6 +261,8 @@ export default function GlobalDetectionsExplorer() {
         block: "start",
       }), 180);
     }
+    }, 0);
+    return () => window.clearTimeout(urlHandoffTimer);
   }, []);
 
   const loadFinishedRun = useCallback((runId: string) => {

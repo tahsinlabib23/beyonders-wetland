@@ -10,3 +10,4 @@ geopandas
 shapely
 pyproj
 pyyaml
+requests

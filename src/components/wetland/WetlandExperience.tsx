@@ -211,11 +211,15 @@ function AcquisitionsOnly() {
 export default function WetlandExperience({ preferLocalRun, initialCaseId }: { preferLocalRun: boolean; initialCaseId: string | null }) {
   const s = useWetlandStore();
   const { dataTier, drawer, setDrawer, viewMode, returnToOverview, isLoadingData, dataError, satelliteBasemap, setSatelliteBasemap, pulseData, showcaseChecked, probeActive } = s;
+  const regionPatches = s.patches;
+  const regionSelectedPatchId = s.selectedPatch?.id;
+  const regionSelectedDateIndex = s.selectedDateIndex;
+  const setRegionSelectedPatch = s.setSelectedPatch;
 
   useEffect(() => {
     void useWetlandStore.getState().initExperience(preferLocalRun, initialCaseId).then(() => {
       const params = new URLSearchParams(window.location.search);
-      const store = useWetlandStore.getState();
+      // URL handoff state is read through the current store below.
       const latest = useWetlandStore.getState();
       const dateIndex = params.get("date");
       if (dateIndex != null && /^\d+$/.test(dateIndex)) latest.setSelectedDateIndex(Number(dateIndex));
@@ -235,10 +239,11 @@ export default function WetlandExperience({ preferLocalRun, initialCaseId }: { p
   useEffect(() => {
     if (typeof window === "undefined" || isLoadingData) return;
     const region = new URLSearchParams(window.location.search).get("region");
-    if (!region || s.selectedPatch?.id === region) return;
-    const match = s.patches.find((patch) => patch.id === region && patch.date === pulseData?.dates[s.selectedDateIndex]?.date);
-    if (match) s.setSelectedPatch(match);
-  }, [s.patches, s.selectedPatch?.id, s.selectedDateIndex, pulseData?.dates, isLoadingData, s.setSelectedPatch]);
+    if (!region || regionSelectedPatchId === region) return;
+    const selectedDate = pulseData?.dates[regionSelectedDateIndex]?.date;
+    const match = regionPatches.find((patch) => patch.id === region && patch.date === selectedDate);
+    if (match) setRegionSelectedPatch(match);
+  }, [regionPatches, regionSelectedPatchId, regionSelectedDateIndex, pulseData?.dates, isLoadingData, setRegionSelectedPatch]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {

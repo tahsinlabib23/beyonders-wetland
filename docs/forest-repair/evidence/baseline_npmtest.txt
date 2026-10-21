@@ -1,0 +1,218 @@
+
+> beyonders-wetland@0.1.0 test
+> node --experimental-strip-types --no-warnings=ExperimentalWarning --loader ./tests/strip-loader.mjs --test src/lib/story.test.ts src/lib/showcase-cases.test.ts src/lib/local-workflow-status.test.ts src/lib/processing-progress.test.ts src/lib/earthdata-login.test.ts src/lib/location-handoff.test.ts src/lib/real-data-policy.test.ts src/lib/place-search.test.ts src/lib/investigation-report.test.ts
+
+TAP version 13
+# Subtest: PowerShell quoting preserves paths with spaces and apostrophes
+ok 1 - PowerShell quoting preserves paths with spaces and apostrophes
+  ---
+  duration_ms: 0.83113
+  type: 'test'
+  ...
+# Subtest: Earthdata login script persists authentication and keeps errors visible
+ok 2 - Earthdata login script persists authentication and keeps errors visible
+  ---
+  duration_ms: 0.271732
+  type: 'test'
+  ...
+# Subtest: Windows launcher opens a new PowerShell window with the generated script
+ok 3 - Windows launcher opens a new PowerShell window with the generated script
+  ---
+  duration_ms: 0.700982
+  type: 'test'
+  ...
+# Subtest: report summary derives metrics only from supplied real candidate records
+ok 4 - report summary derives metrics only from supplied real candidate records
+  ---
+  duration_ms: 1.765448
+  type: 'test'
+  ...
+# Subtest: CSV has proper quoting and preserves scientific provenance columns
+ok 5 - CSV has proper quoting and preserves scientific provenance columns
+  ---
+  duration_ms: 0.360739
+  type: 'test'
+  ...
+# Subtest: GeoJSON report retains geometry and metadata without inventing geometries
+ok 6 - GeoJSON report retains geometry and metadata without inventing geometries
+  ---
+  duration_ms: 0.278271
+  type: 'test'
+  ...
+# Subtest: printable report escapes untrusted names and includes PDF print action
+ok 7 - printable report escapes untrusted names and includes PDF print action
+  ---
+  duration_ms: 0.47493
+  type: 'test'
+  ...
+# Subtest: share URLs replace stale query state instead of merging old run settings
+ok 8 - share URLs replace stale query state instead of merging old run settings
+  ---
+  duration_ms: 0.43551
+  type: 'test'
+  ...
+# Subtest: completed setup is reported as pipeline readiness, not a completed analysis
+ok 9 - completed setup is reported as pipeline readiness, not a completed analysis
+  ---
+  duration_ms: 0.947489
+  type: 'test'
+  ...
+# Subtest: running setup remains visibly in progress
+ok 10 - running setup remains visibly in progress
+  ---
+  duration_ms: 0.131244
+  type: 'test'
+  ...
+# Subtest: an idle fresh workflow invites area selection and search
+ok 11 - an idle fresh workflow invites area selection and search
+  ---
+  duration_ms: 0.177454
+  type: 'test'
+  ...
+# Subtest: a selected pin becomes a small editable analysis rectangle
+ok 12 - a selected pin becomes a small editable analysis rectangle
+  ---
+  duration_ms: 1.628573
+  type: 'test'
+  ...
+# Subtest: coordinate validation rejects non-finite and out-of-map positions
+ok 13 - coordinate validation rejects non-finite and out-of-map positions
+  ---
+  duration_ms: 0.187613
+  type: 'test'
+  ...
+# Subtest: study-box creation refuses positions too close to analysis-area bounds
+ok 14 - study-box creation refuses positions too close to analysis-area bounds
+  ---
+  duration_ms: 0.157128
+  type: 'test'
+  ...
+# Subtest: place query trims and collapses whitespace
+ok 15 - place query trims and collapses whitespace
+  ---
+  duration_ms: 1.003726
+  type: 'test'
+  ...
+# Subtest: place parser keeps valid real geocoder results and ignores invalid coordinates
+ok 16 - place parser keeps valid real geocoder results and ignores invalid coordinates
+  ---
+  duration_ms: 0.876879
+  type: 'test'
+  ...
+# Subtest: malformed provider payloads do not invent place results
+ok 17 - malformed provider payloads do not invent place results
+  ---
+  duration_ms: 0.144061
+  type: 'test'
+  ...
+# Subtest: workflow starts at area definition, not a hard-coded third step
+ok 18 - workflow starts at area definition, not a hard-coded third step
+  ---
+  duration_ms: 0.959075
+  type: 'test'
+  ...
+# Subtest: successful catalog search advances to launch step
+ok 19 - successful catalog search advances to launch step
+  ---
+  duration_ms: 0.150285
+  type: 'test'
+  ...
+# Subtest: launch and successful processing are separate steps
+ok 20 - launch and successful processing are separate steps
+  ---
+  duration_ms: 0.116771
+  type: 'test'
+  ...
+# Subtest: inspection completes only after the processed output is loaded
+ok 21 - inspection completes only after the processed output is loaded
+  ---
+  duration_ms: 0.156233
+  type: 'test'
+  ...
+# Subtest: failed jobs do not mark processing complete
+ok 22 - failed jobs do not mark processing complete
+  ---
+  duration_ms: 0.099119
+  type: 'test'
+  ...
+# Subtest: changing the study area invalidates downstream progress when its search no longer matches
+ok 23 - changing the study area invalidates downstream progress when its search no longer matches
+  ---
+  duration_ms: 0.09125
+  type: 'test'
+  ...
+# Subtest: only a NISAR source is accepted as scientific output
+ok 24 - only a NISAR source is accepted as scientific output
+  ---
+  duration_ms: 0.791401
+  type: 'test'
+  ...
+# Subtest: non-NISAR output is rejected with an explicit explanation
+ok 25 - non-NISAR output is rejected with an explicit explanation
+  ---
+  duration_ms: 0.437244
+  type: 'test'
+  ...
+# Subtest: listShowcaseCases reads the exported case index
+ok 26 - listShowcaseCases reads the exported case index
+  ---
+  duration_ms: 0.959096
+  type: 'test'
+  ...
+# Subtest: listShowcaseCases falls back to the single featured case without an index
+ok 27 - listShowcaseCases falls back to the single featured case without an index
+  ---
+  duration_ms: 0.256695
+  type: 'test'
+  ...
+# Subtest: listShowcaseCases returns [] when nothing was exported
+ok 28 - listShowcaseCases returns [] when nothing was exported
+  ---
+  duration_ms: 4.848363
+  type: 'test'
+  ...
+# Subtest: candidate file count matches the recorded pulse count
+ok 29 - candidate file count matches the recorded pulse count
+  ---
+  duration_ms: 0.278503
+  type: 'test'
+  ...
+# Subtest: candidate file mismatch is an explicit error instead of a zero-detection result
+ok 30 - candidate file mismatch is an explicit error instead of a zero-detection result
+  ---
+  duration_ms: 0.494883
+  type: 'test'
+  ...
+# Subtest: daysBetween counts real days
+ok 31 - daysBetween counts real days
+  ---
+  duration_ms: 1.112655
+  type: 'test'
+  ...
+# Subtest: optical state follows recorded status only
+ok 32 - optical state follows recorded status only
+  ---
+  duration_ms: 0.206404
+  type: 'test'
+  ...
+# Subtest: story uses loaded values and never claims confirmation
+ok 33 - story uses loaded values and never claims confirmation
+  ---
+  duration_ms: 39.181613
+  type: 'test'
+  ...
+# Subtest: challenge always lists missing field truth
+ok 34 - challenge always lists missing field truth
+  ---
+  duration_ms: 0.534573
+  type: 'test'
+  ...
+1..34
+# tests 34
+# suites 0
+# pass 34
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 1895.062066

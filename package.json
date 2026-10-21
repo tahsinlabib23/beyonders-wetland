@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "test": "node --experimental-strip-types --no-warnings=ExperimentalWarning --loader ./tests/strip-loader.mjs --test src/lib/story.test.ts src/lib/showcase-cases.test.ts src/lib/local-workflow-status.test.ts src/lib/processing-progress.test.ts src/lib/earthdata-login.test.ts src/lib/location-handoff.test.ts src/lib/real-data-policy.test.ts src/lib/place-search.test.ts src/lib/investigation-report.test.ts"
+    "test": "node --experimental-strip-types --no-warnings=ExperimentalWarning --loader ./tests/strip-loader.mjs --test src/lib/story.test.ts src/lib/showcase-cases.test.ts src/lib/local-workflow-status.test.ts src/lib/processing-progress.test.ts src/lib/earthdata-login.test.ts src/lib/location-handoff.test.ts src/lib/real-data-policy.test.ts src/lib/place-search.test.ts src/lib/investigation-report.test.ts src/lib/forest-analysis.test.ts src/lib/forest-job.test.ts src/lib/forest-coverage.test.ts"
   },
   "dependencies": {
     "@types/three": "^0.186.0",

@@ -389,7 +389,7 @@ function RegionRegister() {
         <td className="wx-mono">{p.area_km2.toFixed(3)}</td><td className="wx-mono">{p.delta_hh > 0 ? "+" : ""}{p.delta_hh.toFixed(1)} dB</td><td>{p.classification === "OPEN_WATER" ? "HH-darkening" : p.classification === "VEGETATED_INUNDATION" ? "Vegetation" : "Uncertain"}</td>
       </tr>)}</tbody></table></div>
     {rows.length > 100 && <p className="wx-caption">Showing the first 100 of {rows.length}. Narrow your search or export to include every filtered region.</p>}
-    <div className="wx-region-export"><label>Export format<select value={format} onChange={(e) => setFormat(e.target.value)}><option value="csv">CSV · spreadsheet</option><option value="geojson">GeoJSON · map data</option><option value="json">JSON · reproducible snapshot</option></select></label>
+    <div className="wx-region-export"><label>Export format<select value={format} onChange={(e) => { const next = e.target.value; if (next === "csv" || next === "geojson" || next === "json") setFormat(next); }}><option value="csv">CSV · spreadsheet</option><option value="geojson">GeoJSON · map data</option><option value="json">JSON · reproducible snapshot</option></select></label>
       <button type="button" className="wx-btn wx-btn--primary" onClick={exportRows}>Export {rows.length} regions</button><button type="button" className="wx-btn" onClick={() => void shareView()}>Copy share link</button>
     </div>
     {message && <p className="wx-note" role="status">{message}</p>}

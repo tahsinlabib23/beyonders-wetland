@@ -1,0 +1,41 @@
+PASS C1 history lists the completed run and not the failed attempt  [['6e223cf7']]
+PASS C2 a failed attempt left only a marker, no half-published result
+PASS C3 the current analysis is still the earlier good run  [READY]
+PASS C4 the failed job explains itself and carries no result
+PASS C5 summary shows the run's site, provenance and product maturity
+PASS C6 readiness gate, observation and candidate counts match the saved analysis
+PASS C7 timeline shows exactly the five processed acquisition dates  [['2026-06-30', '2026-07-12', '2026-07-24', '2026-08-17', '2026-08-29']]
+PASS C8 every shown date is labelled as used by the analysis
+PASS C9 selecting a date updates the shown date
+PASS C10 playback only moves between real acquisitions (positions 0-4)  [[0, 1, 2, 3, 4]]
+PASS C11 the timeline slider has exactly one step per real date (no interpolated frames)
+PASS C12 candidate register lists the detector's candidate with its source date
+PASS C13 inspector shows measurements and the reasons for the flag
+PASS C14 inspector lists alternative explanations
+PASS C15 map shows the candidate footprint
+PASS C16 HH preview loads an actual image overlay from the preview API  [[['/api/forest/radar-preview?date=2026-08-29&channel=hh&format=image&runId=6e223cf76b8945b390d603a096ab01e5', 80]]]
+PASS C17 switching to HV loads the HV preview  [[['/api/forest/radar-preview?date=2026-08-29&channel=hv&format=image&runId=6e223cf76b8945b390d603a096ab01e5', 80]]]
+PASS C18 a preview that does not exist answers honestly (no placeholder image)  [404]
+PASS C19 exported report is the saved run (same id, source and limitations)
+PASS C20 candidate CSV has one row per candidate plus a header  [['id', 'date', 'scene_id', 'source_run_id', 'site_name', 'data_source', 'product]
+PASS C21 candidate GeoJSON is a FeatureCollection with the detector's candidate
+PASS C22 exports are not labelled as confirmed forest loss
+PASS C23 a saved run can be reopened from history
+PASS C24 radar anomalies are never equated with confirmed loss
+PASS C25 ESA WorldCover 2021 provenance and its date limitation are stated
+PASS C26 missing independent optical evidence is reported as such, not as support
+PASS C27 no synthetic-data label is hidden: page names the fixture site only as the user's study name
+PASS C33 a RUNNING job whose worker is gone is reported STALLED with a reason, not eternal progress
+PASS C34 cancelling a running job is accepted and leaves a cancel marker (not a job-file edit)
+PASS C35 cancelling a finished job is refused with an explanation
+PASS C36 a malformed job id is rejected before touching the filesystem
+PASS C28 no text on the completed-run page falls below WCAG AA contrast  [[]]
+PASS C29 every control has an accessible name  [0]
+PASS C30 no horizontal overflow at 1280px with a completed run
+PASS C30 no horizontal overflow at 1000px with a completed run
+PASS C30 no horizontal overflow at 768px with a completed run
+PASS C30 no horizontal overflow at 390px with a completed run
+PASS C31 browser Back returns to the forest page with the saved run intact
+PASS C32 reload restores the saved run from disk, not from stale browser state
+
+39/39 checks passed; application errors: none

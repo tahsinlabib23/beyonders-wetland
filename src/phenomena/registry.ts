@@ -1,5 +1,6 @@
 /* GeoNexSAR phenomena registry — one conceptual backbone, several modules.
-   Wetlands is built. Forest and volcano are declared with honest briefings, not faked. */
+   Wetlands and the live-data Forest workspace are available; Forest analyses remain exploratory.
+   Volcano remains planned until deformation processing is implemented and evaluated. */
 export type PhenomenonStatus = "AVAILABLE" | "PLANNED";
 export type PhenomenonId = "wetland" | "forest" | "volcano";
 export interface PhenomenonBriefing {
@@ -15,43 +16,43 @@ export interface Phenomenon {
   href?: string;
   /** Every module exposes the same five capabilities. */
   contract: readonly ["time", "change", "evidence", "investigation", "uncertainty"];
-  /** Honest briefing shown while the module is PLANNED. */
+  /** Science notes and data requirements retained for the module briefing. */
   briefing?: PhenomenonBriefing;
 }
 const CONTRACT = ["time", "change", "evidence", "investigation", "uncertainty"] as const;
 export const PHENOMENA: Phenomenon[] = [
   { id: "wetland", name: "Wetlands", tagline: "Water moves.", status: "AVAILABLE", href: "/wetland", contract: CONTRACT },
   {
-    id: "forest", name: "Forests", tagline: "Vegetation changes.", status: "PLANNED", href: "/forest", contract: CONTRACT,
+    id: "forest", name: "Forests", tagline: "Structure changes. Evidence decides.", status: "AVAILABLE", href: "/forest", contract: CONTRACT,
     briefing: {
-      lede: "NISAR's L-band radar penetrates the canopy, so it can watch forests structurally — not just photograph their tops. The forest module will apply the same five-capability backbone the wetland module already uses: a timeline, change candidates, evidence, interrogation, and stated uncertainty.",
+      lede: "The forest workspace discovers real NISAR L-band observations, runs a separate backscatter-anomaly screen, and preserves source evidence and uncertainty. It requires compatible real NISAR L2 GCOV observations and a sourced forest-cover mask; no packaged forest detections are invented.",
       radarSees: [
-        { title: "Canopy loss", text: "Cleared or burned forest changes how L-band backscatter returns. A sustained drop in volume scattering between passes is the core deforestation signal." },
-        { title: "Degradation, not just clear-cuts", text: "Selective logging and fire damage alter canopy structure before any optical satellite sees a hole. Polarimetry (HH/HV) is sensitive to exactly this structural change." },
-        { title: "Regrowth", text: "The same time series run forward shows recovery: backscatter climbing back as secondary forest rebuilds structure, season after season." },
+        { title: "Structural anomalies", text: "Changes in calibrated HH/HV backscatter can indicate a change in scattering structure. A candidate is evidence to investigate, not proof of deforestation or its cause." },
+        { title: "Repeat-observation context", text: "Comparing one acquisition with the other compatible observations can help separate unusual values from the observed temporal baseline. Short series limit what can be concluded." },
+        { title: "Uncertainty, not assumed recovery", text: "Moisture, seasonality, mask errors and processing effects can complicate interpretation. Backscatter returning toward baseline alone does not demonstrate ecological recovery." },
       ],
       needs: [
-        "A forest site boundary (protected-area polygon or concession map) to bound the analysis",
-        "A completed NISAR L2 GCOV time series over the site, processed through the same pipeline",
-        "Reference data for the optical cross-check — HLS or Landsat scenes over the same dates",
-        "Documented limitations: L-band sees structure, not species; seasonal leaf phenology must be separated from real loss",
+        "A sourced forest-cover raster; a protected-area outline alone is not a forest mask",
+        "At least three chronologically ordered, compatible NISAR L2 GCOV frequencyA observations with HH/HV dB rasters",
+        "Matching product maturity, track, direction, frame, bandwidth and release, with aligned raster grids",
+        "Independent optical or disturbance-reference data before making validation or performance claims",
       ],
     },
   },
   {
     id: "volcano", name: "Volcanoes", tagline: "The surface transforms.", status: "PLANNED", href: "/volcano", contract: CONTRACT,
     briefing: {
-      lede: "NISAR was built for deformation: repeat-pass interferometry (InSAR) measures ground movement down to centimetres — the classic precursor signal of volcanic unrest. The volcano module will track how a volcano's surface breathes, flows, and reshapes between eruptions.",
+      lede: "NISAR was built for deformation: repeat-pass interferometry (InSAR) measures ground movement using phase differences. The volcano module remains planned until a deformation-appropriate workflow and independent evaluation are in place.",
       radarSees: [
-        { title: "Ground deformation", text: "Magma moving underground inflates or deflates the edifice. InSAR phase differences between passes map that motion across the whole volcano, day and night, through ash and cloud." },
-        { title: "New lava and deposits", text: "Fresh lava flows and pyroclastic deposits radically change surface roughness — a strong amplitude-change signal, the same family of detection the wetland module already runs." },
-        { title: "Crater and flank change", text: "Dome growth, collapse scars, and flank instability all reshape the surface between observations. Each becomes a dated, mapped change event." },
+        { title: "Ground deformation", text: "Interferometric phase can reveal surface displacement when suitable coherent observations and corrections are available. Amplitude change alone is not deformation." },
+        { title: "Surface change", text: "Fresh lava and deposits can change radar amplitude and roughness, but these signals do not alone establish a specific event or hazard." },
+        { title: "Terrain complications", text: "Steep slopes can introduce layover and shadow; atmospheric effects and decorrelation must be considered before interpreting phase." },
       ],
       needs: [
-        "An interferometric processing branch (phase + coherence) alongside the current amplitude pipeline",
-        "A digital elevation model of the edifice for topographic phase removal",
-        "Eruption and unrest catalogues (e.g. Smithsonian GVP) to label known events for validation",
-        "Documented limitations: steep terrain causes layover and shadow; atmospheric water vapour can mimic deformation and must be corrected",
+        "An interferometric processing branch (phase and coherence) alongside amplitude analysis",
+        "A digital elevation model and appropriate corrections for topographic and atmospheric phase",
+        "A suitable independent eruption/deformation reference for validation",
+        "Documented terrain, coherence and uncertainty limitations",
       ],
     },
   },

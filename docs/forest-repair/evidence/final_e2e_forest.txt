@@ -1,0 +1,63 @@
+── PART A: real app and API (failure handling without NASA access) ──
+PASS A1 forest page renders with the Earthdata panel
+PASS A2 connection state comes from a real check and matches the API answer  [not_connected / !
+Not connected]
+PASS A3 never shows Connected without credentials in this environment
+PASS A4 login command is readable (contrast at least 7:1)  [17.0:1]
+PASS A5 login command names the project's worker script
+PASS A6 Copy command puts the exact command on the clipboard  [./pipeline/venv/bin/python pipeline/forest_workflow.py login]
+PASS A7 Copy gives visible feedback
+PASS A8 Test connection performs a new real check  [1->2]
+PASS A9 failed discovery says where it stopped  [Stopped with an error Failed during: Searching NASA's live CMR catalog for compa]
+PASS A10 failed discovery says what to do next
+PASS A11 failure is not described as a success or a result
+PASS A12 Try again and Copy diagnostics are offered
+PASS A13 technical details show the failing frame and job log lines
+PASS A14 diagnostics never show home paths or credentials
+PASS A15 Try again clears the old failure immediately (no stale state)
+PASS A16 coverage search states its exact scope before running
+PASS A17 coverage failure is explained, not blank
+PASS A18 no coverage answer is shown after a failure
+PASS A19 place search yields results or an honest error (never silence)
+PASS A20 too-short place query is rejected with guidance
+PASS A21 oversized study area is flagged before any job starts
+PASS A22 Test connection is reachable by keyboard with a visible focus ring
+PASS A23 no horizontal overflow at 1440px
+PASS A23 no horizontal overflow at 1100px
+PASS A23 no horizontal overflow at 820px
+PASS A23 no horizontal overflow at 390px
+── PART B: UI state rendering with FIXTURE API responses (not evidence of live data) ──
+PASS B1 choosing a place states the exact search scope
+PASS B2 verdict says a compatible stack can support analysis, and that nothing is downloaded
+PASS B3 calendar lists each stack with a real 24-day gap labelled
+PASS B4 insufficient stack says how many dates it is missing
+PASS B5 catalog scope is stated and never generalised
+PASS B6 catalog records are never described as downloaded data
+PASS B7 the coverage request carries the exact window and dates
+PASS B8 Use this area fills a pipeline-sized box inside the stack footprint  [[90.5, 22.1, 90.6, 22.2]]
+PASS B9 Use this area names the study and clears a stale 'too large' warning
+PASS B10 empty catalog answer is explained and not 'ready'
+PASS B11 empty answer does not generalise beyond the window
+PASS B10 insufficient catalog answer is explained and not 'ready'
+PASS B12 running job shows its real stage and a Cancel control
+PASS B13 cancel sends a cancel request for that exact job and ends in a calm cancelled state
+PASS B14 a new job never shows the previous job's cancelled or stage text
+PASS B15 STALLED state explains itself and offers a retry
+PASS B15 FAILED state explains itself and offers a retry
+PASS B16 Earthdata state 'connected' shows 'Connected'  [✓
+Connected]
+PASS B17 login command visibility is right for 'connected'
+PASS B19 connected state does not ask for a login
+PASS B16 Earthdata state 'not_connected' shows 'Not connected'  [!
+Not connected]
+PASS B17 login command visibility is right for 'not_connected'
+PASS B16 Earthdata state 'check_failed' shows 'Check failed'  [?
+Check failed]
+PASS B17 login command visibility is right for 'check_failed'
+PASS B16 Earthdata state 'environment_missing' shows 'Python setup needed'  [!
+Python setup needed]
+PASS B17 login command visibility is right for 'environment_missing'
+PASS B18 broken Python environment shows repair commands, not an empty terminal
+PASS B20 panel separates public catalog search from authenticated downloads
+
+54/54 checks passed; application errors: none

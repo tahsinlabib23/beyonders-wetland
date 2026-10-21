@@ -1,0 +1,17 @@
+## Verification on a fresh GitHub Rubai-dev clone (3981ec6) + overlay
+### python compileall
+OK
+### python unittest discover
+Ran 104 tests in 9.884s
+OK (skipped=2)
+### npm test
+# tests 56
+# pass 56
+# fail 0
+# skipped 0
+### tsc
+tsc exit 0
+### eslint
+eslint exit 0
+### python -m unittest pipeline.test_legacy_showcase (exact command, no pipeline/output)
+pipeline/output absent
