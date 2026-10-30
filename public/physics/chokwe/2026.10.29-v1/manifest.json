@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "artifact": "pixel-grid.json",
+  "sha256": "d7c4e98bc5338451ca55f65597a1251e27a51c63856b1f2de44b3fabef9fd211",
+  "grid": [
+    128,
+    128
+  ],
+  "sampling": "Nearest native pixel at each regular WGS84 preview-grid cell center.",
+  "use": "Interactive education only; do not use this sampled preview grid for area or accuracy calculations."
+}

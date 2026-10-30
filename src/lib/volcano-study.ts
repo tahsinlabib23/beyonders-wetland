@@ -26,8 +26,9 @@ export type VolcanoComparison = {
 export type VolcanoStudy = {
   schema_version: number; id: string; title: string; publication_version: string; method_version: string;
   run_completion: string; scientific_interpretation: string; event_date: string;
+  reference_availability?: string;
   bbox: number[]; reference_bbox: number[]; boundary_source: string; reference_note: string;
-  coherence_floor: number; display_limit_cm: number; default_pair_id: string;
+  coherence_floor: number; display_limit_cm: number; display_scale_note?: string; default_pair_id: string;
   regions: {name: string; lat: number; lon: number; radius_km: number}[];
   pairs: VolcanoPair[]; comparisons: VolcanoComparison[]; limitations: string[];
 };

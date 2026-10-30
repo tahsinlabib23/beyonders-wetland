@@ -5,13 +5,16 @@ import { usePathname } from "next/navigation";
 
 export default function HazardNavigation() {
   const pathname = usePathname();
+  // The landing page and hazard workspaces provide their own navigation.
+  if (pathname === "/" || pathname.startsWith("/wetland") || pathname.startsWith("/forest") || pathname.startsWith("/volcano")) return null;
+
   const wetlandActive = pathname.startsWith("/wetland") || pathname === "/";
   const volcanoActive = pathname.startsWith("/volcano");
   const forestActive = pathname.startsWith("/forest");
 
   return (
     <nav className="hazard-nav" aria-label="Earth change topics">
-      <Link className="hazard-nav__brand" href="/" aria-label="Beyonders home">Beyonders</Link>
+      <Link className="hazard-nav__brand" href="/" aria-label="GeoNexSAR home">GeoNexSAR</Link>
       <div className="hazard-nav__links">
         <Link href="/wetland/global" aria-current={wetlandActive ? "page" : undefined}>
           Wetlands
@@ -23,7 +26,7 @@ export default function HazardNavigation() {
           Forests
         </Link>
       </div>
-      <span className="hazard-nav__mission">NISAR · Earth in motion</span>
+      <span className="hazard-nav__mission">NISAR · mission control</span>
     </nav>
   );
 }

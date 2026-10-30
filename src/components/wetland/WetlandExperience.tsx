@@ -19,7 +19,6 @@ const MODES: { id: ViewMode; label: string; icon: React.ReactNode; purpose: stri
   { id: "MOTION", label: "Motion", icon: Icon.motion, purpose: "Watch candidate change evolve across the real observations." },
   { id: "RADAR", label: "Radar", icon: Icon.radar, purpose: "See the radar imagery NISAR recorded, before the rules were applied." },
   { id: "DETECTION", label: "Detection", icon: Icon.detection, purpose: "See where the rules flagged candidates, by class." },
-  { id: "EXPLAIN", label: "Explain", icon: Icon.explain, purpose: "Select a region to see why it was flagged and what limits it." },
 ];
 
 const TABS: { id: Exclude<PanelTab, "NONE">; n: string; label: string; hint: string }[] = [
@@ -35,9 +34,10 @@ function Hatch() {
 /** "Tanguar Haor mapped boundary" -> "Tanguar Haor". The suffix describes the mask, not the place. */
 export const caseTitle = (name: string) => name.replace(/\s*·.*$/, "").replace(/\s+mapped boundary$/i, "");
 
-function ModeSwitch() {
-  const { viewMode, setViewMode } = useWetlandStore();
-  const mode = MODES.find((m) => m.id === viewMode) ?? MODES[0];
+export function ModeSwitch({ value, onChange }: { value?: ViewMode; onChange?: (mode: ViewMode) => void } = {}) {
+  const store = useWetlandStore();
+  const viewMode = value ?? store.viewMode;
+  const setViewMode = onChange ?? store.setViewMode;
   return (
     <div className="wx-modebar">
       <div className="wx-modes" role="radiogroup" aria-label="Map view">
@@ -47,7 +47,6 @@ function ModeSwitch() {
             data-mode={m.id} title={m.purpose} aria-label={`${m.label}: ${m.purpose}`}>{m.icon}<span>{m.label}</span></button>
         ))}
       </div>
-      <p className="wx-modecap" aria-live="polite"><span className="wx-micro">View</span> {mode.purpose}</p>
     </div>
   );
 }
@@ -66,7 +65,7 @@ function ContextRail() {
       <p className="wx-micro">Real NISAR observation · L-band radar</p>
       <h1>{name}</h1>
       <p className="wx-sub">{/hakaluki|tanguar/i.test(name) ? "Sunamganj, Bangladesh · " : ""}monsoon 2026, seen from orbit</p>
-      <p className="wx-mono wx-meta">NISAR L2 GCOV · provisional · {d.length} acquisitions · {fmtDate(d[0].date)} – {fmtDate(d[d.length - 1].date, { month: "short", day: "numeric", year: "numeric" })}</p>
+      <p className="wx-mono wx-meta">NISAR L2 GCOV · provisional · {d.length} processed comparison dates · {fmtDate(d[0].date)} – {fmtDate(d[d.length - 1].date, { month: "short", day: "numeric", year: "numeric" })}</p>
       <div className={`wx-obsbox${isPeak ? " is-peak" : ""}`} aria-live="polite">
         <p className="wx-micro">{isPeak ? "Peak observation" : "Selected observation"}</p>
         <p className="wx-date">{fmtDate(cur.date, { month: "long", day: "numeric", year: "numeric" })}</p>
@@ -160,7 +159,8 @@ function FirstRunTour() {
 }
 
 function RadarControls() {
-  const { radarChannel, radarStage, setRadarLayer, dataTier, pulseData, selectedDateIndex, showcase, showcaseId } = useWetlandStore();
+  const { radarChannel, radarStage, setRadarLayer, setViewMode, dataTier, pulseData, selectedDateIndex, showcase, showcaseId } = useWetlandStore();
+  const [expanded, setExpanded] = useState(false);
   const date = pulseData?.dates[selectedDateIndex]?.date;
   const [loaded, setLoaded] = useState<{ date: string; preview: RadarPreview | null } | null>(null);
   useEffect(() => {
@@ -170,16 +170,23 @@ function RadarControls() {
   }, [date, dataTier, showcaseId]);
   const preview = loaded && loaded.date === date ? loaded.preview : null;
   const noPreview = dataTier === "SHOWCASE" && !!date && !(showcase?.manifest.radar_dates ?? []).includes(date);
-  if (noPreview) return <div className="wx-radar"><p>No radar preview was exported for {date}. Only candidate regions are shown.</p></div>;
   const scale = radarStage === "change" ? [-10, 10] : preview?.layers[radarChannel]?.scale_db;
-  const stageWord = radarStage === "change" ? "Change (after minus baseline)" : radarStage === "before" ? "Baseline" : "After";
+  const stageWord = radarStage === "change" ? "Change" : radarStage === "before" ? "Baseline" : "After";
   return (
-    <div className="wx-radar" role="group" aria-label="Radar layer">
-      <p className="wx-radar__now" aria-live="polite"><span className="wx-micro">Showing</span> <strong>{radarChannel.toUpperCase()} · {stageWord}</strong> <span className="wx-mono">{date}</span></p>
-      {(["hh", "hv"] as const).map((c) => <div key={c} className="wx-radar__row"><span className="wx-micro">{c.toUpperCase()}</span>{(["before", "after", "change"] as const).map((s) =>
-        <button key={s} aria-pressed={radarChannel === c && radarStage === s} onClick={() => setRadarLayer(c, s)}>{s === "change" ? "Change" : s === "before" ? "Baseline" : "After"}</button>)}</div>)}
-      {scale && <div className="wx-ramp"><i className={radarStage === "change" ? "is-div" : "is-gray"} /><span className="wx-mono">{scale[0]} dB</span><span className="wx-mono">{scale[1]} dB</span></div>}
-      <small>{radarStage === "change" ? "Blue: weaker return. Red: stronger return. Transparent: no valid data." : "Grey: backscatter power. Transparent: no valid data."} {preview?.baseline_observation_dates && radarStage !== "after" ? `Baseline is the per-pixel median of ${preview.baseline_observation_dates.length} earlier observations.` : ""}</small>
+    <div className="wx-radar-picker">
+      <button type="button" className="wx-radar-trigger" aria-expanded={expanded} aria-controls="wetland-radar-layer-options"
+        aria-label={`${expanded ? "Hide" : "Show"} HH and HV radar layer options; selected ${radarChannel.toUpperCase()} ${stageWord}`}
+        onClick={() => setExpanded((open) => !open)}>
+        {Icon.radar}<span>Radar layers</span><strong>{radarChannel.toUpperCase()} · {stageWord}</strong><span className="wx-radar-trigger__chevron" aria-hidden="true">{expanded ? "−" : "+"}</span>
+      </button>
+      {expanded && <div id="wetland-radar-layer-options" className="wx-radar" role="group" aria-label="Choose HH or HV radar layer and date stage">
+        <div className="wx-radar__head"><strong>Local GCOV raster</strong><span className="wx-mono">{date || "No observation date"}</span><button type="button" aria-label="Close radar layer options" onClick={() => setExpanded(false)}>{Icon.close}</button></div>
+        {(["hh", "hv"] as const).map((c) => <div key={c} className="wx-radar__row"><span className="wx-micro">{c.toUpperCase()}</span>{(["before", "after", "change"] as const).map((s) =>
+          <button key={s} aria-pressed={radarChannel === c && radarStage === s} aria-label={`Show ${c.toUpperCase()} ${s === "before" ? "baseline" : s} layer on map`} title={`Show ${c.toUpperCase()} ${s === "before" ? "baseline" : s} layer on map`} onClick={() => { setRadarLayer(c, s); setViewMode("RADAR"); setExpanded(false); }}>{s === "change" ? "Change" : s === "before" ? "Baseline" : "After"}</button>)}</div>)}
+        {scale && <div className="wx-ramp"><i className={radarStage === "change" ? "is-div" : "is-gray"} /><span className="wx-mono">{scale[0]} dB</span><span className="wx-mono">{scale[1]} dB</span></div>}
+        {noPreview && <p className="wx-radar__notice" role="status">No radar raster preview was exported for {date}. The layer choice is kept, but only candidate outlines can be shown for this date.</p>}
+        <small>{radarStage === "change" ? "Blue: weaker return. Red: stronger return. Transparent: no valid data." : "Grey: backscatter power. Transparent: no valid data."} {preview?.baseline_observation_dates && radarStage !== "after" ? `Baseline is the per-pixel median of ${preview.baseline_observation_dates.length} earlier observations.` : ""}</small>
+      </div>}
     </div>
   );
 }
@@ -194,7 +201,7 @@ function AcquisitionsOnly() {
     <>
       <aside className="wx-rail" aria-label="Study area">
         <p className="wx-micro">Study area</p><h1>{caseTitle(m.site_display_name ?? m.site_name)}</h1><p className="wx-sub">Sunamganj, Bangladesh · mapped haor boundary</p>
-        <p className="wx-mono wx-meta">NISAR L-band · {dates.length} acquisitions · {fmtDate(dates[0])} – {fmtDate(dates[dates.length - 1], { month: "short", day: "numeric", year: "numeric" })}</p>
+        <p className="wx-mono wx-meta">NISAR L-band · {dates.length} processed dates · {fmtDate(dates[0])} – {fmtDate(dates[dates.length - 1], { month: "short", day: "numeric", year: "numeric" })}</p>
         <div className="wx-obsbox"><p className="wx-micro">Acquisitions only</p><p className="wx-big"><strong>{dates.length}</strong> NISAR observations</p><p className="wx-bigcap">Real acquisition dates recorded for this run</p></div>
         <p className="wx-read"><b>Derived change results are not included in this export.</b> The boundary and dates are real. Open 03 · Learn for what is missing and why. Nothing is interpolated.</p>
       </aside>
@@ -210,19 +217,18 @@ function AcquisitionsOnly() {
 
 export default function WetlandExperience({ preferLocalRun, initialCaseId }: { preferLocalRun: boolean; initialCaseId: string | null }) {
   const s = useWetlandStore();
-  const { dataTier, drawer, setDrawer, viewMode, returnToOverview, isLoadingData, dataError, satelliteBasemap, setSatelliteBasemap, pulseData, showcaseChecked, probeActive } = s;
+  const { dataTier, drawer, setDrawer, returnToOverview, isLoadingData, dataError, satelliteBasemap, setSatelliteBasemap, pulseData, showcaseChecked, probeActive } = s;
 
   useEffect(() => {
     void useWetlandStore.getState().initExperience(preferLocalRun, initialCaseId).then(() => {
       const params = new URLSearchParams(window.location.search);
-      const store = useWetlandStore.getState();
       const latest = useWetlandStore.getState();
       const dateIndex = params.get("date");
       if (dateIndex != null && /^\d+$/.test(dateIndex)) latest.setSelectedDateIndex(Number(dateIndex));
       const filter = params.get("filter");
       if (["ALL", "OPEN_WATER", "VEGETATED_INUNDATION", "UNCERTAIN"].includes(filter || "")) latest.setVegFilter(filter as "ALL" | "OPEN_WATER" | "VEGETATED_INUNDATION" | "UNCERTAIN");
       const mode = params.get("mode");
-      if (["MOTION", "RADAR", "DETECTION", "EXPLAIN"].includes(mode || "")) latest.setViewMode(mode as ViewMode);
+      if (["MOTION", "RADAR", "DETECTION"].includes(mode || "")) latest.setViewMode(mode as ViewMode);
       // Threshold values in share links are informational; this client never re-runs the detector.
       const mapMode = params.get("mapMode");
       if (["BEFORE", "AFTER", "DIFFERENCE", "SPLIT"].includes(mapMode || "")) latest.setMapMode(mapMode as "BEFORE" | "AFTER" | "DIFFERENCE" | "SPLIT");
@@ -232,13 +238,19 @@ export default function WetlandExperience({ preferLocalRun, initialCaseId }: { p
 
   // Candidate geometries may arrive after the share URL's date has been selected.
   // Reapply the region once that date's real patch list is present.
+  const patches = s.patches;
+  const selectedPatchId = s.selectedPatch?.id;
+  const selectedDateIndex = s.selectedDateIndex;
+  const setSelectedPatch = s.setSelectedPatch;
+  const pulseDates = pulseData?.dates;
+
   useEffect(() => {
     if (typeof window === "undefined" || isLoadingData) return;
     const region = new URLSearchParams(window.location.search).get("region");
-    if (!region || s.selectedPatch?.id === region) return;
-    const match = s.patches.find((patch) => patch.id === region && patch.date === pulseData?.dates[s.selectedDateIndex]?.date);
-    if (match) s.setSelectedPatch(match);
-  }, [s.patches, s.selectedPatch?.id, s.selectedDateIndex, pulseData?.dates, isLoadingData, s.setSelectedPatch]);
+    if (!region || selectedPatchId === region) return;
+    const match = patches.find((patch) => patch.id === region && patch.date === pulseDates?.[selectedDateIndex]?.date);
+    if (match) setSelectedPatch(match);
+  }, [patches, selectedPatchId, selectedDateIndex, pulseDates, isLoadingData, setSelectedPatch]);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -253,15 +265,15 @@ export default function WetlandExperience({ preferLocalRun, initialCaseId }: { p
   }, []);
 
   const acquisitionsOnly = dataTier === "SHOWCASE" && !pulseData && !!s.showcase;
-  const activeTab: PanelTab = drawer;
   const tabs = TABS.filter((t) => !acquisitionsOnly || t.id === "LEARN");
+  const activeTab: PanelTab = acquisitionsOnly && drawer !== "NONE" ? "LEARN" : drawer;
   const title = pulseData ? caseTitle(pulseData.site) : s.showcase ? caseTitle(s.showcase.manifest.site_display_name ?? s.showcase.manifest.site_name) : "";
   const cur = pulseData?.dates[Math.min(s.selectedDateIndex, (pulseData?.dates.length ?? 1) - 1)];
   const booting = !showcaseChecked && !pulseData;
   const emptyState = showcaseChecked && dataTier === "EMPTY";
 
   return (
-    <div className="wx-root" data-tier={dataTier} data-detective={probeActive ? "true" : "false"} data-drawer={activeTab !== "NONE" ? "open" : "closed"}>
+    <div className="wx-root wx-root--drawer-tabs" data-tier={dataTier} data-detective={probeActive ? "true" : "false"} data-drawer={activeTab !== "NONE" ? "open" : "closed"}>
       <Hatch />
       <header className="wx-mast">
         <Link href="/" className="wx-brand" aria-label="GeoNexSAR home">GeoNexSAR</Link>
@@ -270,11 +282,11 @@ export default function WetlandExperience({ preferLocalRun, initialCaseId }: { p
             <select className="wx-casepick" value={s.showcaseId} onChange={(e) => void s.switchShowcase(e.target.value)} aria-label="Choose a real case">
               {s.showcaseCases.map((c) => <option key={c.id} value={c.id}>{c.site_display_name.replace(/\s*mapped boundary$/i, "")}</option>)}
             </select>
-          ) : <>{title || (showcaseChecked ? "No real case loaded" : "Loading real observations…")}</>}
-          {cur ? <span className="wx-mono"> · {cur.date}</span> : null}</span>
+          ) : <span className="wx-case__title">{title || (showcaseChecked ? "No real case loaded" : "Loading real observations…")}</span>}
+          {cur ? <span className="wx-mono wx-case__date" title={`Observation date: ${cur.date}`}>{fmtDate(cur.date, { month: "short", day: "numeric" })}</span> : null}</span>
         <TierBadge tier={dataTier} completeness={s.showcase?.manifest.completeness} />
         <nav className="wx-nav" aria-label="GeoNexSAR">
-          <Link href="/wetland/global" aria-label="Explore NISAR worldwide">{Icon.globe}<span>Explore NISAR worldwide</span></Link>
+          <Link href="/wetland/global" aria-label="Wetlands: worldwide observations and change studies" title="Worldwide observations and processed wetland studies"><span>Wetlands</span></Link>
           <Link href="/forest/global" aria-label="Open Forests">Forests</Link>
           <Link href="/volcano/global" aria-label="Open Volcanoes">Volcanoes</Link>
           <button onClick={() => setSatelliteBasemap(!satelliteBasemap)} aria-pressed={satelliteBasemap} aria-label="Satellite basemap" title="Toggle the satellite basemap">{Icon.layers}<span>Basemap</span></button>
@@ -303,27 +315,29 @@ export default function WetlandExperience({ preferLocalRun, initialCaseId }: { p
       <main className="wx-map" aria-label="Map">
         <WetlandStage />
         {booting && <div className="wx-boot" role="status" aria-label="Loading observations"><div className="wx-boot__sweep" /><p className="wx-micro">Acquiring signal</p><p>NISAR L-band · Tanguar Haor</p></div>}
-        {!acquisitionsOnly && <ModeSwitch />}
-        {viewMode === "RADAR" && !acquisitionsOnly && <RadarControls />}
+        {!acquisitionsOnly && <div className="wx-map-controls" aria-label="Map view and radar layers">
+          <ModeSwitch />
+          <RadarControls />
+        </div>}
         {!acquisitionsOnly && <div className="wx-legend" aria-label="Map legend">
           <span><i className="lg lg--strong" />Rules agree</span><span><i className="lg lg--moderate" />Partly agree</span><span><i className="lg lg--uncertain" />Uncertain</span>
           <span><i className="lg lg--none" />No candidate (not &ldquo;unchanged&rdquo;)</span>
         </div>}
-        <div className="wx-tabs" role="tablist" aria-label="Investigation">
-          {tabs.map((t) => (
-            <button key={t.id} role="tab" aria-selected={activeTab === t.id} className="wx-tab" title={t.hint}
-              onClick={() => setDrawer(activeTab === t.id ? "NONE" : t.id)}>
-              <span className="wx-tab__n">{t.n}</span><span>{t.label}</span>
-            </button>
-          ))}
-        </div>
+        {activeTab === "NONE" && <button type="button" className="wx-drawer-reopen" onClick={() => setDrawer(tabs[0]?.id ?? "EXPLORE")} aria-expanded={false} aria-controls="wetland-investigation-drawer">
+          Open {tabs[0]?.label ?? "Explore"}
+        </button>}
         {(isLoadingData || !showcaseChecked) && !booting && <div className="wx-toast" role="status">Loading observations…</div>}
         {dataError && <div className="wx-toast wx-toast--err" role="alert">{dataError}</div>}
       </main>
 
       {activeTab !== "NONE" && (
-        <aside className="wx-drawer" aria-label={tabs.find((t) => t.id === activeTab)?.label ?? "Investigation"}>
-          <div className="wx-drawer__bar"><span className="wx-micro">Investigation</span><button onClick={() => { if (activeTab === "EXPLORE") s.setSelectedPatch(null); setDrawer("NONE"); }} aria-label="Close panel">{Icon.close}</button></div>
+        <aside id="wetland-investigation-drawer" className="wx-drawer" aria-label={tabs.find((t) => t.id === activeTab)?.label ?? "Investigation"}>
+          <div className="wx-drawer__bar wx-drawer__bar--tabs">
+            <nav className={`wx-drawer__tabs${tabs.length === 1 ? " wx-drawer__tabs--single" : ""}`} role="tablist" aria-label="Wetland investigation sections">
+              {tabs.map((t) => <button key={t.id} type="button" role="tab" aria-selected={activeTab === t.id} title={t.hint} onClick={() => setDrawer(t.id)}>{t.label}</button>)}
+            </nav>
+            <button onClick={() => { if (activeTab === "EXPLORE") s.setSelectedPatch(null); setDrawer("NONE"); }} aria-label="Close panel">{Icon.close}</button>
+          </div>
           <div className="wx-drawer__body">
             {activeTab === "EXPLORE" && <ExplorePanel />}
             {activeTab === "CHECK" && <CheckPanel />}

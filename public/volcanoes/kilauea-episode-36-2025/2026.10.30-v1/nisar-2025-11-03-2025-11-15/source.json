@@ -1,0 +1,41 @@
+{
+  "granule_id": "NISAR_L2_PR_GUNW_004_072_D_079_005_4000_SH_20251103T045814_20251103T045834_20251115T045815_20251115T045834_X05010_N_P_J_001",
+  "cmr_concept_id": "G4058287539-ASF",
+  "sensor": "NISAR",
+  "start": "2025-11-03",
+  "end": "2025-11-15",
+  "label": "Repeat-pass interval spanning USGS episode 36",
+  "collection": "NISAR_L2_GUNW_BETA_V1",
+  "maturity": "BETA",
+  "data_url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GUNW_BETA_V1/NISAR_L2_PR_GUNW_004_072_D_079_005_4000_SH_20251103T045814_20251103T045834_20251115T045815_20251115T045834_X05010_N_P_J_001/NISAR_L2_PR_GUNW_004_072_D_079_005_4000_SH_20251103T045814_20251103T045834_20251115T045815_20251115T045834_X05010_N_P_J_001.h5",
+  "track": "72",
+  "direction": "DESCENDING",
+  "look_direction": "Left",
+  "polarization": "HH",
+  "product_version": "1.0.2",
+  "upstream_processor_version": "R05.00.8",
+  "wavelength_m": 0.2419632429378531,
+  "native_crs": "EPSG:32604",
+  "transform": [
+    80.0,
+    0.0,
+    872560.0,
+    0.0,
+    -80.0,
+    2166480.0
+  ],
+  "native_spacing": [
+    80.0,
+    80.0
+  ],
+  "phase_sign": "Earlier reference; positive phase is increasing range. LOS = -phase * wavelength / (4 pi), positive toward sensor.",
+  "phase_to_toward_sign": -1,
+  "original_dates_verified": true,
+  "crop_bbox": [
+    -155.45,
+    19.3,
+    -155.05,
+    19.55
+  ],
+  "subset_sha256": "1aa04a64c3692a93f50d3ca7329884f7b7ca26af005e212bf0796d22eb8f3fd0"
+}

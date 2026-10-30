@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+  "publication_version": "2026.10.29-chokwe",
+  "hazard_type": "wetland_flood_change",
+  "method_version": "hh-hv-change-v1",
+  "published_at": "2026-10-28T20:05:53.892847+00:00",
+  "run_status": "COMPLETE",
+  "reference_availability": "INCONCLUSIVE",
+  "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+  "reference_validated": false,
+  "display_geometry_tolerance_metres": 10,
+  "artifacts": {
+    "case_study.json": {
+      "sha256": "dc3fe033b0977f1bafa99d996a5f0e6942f8d4b805688a5ff6740b6d2eac0897",
+      "bytes": 13212
+    },
+    "observations.json": {
+      "sha256": "c6da621fcaaebf10ee9b5411d21ea0fe6c19af932ba403091c1e026f65215dcf",
+      "bytes": 1039
+    },
+    "patches_00_final.geojson": {
+      "sha256": "9f5cf41cd900d2bfe0bf16ccd595fb923e8e24019da2cb087f68aeec5f6743e5",
+      "bytes": 1959961
+    },
+    "patches_final.geojson": {
+      "sha256": "9f5cf41cd900d2bfe0bf16ccd595fb923e8e24019da2cb087f68aeec5f6743e5",
+      "bytes": 1959961
+    },
+    "radar_00_hh_after.png": {
+      "sha256": "009c2f7ad44c3ab150e6d92bac8b5bd4bbc1fe2186b2a9ee18543fd855cfd591",
+      "bytes": 677449
+    },
+    "radar_00_hh_before.png": {
+      "sha256": "f8aa07bcb9c73a99bb76d2514699c89e5466216f9f376d35eabe51a5219ef6e4",
+      "bytes": 659114
+    },
+    "radar_00_hh_change.png": {
+      "sha256": "8cd5fd79f6c1e0f2a354452a572f0fd3fcbf8d62100ca2cf04ac18906fad8b5e",
+      "bytes": 1481852
+    },
+    "radar_00_hv_after.png": {
+      "sha256": "f034d91bb882d860f574ac102c27224db29548727e29a82dfafcd975607bcef2",
+      "bytes": 687740
+    },
+    "radar_00_hv_before.png": {
+      "sha256": "22c9810b84ae8834d10595a38ad7ddd2547f4fbcc92759b8badc5440d84df2f9",
+      "bytes": 676713
+    },
+    "radar_00_hv_change.png": {
+      "sha256": "f90404924e1e75b6cda320a0ff7596153699ec5183fbe08d623dac2fe4e4c332",
+      "bytes": 1465322
+    },
+    "radar_preview_00.json": {
+      "sha256": "db6cb4e6b7c8386efe2e909ef31d37bb2c17b21e1ffba1514fa7bd1a5fb58335",
+      "bytes": 1737
+    },
+    "reference_after_rgb.png": {
+      "sha256": "f7af6691513aadf9218b7b9e63955444af107c871439d6f804463e877070322b",
+      "bytes": 1441126
+    },
+    "reference_after_water.png": {
+      "sha256": "4f83245e6081ded761a45c972a2282165ebd5bf27af46f2c4f6c76c71af93f3e",
+      "bytes": 7829
+    },
+    "reference_agreement.png": {
+      "sha256": "ae859daa970a1fec1e10fdf8a886d86c4820eaccb321e079dba207f4ee9665ee",
+      "bytes": 7820
+    },
+    "reference_before_rgb.png": {
+      "sha256": "879eae4a334e9048cb7bb9c6dde0ea9dd155dd6960ab510975f15ec9f555b142",
+      "bytes": 1236668
+    },
+    "reference_before_water.png": {
+      "sha256": "6fe89c4d26343339230067e310aac27e846f56305c888e9cbd0199b69ce5e189",
+      "bytes": 15967
+    },
+    "reference_candidate_overlay.png": {
+      "sha256": "1142bfb78e2e3086cbfd29d8d5c3f143018b1b0c7ad5596912fb3782483bafd2",
+      "bytes": 84596
+    },
+    "reference_coverage.png": {
+      "sha256": "227d9af3007eb997329c796a77fec698cf8337b411758574d28f5fcd9b804edd",
+      "bytes": 7659
+    },
+    "reference_evidence.json": {
+      "sha256": "a7a062490def8be04acbd8156a1d574b702879b8665e6dbc8f38f11d017cd269",
+      "bytes": 30071
+    },
+    "reference_validation.json": {
+      "sha256": "80a8fea1814f86ca9c77ae2ad2ef1f69fc03a94af4d309f0b3e1c775553edb10",
+      "bytes": 9146
+    },
+    "run_manifest.json": {
+      "sha256": "75a607bba7379d6ce6192f78b9d0c60c7fabb60b3cf2848cce36cf5aff7b1bcf",
+      "bytes": 1546
+    },
+    "sensitivity_results.json": {
+      "sha256": "c8a44eb196c5a420951fde0c07048f99a17456f019f416fb3188b0050e7d92c6",
+      "bytes": 818
+    },
+    "site_boundary.geojson": {
+      "sha256": "c77e99916e4929a99f339db4edce975138f5348aaf47151b1da972eb10a86813",
+      "bytes": 360
+    },
+    "wetland_pulse.json": {
+      "sha256": "191f7d9982f62b6124ce35271f7b63cb9ffe3b6dd661904d8519be5a4cdc0fd3",
+      "bytes": 306
+    }
+  },
+  "downloads": {},
+  "source_archive": {
+    "filename": "ec8fa5ee15ae41d1aa89f930f2b47e36-2026.10.29-chokwe-sources.zip",
+    "sha256": "7e96efd4767044177dffd7bf3255ae7d5666b1204898499ad00e599e177e0ea7",
+    "bytes": 48744663,
+    "url": null
+  }
+}

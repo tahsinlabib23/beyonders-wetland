@@ -61,6 +61,13 @@ The download URL and SHA-256 are recorded; no private path is exposed.
 
 ## Optional GLAD-S2 import
 
+The public Rondônia page can also display the latest live GLAD-S2 tile layer
+from the Global Forest Watch tile service. This is a convenient visual context
+layer, not a dated artifact in the publication and not synchronized to the
+selected NISAR date. The import workflow below remains the reproducible route
+for attaching a date/confidence-annotated GLAD export to a new immutable study
+publication.
+
 Download/export a spatial subset from the official GLAD-S2 viewer linked by
 <https://glad.umd.edu/dataset/glad-forest-alerts>. Prepare a one-band categorical
 GeoTIFF with explicit positive values and a metadata JSON, for example:

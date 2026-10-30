@@ -20,6 +20,7 @@ Publish only reviewed study packages. Prepare first: `python pipeline/publish_st
 ## Documentation
 
 - [Project plan and release gates](docs/project-plan.md)
+- [NASA Space Apps challenge coverage](docs/challenge-coverage.md)
 - [Architecture](docs/architecture.md)
 - [Scientific method and limitations](docs/scientific-method.md)
 - [Evidence inventory](docs/evidence-report.md) · [machine-readable checks](docs/evidence-inventory.json)
@@ -31,4 +32,4 @@ Publish only reviewed study packages. Prepare first: `python pipeline/publish_st
 - [Volcano release and acceptance report](docs/volcano-release.md)
 - [Chókwè catalog investigation](docs/chokwe-catalog-check.json)
 
-Catalog availability may change; verify NASA CMR before another study. NASA's event case for Chókwè requires a separately attributed NISAR BETA pair (January 5–17), not the configured PROVISIONAL time series.
+Catalog availability may change; verify NASA CMR before another study. Chókwè is processed separately from the PROVISIONAL time series using its matching January 5–17 NISAR BETA pair. Its HLS optical check is inconclusive; a later UNOSAT Sentinel-1 overlay provides positive spatial support but not an accuracy assessment.

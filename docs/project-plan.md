@@ -1,28 +1,29 @@
-# Project plan
+# Project status and next work
 
-## Release goal
+Updated 29 October 2026. The project now contains three separate NISAR-oriented modules and five processed study areas: Hakaluki and Tanguar in Bangladesh, Chókwè in Mozambique, Rondônia in Brazil, and Hayli Gubbi/Erta Ale in Ethiopia. The global views are for observation discovery and coverage; they do not imply global change classifications.
 
-Provide a public NISAR Earth-change viewer with a reproducible, operator-managed wetland/flood module and a separate volcano directory/reference-case module. Preserve the global coverage distinction: imagery, volcano locations, and footprints are observations/context; detector polygons exist only for processed studies; blanks indicate no result. Volcanoes have no project-run deformation detector yet; earthquakes and prediction remain deferred.
+## Implemented
 
-## Three-week sequence
+- **Wetlands:** global NISAR imagery and acquisition footprints; real HH/HV GCOV studies for Hakaluki and Tanguar; date series, study boundaries, candidate layers, evidence panels, HLS checks, and local processing tools.
+- **Forests:** global historical ESA WorldCover 2021 context and NISAR footprints; a seven-date Rondônia GCOV study with an independent HLS optical support comparison. The result remains unverified radar-change candidates.
+- **Volcanoes:** global Smithsonian directory and NISAR GUNW coverage; a Hayli Gubbi/Erta Ale NISAR phase/coherence case with Sentinel-1 contextual comparison.
+- **Mozambique event story:** NASA’s published NISAR before/during imagery for Chókwè, the project's own run on the matching BETA pair, CIMA event context, and a measured later-date spatial overlap with UNOSAT Sentinel-1 water extents. The HLS check remains inconclusive and the local result is still an unverified candidate map.
+- **User experience:** place and coordinate search, layer controls, time selection, evidence cards, case walkthrough, comparative imagery, provenance, and explicit no-result states.
 
-1. **Days 1–3: baseline.** Inventory app, APIs, Python dependencies, run provenance, science claims and current case evidence. Freeze the detector and define independent evaluation rules.
-2. **Days 4–7: disagreement investigation.** Inspect radar-only candidates, masks, baseline water, acquisition alignment, season/date offset and HLS common-clear coverage. Record findings before changing thresholds.
-3. **Days 8–11: methods and package.** Keep v1 outputs intact, evaluate any baseline-water screen as a separately versioned diagnostic, run an independent case only when compatible NISAR and reference scenes exist, and package complete runs with checksums.
-4. **Days 12–15: public viewer.** Read only published packages, suppress local processing and pixel sampling, check map/date/study state, external service failures and small screens.
-5. **Days 16–21: release.** Reproduce a study, check privacy and package checksums, deploy the viewer, document rollback and publish limitations.
+## Evidence status and release claims
 
-## Scientific release gate
+The saved wetland and forest checks remain unverified. Hakaluki's 27 September HLS comparison has 50.7% study-area common-clear coverage but F1 0.074; a separate Hakaluki date has F1 0. Tanguar's 29 August check has 0.34% clear coverage, and a 22 September check has about 0.003%. Chókwè's BETA pair yields 127 HH-darkening candidates (29.87 km²); its HLS check has 1.26% common-clear coverage and assesses none of the candidate area. A later UNOSAT Sentinel-1 product overlaps 88.2%/89.1% of candidates on 23/24 January, six/seven days after the NISAR event, but is preliminary and has no field validation or assessed negatives. This is positive spatial support, not a validation score. Rondônia's 29 September radar candidate overlaps an exploratory HLS index-decrease signature, but no assessed negative reference exists. The volcano products show apparent LOS change and coherence; Sentinel-1 and the eruption record do not prove causal attribution.
 
-Report cross-sensor coverage, date offsets and native-grid/area-supported metrics. The 20% common-clear-area threshold determines whether a comparison can be scored; it does not establish accuracy or ground truth. Do not use HLS reference labels used for final evaluation to create a baseline-water exclusion. Keep the prior rule as a comparator. If a case disagrees, report the disagreement and narrow the claim to unverified radar-change candidates.
+See [evidence-report.md](evidence-report.md) for the full data, offsets, and limitations. The app must retain these outcomes rather than tune thresholds to create a favorable score.
 
-## Current evidence and blockers
+## Remaining science work
 
-- Hakaluki September 27 HLS comparison: 50.7% study-mask common-clear area, F1 0.074 (precision 0.129; recall 0.052). Of 773 radar-only cells, 637 were water on both HLS dates. This does not support a confirmed new-flood claim.
-- Tanguar August 29: 0.34% common-clear study area. The check is inconclusive; its nominal overlap metrics are not reportable.
-- NASA CMR returned two compatible Chókwè NISAR GCOV BETA scenes (January 5 and 17, 2026). No matching PROVISIONAL series was found. Do not mix BETA with PROVISIONAL or call the new location detector-validated until it is processed and independently assessed.
-- Local deployment has not happened yet. This machine's approval reviewer stopped the beta-scene download/process command before execution. The user will publish the repository themselves.
+1. **Chókwè reference comparison:** the local BETA run is complete and published. The later UNOSAT Sentinel-1 layer provides positive spatial support, but its 6–7 day offset, preliminary status, and lack of negative labels prevent accuracy assessment. Seek a closer-date or field reference; keep the HLS result inconclusive and publish no accuracy score.
+2. **Wetland references:** seek a clearer independent observation window for Tanguar and inspect Hakaluki radar-only regions. Until coverage improves, keep both interpretations unverified.
+3. **Forest reference:** if a dated authoritative alert or mapped loss reference overlaps the Rondônia box, import it with its date/confidence and keep absent alerts unassessed. Do not treat WorldCover 2021 or no-alert pixels as current forest truth.
+4. **Volcano attribution:** pursue correction/reference data and a surveyed stable area before narrowing apparent LOS candidates to eruption-caused deformation.
+5. **Reproducibility:** continue recording exact input IDs, maturity, dates, boundary provenance, method version, masks, checksums, reference status, and per-case limitations.
 
-## Done means
+## Deliberate limits
 
-A fresh browser can explore published studies with no local worker running; the scientific report distinguishes measured quantities from interpretation; complete packages have provenance and verifiable checksums; a developer can reproduce the local flow; failures preserve prior results; a rollback is documented. A deployment URL and a supported flood claim remain open until the user deploys and evidence supports the claim.
+This release does not claim worldwide flood or forest-loss detection, validated hazard maps, operational alerts, flood prediction, earthquake processing, or eruption forecasting. It presents worldwide observation coverage and a small set of local studies. A blank map area means no result is available.

@@ -8,6 +8,7 @@ const eslintConfig = defineConfig([
   // Override default ignores of eslint-config-next.
   globalIgnores([
     "artifacts/**",
+    ".next-*/**",
     "pipeline/venv/**",
     "public/studies/**",
     // Default ignores of eslint-config-next:

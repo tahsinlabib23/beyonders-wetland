@@ -1,6 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Redirect build artifacts when OneDrive or another synced folder blocks writes to .next.
+  distDir: process.env.BEYONDERS_NEXT_DIST_DIR || ".next",
   images: {
     remotePatterns: [{ protocol: "https", hostname: "assets.science.nasa.gov", pathname: "/dynamicimage/assets/science/esd/eo/images/iotd/2025/**" }],
   },

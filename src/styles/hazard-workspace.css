@@ -1,0 +1,1609 @@
+/* Adapts the Forest and Volcano data modules to Rubai's existing Radar Room. */
+.wx-root.wx-hazard-shell.forest-page,
+.wx-root.wx-hazard-shell.volcano-page {
+  min-height: 0;
+  padding: 0;
+  color-scheme: dark;
+  background: #070a0d;
+  color: var(--ws-text);
+  font-family: var(--font-sans);
+}
+
+.wx-root.wx-hazard-shell.forest-page > *,
+.wx-root.wx-hazard-shell.volcano-page > * {
+  max-width: none;
+  margin: 0;
+}
+
+.wx-root.wx-hazard-shell.wx-root--document {
+  position: relative;
+  inset: auto;
+  width: 100%;
+  height: 100dvh;
+  min-height: 640px;
+}
+
+.wx-root.wx-hazard-shell .wx-quest h1 {
+  color: var(--ws-text);
+  font: 600 1.2rem/1.2 var(--font-display);
+}
+
+.wx-root.wx-hazard-shell .wx-quest p {
+  color: var(--ws-text-2);
+  font-size: 0.75rem;
+}
+
+.wx-root.wx-hazard-shell .wx-case strong {
+  overflow: hidden;
+  color: var(--ws-text-2);
+  font-size: 0.72rem;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.wx-root.wx-hazard-shell .wx-nav a[aria-current="page"] {
+  border-bottom-color: var(--c-observed);
+  color: var(--c-observed);
+}
+
+/* Keep the Wetlands destination identifiable when the header compacts. */
+.wx-root .wx-nav a[href="/wetland/global"] {
+  flex: 0 0 auto;
+  gap: 5px;
+  white-space: nowrap;
+}
+
+.wx-root .wx-nav a[href="/wetland/global"] span {
+  display: inline !important;
+  font-size: 0.72rem;
+}
+
+@media (max-width: 960px) {
+  .wx-root .wx-nav {
+    gap: 2px;
+  }
+
+  .wx-root .wx-nav a[href="/wetland/global"] {
+    gap: 4px;
+    padding: 5px 6px;
+    font-size: 0.65rem;
+  }
+
+  .wx-root .wx-nav a[href="/wetland/global"] span {
+    font-size: 0.65rem;
+  }
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+  flex-direction: column;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map > .global-map-panel {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map .global-map-wrap {
+  min-height: 0;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map .forest-map-title,
+.wx-root.wx-hazard-shell .wx-hazard-map .volcano-map-title {
+  position: absolute;
+  z-index: 600;
+  top: 14px;
+  left: 14px;
+  right: 62px;
+  width: fit-content;
+  max-width: calc(100% - 90px);
+  justify-content: flex-start;
+  gap: 12px;
+  padding: 8px 11px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  background: rgb(8 13 17 / 90%);
+  color: #f3f6f5;
+  font-size: 0.7rem;
+  text-align: left;
+  backdrop-filter: blur(8px);
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map .forest-map-title span,
+.wx-root.wx-hazard-shell .wx-hazard-map .volcano-map-title span {
+  color: #bac5c7;
+  text-align: left;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map .forest-map-frame,
+.wx-root.wx-hazard-shell .wx-hazard-map .volcano-map-frame {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  flex: 1 1 auto;
+  border: 0;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-map .forest-map-surface,
+.wx-root.wx-hazard-shell .wx-hazard-map .volcano-map-frame > div:first-child,
+.wx-root.wx-hazard-shell .wx-hazard-map .leaflet-container {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+}
+
+/* Hazard sections keep their section tabs in the drawer so the map stays clear. */
+.wx-root.wx-root--drawer-tabs .wx-drawer__bar--tabs {
+  gap: 8px;
+  min-height: 52px;
+  padding: 7px 10px;
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer__tabs {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  flex: 1 1 auto;
+  min-width: 0;
+  gap: 5px;
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer__tabs--single {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer__tabs button {
+  display: block;
+  min-width: 0;
+  width: 100%;
+  height: auto;
+  padding: 9px 6px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background: transparent;
+  color: #aebdc2;
+  font: 600 0.72rem/1.15 var(--font-sans);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer__tabs button:hover {
+  background: #14212a;
+  color: #f3f6f5;
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer__tabs button[aria-selected="true"] {
+  border-color: rgb(61 214 199 / 24%);
+  background: rgb(61 214 199 / 10%);
+  color: var(--c-observed);
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer__persistent {
+  flex: 0 0 auto;
+  max-height: 122px;
+  overflow-x: auto;
+  overflow-y: auto;
+  padding: 9px 12px;
+  border-bottom: 1px solid #1e2a33;
+  background: #0d1419;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .forest-date-ribbon {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  min-width: max-content;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .forest-date-ribbon > span {
+  margin-right: 3px;
+  color: #9aaeb4;
+  font-size: 0.65rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .forest-date-ribbon button {
+  min-height: 31px;
+  padding: 5px 8px;
+  border: 1px solid #2a3a45;
+  border-radius: 4px;
+  background: #101820;
+  color: #bac5c7;
+  font: 600 0.66rem var(--font-sans);
+  white-space: nowrap;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .forest-date-ribbon button[aria-pressed="true"] {
+  border-color: var(--c-observed);
+  background: rgb(61 214 199 / 12%);
+  color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .wx-drawer__persistent .deformation-timeline {
+  display: flex;
+  gap: 7px;
+  margin: 0;
+  overflow: visible;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .wx-drawer__persistent .deformation-timeline button {
+  flex: 0 0 auto;
+  min-width: 132px;
+  padding: 7px 9px;
+}
+
+.wx-root.wx-root--drawer-tabs .wx-drawer-reopen {
+  position: absolute;
+  z-index: 1100;
+  top: 14px;
+  right: 14px;
+  padding: 9px 12px;
+  border: 1px solid rgb(61 214 199 / 35%);
+  border-radius: 4px;
+  background: rgb(8 13 17 / 92%);
+  color: var(--c-observed);
+  font: 600 0.72rem/1.1 var(--font-sans);
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .wx-drawer__body > .forest-tab-panel,
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .wx-drawer__body > .volcano-tab-panel {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Keep the WorldCover legend legible against the map-first dark footer. */
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  flex: 1 1 100%;
+  gap: 9px;
+  min-width: 0;
+  padding: 11px 13px;
+  border: 1px solid #293942;
+  border-radius: 5px;
+  background: #0d151b;
+  color: #c5d2d3;
+  font-size: 0.69rem;
+  line-height: 1.35;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__worldcover {
+  min-width: 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__worldcover h2 {
+  margin: 0 0 9px;
+  color: #e5efea;
+  font: 600 0.78rem/1.3 var(--font-sans);
+  letter-spacing: 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__classes {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 205px), 1fr));
+  gap: 7px 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__classes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+  color: #c5d2d3;
+  line-height: 1.35;
+  overflow-wrap: anywhere;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__swatch {
+  width: 13px;
+  height: 13px;
+  flex: 0 0 13px;
+  margin-top: 1px;
+  border: 1px solid #8fa2a5;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__worldcover small {
+  display: block;
+  margin-top: 8px;
+  color: #91a4a7;
+  font-size: 0.66rem;
+  line-height: 1.4;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .forest-legend__overlays {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px 18px;
+  padding-top: 8px;
+  border-top: 1px solid #293942;
+  color: #c5d2d3;
+  line-height: 1.4;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-footer .iw-footer-note {
+  flex: 1 1 100%;
+  padding: 0 2px;
+  color: #9aadaf;
+  line-height: 1.4;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .forest-tab-panel > :first-child,
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .volcano-tab-panel > :first-child {
+  margin-top: 0;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .hazard-tab-intro {
+  margin: 0;
+  padding: 10px 11px;
+  border-left: 2px solid var(--c-observed);
+  background: rgb(61 214 199 / 5%);
+  color: #b8c5c8;
+  font-size: 0.73rem;
+  line-height: 1.5;
+}
+
+.wx-root.wx-hazard-shell.wx-root--drawer-tabs .hazard-tab-section {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.wx-root.wx-hazard-shell.forest-page .wx-rail .hazard-walkthrough-launch,
+.wx-root.wx-hazard-shell.volcano-page .wx-rail .hazard-walkthrough-launch {
+  align-items: stretch;
+  flex-direction: column;
+  gap: 8px;
+  margin: 8px 0 12px;
+  padding: 10px 11px;
+  border-left-color: var(--c-observed);
+  background: #101820;
+}
+
+.wx-root.wx-hazard-shell.forest-page .wx-rail .hazard-walkthrough-launch button,
+.wx-root.wx-hazard-shell.volcano-page .wx-rail .hazard-walkthrough-launch button {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border-color: rgb(61 214 199 / 35%);
+  background: rgb(61 214 199 / 12%);
+  color: var(--c-observed);
+}
+
+@media (max-width: 960px) {
+  .wx-root.wx-root--drawer-tabs .wx-drawer__bar--tabs {
+    min-height: 50px;
+  }
+}
+
+.wx-root.wx-hazard-shell .wx-drawer {
+  color: var(--ws-text);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer :is(h1, h2, h3, strong, legend, dt, th) {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer :is(p, small, span, label, dd, td, li) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer a {
+  color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer input:not([type="checkbox"]):not([type="radio"]),
+.wx-root.wx-hazard-shell .wx-drawer select,
+.wx-root.wx-hazard-shell .wx-drawer textarea {
+  min-height: 38px;
+  border: 1px solid #2a3a45;
+  border-radius: var(--r-1);
+  background: #101820;
+  color: var(--ws-text);
+  font: inherit;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer input[type="checkbox"],
+.wx-root.wx-hazard-shell .wx-drawer input[type="radio"] {
+  accent-color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer :is(button, .forest-button) {
+  border-color: #2a3a45;
+  border-radius: var(--r-1);
+  background: #101820;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer :is(button, .forest-button):hover:not(:disabled) {
+  border-color: var(--c-derived);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer :is(details, .forest-method-notes, .volcano-selected, .volcano-context-note, .forest-context-card) {
+  border-color: #1e2a33;
+  border-radius: var(--r-1);
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer summary {
+  color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer .forest-controls,
+.wx-root.wx-hazard-shell .wx-drawer .volcano-controls {
+  gap: var(--s3);
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer .forest-explain,
+.wx-root.wx-hazard-shell .wx-drawer .volcano-explainer {
+  grid-template-columns: 1fr;
+  gap: var(--s2);
+  margin: var(--s3) 0 0;
+  padding-top: var(--s3);
+  border-top: 1px solid #1e2a33;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer .forest-explain > *,
+.wx-root.wx-hazard-shell .wx-drawer .volcano-explainer > div {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer .forest-stats {
+  grid-template-columns: 1fr;
+  gap: 6px;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer .forest-stats > div {
+  border: 1px solid #1e2a33;
+  background: #0d1419;
+}
+
+.wx-root.wx-hazard-shell .wx-rail :is(.forest-status, .volcano-status-strip) {
+  border-color: #1e2a33;
+  background: #0e161c;
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell .wx-rail :is(.forest-context-card, .volcano-context-note) {
+  border-color: #1e2a33;
+  background: #0d1419;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--s2) var(--s4);
+  flex-wrap: wrap;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-footer :is(.forest-legend, .volcano-map-legend) {
+  display: flex;
+  min-width: 0;
+  flex-wrap: wrap;
+  gap: 8px 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ws-text-2);
+  font-size: 0.68rem;
+}
+
+.wx-root.wx-hazard-shell .wx-hazard-footer .iw-footer-note {
+  color: var(--ws-text-2);
+  font-size: 0.65rem;
+}
+
+@media (max-width: 960px) {
+  .wx-root.wx-hazard-shell .wx-hazard-map .forest-map-title,
+  .wx-root.wx-hazard-shell .wx-hazard-map .volcano-map-title {
+    top: 9px;
+    left: 9px;
+    right: 58px;
+    max-width: calc(100% - 80px);
+  }
+
+  .wx-root.wx-hazard-shell.wx-root--document {
+    min-height: 100dvh;
+  }
+}
+
+/* The friend UI supplies the shared Radar Room frame. These rules translate
+   the older study widgets into that dark frame without changing their data. */
+.wx-root.wx-hazard-shell .wx-drawer__body {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer__body :is(h1, h2, h3, h4, strong, dt, th) {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer__body :is(p, small, label, dd, td, li) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell .wx-drawer__body :is(select, input:not([type="checkbox"]):not([type="radio"]):not([type="range"]), textarea) {
+  width: 100%;
+  min-width: 0;
+  min-height: 38px;
+  border: 1px solid #2a3a45;
+  border-radius: var(--r-1);
+  padding: 7px 9px;
+  background: #101820;
+  color: var(--ws-text);
+  color-scheme: dark;
+  font: inherit;
+}
+
+.wx-root.wx-hazard-shell .wx-drawer__body input[type="checkbox"],
+.wx-root.wx-hazard-shell .wx-drawer__body input[type="radio"],
+.wx-root.wx-hazard-shell .wx-drawer__body input[type="range"] {
+  accent-color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .detection-intro {
+  display: block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .detection-intro h2 {
+  margin: 8px 0;
+  color: var(--ws-text);
+  font: 600 1.1rem/1.2 var(--font-display);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-description {
+  color: var(--ws-text-2);
+  font-size: 0.7rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .detection-status {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-count {
+  display: grid;
+  gap: 4px;
+  padding: 12px;
+  border: 1px solid #1e2a33;
+  background: #0e161c;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-count strong {
+  color: var(--ws-text);
+  font: 600 2rem/1.1 var(--font-display);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-count span,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-status-meta {
+  color: var(--ws-text-2);
+  font-size: 0.68rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-status-meta {
+  display: grid;
+  justify-items: start;
+  gap: 8px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-source-pill {
+  border-color: #1e2a33;
+  background: #0e161c;
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-rail .global-refresh {
+  width: 100%;
+  border-color: #2a3a45;
+  background: #101820;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-info-panel,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .global-scene-panel {
+  min-height: 100%;
+  overflow: visible;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ws-text);
+  box-shadow: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .global-scene-panel__heading {
+  border-color: #1e2a33;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .global-scene-panel__heading h2 {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .global-live-mark {
+  border-color: #1e2a33;
+  background: #101820;
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-form {
+  padding: 10px;
+  border-color: #1e2a33;
+  border-radius: var(--r-1);
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure {
+  margin: 4px 0 12px;
+  overflow: hidden;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure > summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 12px;
+  color: var(--ws-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure > summary::-webkit-details-marker {
+  display: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure > summary::after {
+  content: "+";
+  color: var(--c-observed);
+  font: 500 18px/1 ui-monospace, monospace;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure[open] > summary::after {
+  content: "−";
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure > summary small {
+  margin-left: auto;
+  color: var(--ws-text-2);
+  font-size: 0.62rem;
+  font-weight: 400;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-disclosure > .map-coordinate-form {
+  margin: 0;
+  padding: 10px 12px 12px;
+  border: 0;
+  border-top: 1px solid #1e2a33;
+  border-radius: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings {
+  margin: 4px 0 12px;
+  overflow: hidden;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings > summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  padding: 9px 12px;
+  color: var(--ws-text);
+  font-size: 0.72rem;
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings > summary::-webkit-details-marker {
+  display: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings > summary::after {
+  content: "+";
+  flex: 0 0 auto;
+  color: var(--c-observed);
+  font: 500 18px/1 ui-monospace, monospace;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings[open] > summary::after {
+  content: "−";
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings > summary small {
+  margin-left: auto;
+  color: var(--ws-text-2);
+  font-size: 0.61rem;
+  font-weight: 400;
+  text-align: right;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings__content {
+  padding: 10px 12px 12px;
+  border-top: 1px solid #1e2a33;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-layer-settings__content > .detection-panel-copy:first-child {
+  margin-top: 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-form :is(label, p) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .map-coordinate-search-button {
+  border-color: #2a3a45;
+  border-radius: var(--r-1);
+  background: #10232a;
+  color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-note,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-local-results,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .nisar-run-details,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-method-summary,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .candidate-evidence-panel {
+  border-color: #1e2a33;
+  border-radius: var(--r-1);
+  background: #0d1419;
+  color: var(--ws-text);
+  box-shadow: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-local-results {
+  padding: 12px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-local-results :is(a, summary) {
+  color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-note :is(strong, b) {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .detection-note a,
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .global-data-link {
+  color: var(--c-observed);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="wetland"] .wx-drawer .global-data-link span {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-comparison {
+  position: absolute;
+  inset: 54px 10px 10px;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: 9px;
+  margin: 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-comparison > article {
+  display: grid;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid #273842;
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-comparison label {
+  display: grid;
+  gap: 5px;
+  padding: 8px;
+  color: var(--ws-text-2);
+  font-size: 0.67rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-comparison-map {
+  height: 100%;
+  min-height: 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-layer-caption {
+  min-height: 0;
+  padding: 7px 9px;
+  background: #0d1419;
+  color: var(--ws-text-2);
+  font-size: 0.61rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-study-toolbar,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-evidence-grid > article,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-provenance,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-message,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-glad-note,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-glad-key,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .radar-pixel-physics,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray {
+  border-color: #1e2a33;
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-study-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px;
+  margin: 0 0 12px;
+  padding: 10px;
+  font-size: 0.68rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-evidence-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 10px;
+  margin: 12px 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-evidence-grid > article {
+  min-width: 0;
+  padding: 12px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-evidence-grid :is(p, td, dd, small, li),
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-provenance :is(p, small, li),
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-explain p {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-evidence-grid :is(dl > div, th, td),
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-provenance,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-provenance details,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-provenance summary {
+  border-color: #273842;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-stats {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-stats > div {
+  border: 1px solid #1e2a33;
+  background: #0e161c;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-stats {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 7px;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-stats > div {
+  border: 1px solid #1e2a33;
+  background: #0e161c;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-stats :is(span, small) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-stats strong {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-status {
+  display: grid;
+  gap: 5px;
+  margin: 0;
+  padding: 10px;
+  border: 1px solid #1e2a33;
+  background: #0e161c;
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-status strong {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-topic {
+  color: var(--c-support);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-rail .forest-button,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-button {
+  border: 1px solid #2a3a45;
+  border-radius: var(--r-1);
+  background: #101820;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-comparison select {
+  border: 1px solid #2a3a45;
+  border-radius: var(--r-1);
+  background: #101820;
+  color: var(--ws-text);
+  color-scheme: dark;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .optical-coverage {
+  margin: 12px 0;
+  padding: 12px;
+  border-color: #1e2a33;
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .optical-coverage :is(h3, strong) {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .optical-coverage :is(p, small, span) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .optical-coverage__cases {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .optical-coverage__cases article {
+  border-color: #1e2a33;
+  background: #101820;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .optical-coverage__caveat {
+  border-color: #1e2a33;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-downloads,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-glad-controls,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-explain,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-footer {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-explain > *,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .forest-provenance > div {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray {
+  display: grid;
+  gap: 12px;
+  margin: 12px 0;
+  padding: 12px;
+  border: 1px solid #1e2a33;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray :is(h2, h3) {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray :is(p, small, figcaption, span, label) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray__body,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray__controls {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray__figure,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray__explanation {
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray__buttons button,
+.wx-root.wx-hazard-shell[data-hazard="forest"] .wx-drawer .band-xray__explanation a {
+  border-color: #2a3a45;
+  background: #101820;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-explorer {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--ws-text);
+  box-shadow: none;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-explorer :is(h2, h3, strong, dt, th) {
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-explorer :is(p, small, label, span, dd, td, li, summary) {
+  color: var(--ws-text-2);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-heading {
+  align-items: flex-start;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-heading h2 {
+  font: 600 1.08rem/1.2 var(--font-display);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer :is(.deformation-method-note, .deformation-timeline, .deformation-mode-note, .deformation-band-comparison, .deformation-inspector, .deformation-provenance, .deformation-comparison, .deformation-pixel, .deformation-inspector form, .deformation-provenance div) {
+  border-color: #1e2a33;
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-timeline button {
+  border-color: #1e2a33;
+  background: #101820;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-timeline button[aria-pressed="true"] {
+  background: #17252d;
+  box-shadow: inset 0 -3px var(--c-derived);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer :is(.deformation-toolbar, .volcano-curtain-picker) {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 9px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-band-comparison {
+  display: grid;
+  gap: 10px;
+  margin: 12px 0;
+  padding: 12px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-band-comparison__metrics {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-inspector,
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-inspector--change {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-pixel {
+  border-left: 0;
+  border-top: 1px solid #1e2a33;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-drawer .deformation-legend--drawer {
+  justify-content: flex-start;
+  margin: 10px 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map > .deformation-map-hint {
+  position: absolute;
+  top: 10px;
+  left: 12px;
+  z-index: 650;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+  padding: 6px 8px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  background: rgb(8 13 17 / 88%);
+  color: #c6d0d3;
+  font-size: 0.64rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map > .deformation-maps {
+  position: absolute;
+  inset: 54px 10px 10px;
+  min-height: 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-rows: minmax(0, 1fr);
+  gap: 9px;
+  margin: 0;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map > .kilauea-map-surface {
+  position: absolute;
+  inset: 54px 10px 10px;
+  min-height: 0;
+  overflow: hidden;
+  border: 1px solid #273842;
+  background: #0d1419;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .kilauea-map-surface .leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .kilauea-map-toolbar label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .kilauea-map-toolbar select {
+  min-height: 30px;
+  padding: 4px 7px;
+  border: 1px solid #33414a;
+  border-radius: 3px;
+  background: #111922;
+  color: #eef1f6;
+  font: inherit;
+}
+
+.kilauea-stats {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1px;
+  margin: 14px 0;
+  border: 1px solid var(--room-line, rgba(255, 255, 255, 0.1));
+  background: var(--room-line, rgba(255, 255, 255, 0.1));
+}
+
+.kilauea-stats > div {
+  min-width: 0;
+  padding: 10px;
+  background: var(--room-panel-raised, #141a24);
+}
+
+.kilauea-stats dt { color: var(--room-muted, #9aa3b2); font-size: .65rem; }
+.kilauea-stats dd { margin-top: 4px; color: var(--room-text, #eef1f6); font-size: .78rem; font-weight: 650; overflow-wrap: anywhere; }
+.kilauea-uncertainty { font-size: .72rem; line-height: 1.6; color: var(--room-muted, #9aa3b2); }
+.kilauea-pixel-inspector { display: grid; grid-template-columns: minmax(0, .75fr) minmax(0, 1.25fr); gap: 12px; margin-top: 14px; border: 1px solid var(--room-line, rgba(255, 255, 255, 0.1)); }
+.kilauea-pixel-inspector > * { min-width: 0; padding: 12px; }
+.kilauea-pixel-inspector form { display: grid; align-content: start; gap: 9px; background: var(--room-panel-raised, #141a24); }
+.kilauea-pixel-inspector form label { display: grid; gap: 5px; font-size: .7rem; }
+.kilauea-pixel-inspector input { min-height: 38px; padding: 6px 8px; border: 1px solid var(--room-line, rgba(255,255,255,.1)); border-radius: 3px; background: #0b0e14; color: var(--room-text, #eef1f6); }
+.kilauea-pixel-inspector button { min-height: 38px; padding: 6px 10px; border: 1px solid var(--room-amber, #ffb35c); border-radius: 3px; background: rgb(255 179 92 / 10%); color: var(--room-text, #eef1f6); cursor: pointer; }
+.kilauea-pixel-inspector h3 { margin-bottom: 8px; font-size: .9rem; }
+.kilauea-pixel-inspector p { font-size: .72rem; line-height: 1.55; color: var(--room-muted, #9aa3b2); }
+.kilauea-pixel-inspector dl { margin: 8px 0 0; }
+.kilauea-pixel-inspector dl > div { display: flex; justify-content: space-between; gap: 8px; padding: 5px 0; border-bottom: 1px solid var(--room-line, rgba(255,255,255,.1)); font-size: .68rem; }
+.kilauea-pixel-inspector dd { text-align: right; font-weight: 600; }
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-map-panel {
+  display: grid;
+  min-width: 0;
+  min-height: 0;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
+  border: 1px solid #273842;
+  background: #0d1419;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-map-panel header {
+  padding: 7px 9px;
+  background: #121d25;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-map-panel header strong {
+  color: var(--ws-text);
+  font-size: 0.67rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-map-panel header span,
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-map-panel footer {
+  color: var(--ws-text-2);
+  font-size: 0.58rem;
+}
+
+.wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-map {
+  height: 100%;
+  min-height: 0;
+}
+
+@media (max-width: 960px) {
+  .wx-root.wx-hazard-shell[data-hazard="forest"] .wx-hazard-map .forest-comparison,
+  .wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map .deformation-maps {
+    inset: 50px 5px 5px;
+    gap: 4px;
+  }
+
+  .wx-root.wx-hazard-shell[data-hazard="volcano"] .wx-hazard-map > .kilauea-map-surface { inset: 50px 5px 5px; }
+}
+
+@media (max-width: 620px) {
+  .kilauea-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .kilauea-pixel-inspector { grid-template-columns: 1fr; }
+}
+
+/* Wetland global uses the same fixed Radar Room composition as the friend's UI. */
+.wx-root.wx-hazard-shell.wetland-global-workspace {
+  min-height: 0;
+  padding: 0;
+  color-scheme: dark;
+  background: #070a0d;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace > * {
+  max-width: none;
+  margin: 0;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-hazard-map {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  min-width: 0;
+  min-height: 0;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-panel {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: 0;
+  background: #05070a;
+  box-shadow: none;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-wrap {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  background: #05070a;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-wrap .leaflet-container {
+  width: 100%;
+  height: 100%;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-topline {
+  position: absolute;
+  z-index: 650;
+  top: 12px;
+  left: 12px;
+  right: 58px;
+  display: flex;
+  width: fit-content;
+  max-width: calc(100% - 82px);
+  min-height: 0;
+  gap: 8px;
+  padding: 7px 10px;
+  border: 1px solid rgb(255 255 255 / 14%);
+  border-radius: 6px;
+  background: rgb(8 13 17 / 91%);
+  color: #d2dddf;
+  font-size: 0.64rem;
+  line-height: 1.4;
+  backdrop-filter: blur(7px);
+  pointer-events: none;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-topline span:first-child {
+  color: #eff6f4;
+  font-weight: 700;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-legend {
+  position: absolute;
+  z-index: 650;
+  right: 12px;
+  bottom: 12px;
+  left: 12px;
+  display: flex;
+  max-height: 100px;
+  min-height: 0;
+  flex-wrap: wrap;
+  gap: 6px 12px;
+  overflow: auto;
+  padding: 7px 9px;
+  border: 1px solid rgb(255 255 255 / 13%);
+  border-radius: 6px;
+  background: rgb(8 13 17 / 89%);
+  color: #c8d1d3;
+  font-size: 0.59rem;
+  line-height: 1.35;
+  backdrop-filter: blur(6px);
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-legend > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .detection-layer-toggles {
+  display: grid;
+  gap: 8px;
+  margin: 8px 0 14px;
+  padding: 10px 11px;
+  border: 1px solid #24343a;
+  border-radius: 5px;
+  background: #0b1216;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .detection-layer-toggles label {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  color: #c8d1d3;
+  font-size: 0.72rem;
+  line-height: 1.4;
+  cursor: pointer;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .detection-layer-toggles input[type="checkbox"] {
+  width: 15px;
+  height: 15px;
+  margin: 0;
+  accent-color: #5ac8d8;
+  flex: 0 0 auto;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-rail .case-walkthrough-launch {
+  display: grid;
+  gap: 9px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #1e2a33;
+  border-radius: 7px;
+  background: #0d1419;
+  color: var(--ws-text);
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .case-walkthrough-launch p {
+  font-size: 0.7rem;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .case-walkthrough-launch button {
+  min-height: 36px;
+  border: 1px solid #28515a;
+  border-radius: 5px;
+  background: #10232a;
+  color: #9be8f0;
+  font-size: 0.72rem;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body > :is(.nisar-case-story, .mozambique-case, .band-xray, .nisar-tools-section),
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .nisar-case-story,
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .mozambique-case,
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .band-xray,
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .nisar-tools-section {
+  min-width: 0;
+  margin: 0 0 12px;
+  padding: 12px;
+  border: 1px solid #1e2a33;
+  border-radius: 7px;
+  background: #0d1419;
+  color: #e6edf3;
+  box-shadow: none;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .nisar-case-story__grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 8px;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body :is(.nisar-case-step, .nisar-evidence-audit-grid article, .nisar-evidence-metrics > div, .nisar-radar-grid figure, .band-xray__figure, .band-xray__explanation, .mozambique-case__image > a) {
+  min-width: 0;
+  border-color: #273842;
+  background: #0b1117;
+  color: #e6edf3;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body :is(.nisar-radar-grid, .nisar-evidence-audit-grid, .nisar-evidence-metrics, .mozambique-case__images, .band-xray__body) {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body :is(img, video, canvas, svg) {
+  max-width: 100%;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body :is(code, pre, dd, p, li, a) {
+  overflow-wrap: anywhere;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .nisar-tools-section {
+  padding: 12px;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body .nisar-tools-heading {
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-drawer__body :is(.nisar-case-story__impact, .nisar-evidence-finding) {
+  border-color: #735a35;
+  background: #211b12;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-hazard-footer {
+  display: block;
+  padding: 9px 16px 3px;
+  border-top: 1px solid #1e2a33;
+  background: #0b1117;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-global-track {
+  width: 100%;
+  min-width: 0;
+  height: 72px;
+  margin: 21px 6px 0;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-global-track .wx-obs {
+  width: 52px;
+}
+
+.wx-root.wx-hazard-shell.wetland-global-workspace .wx-global-timeline__empty,
+.wx-root.wx-hazard-shell.wetland-global-workspace .iw-footer-note {
+  color: var(--ws-text-2);
+  font-size: 0.64rem;
+  line-height: 1.4;
+}
+
+@media (max-width: 960px) {
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-rail {
+    display: flex;
+    max-height: 124px;
+    overflow-y: auto;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-rail .case-walkthrough-launch {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-hazard-footer {
+    padding: 7px 12px;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-hazard-footer .iw-footer-note {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-rail .case-walkthrough-launch {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 8px 10px;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-rail .case-walkthrough-launch p {
+    display: none;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-hazard-footer {
+    padding: 7px 10px 3px;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-timeline__controls {
+    gap: 5px;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-now {
+    margin-left: auto;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-now strong {
+    font-size: 0.92rem;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-track__cap {
+    display: none;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .wx-global-track {
+    height: 58px;
+    margin: 13px 4px 0;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .global-map-topline {
+    display: grid;
+    top: 8px;
+    left: 8px;
+    max-width: calc(100% - 64px);
+    gap: 2px;
+  }
+
+  .wx-root.wx-hazard-shell.wetland-global-workspace .global-map-legend {
+    right: 6px;
+    bottom: 6px;
+    left: 6px;
+    max-height: 78px;
+    gap: 4px 8px;
+    font-size: 0.55rem;
+  }
+}
+
+/* Optical/radar comparison stays docked over the actual map. */
+.wx-root.wx-hazard-shell.wetland-global-workspace .global-map-swipe-control {
+  position: absolute;
+  z-index: 1110;
+  top: 70px;
+  right: 14px;
+  width: min(260px, calc(100% - 28px));
+  padding: 6px 9px;
+  border: 1px solid rgb(136 188 199 / 44%);
+  border-radius: 5px;
+  background: rgb(7 15 21 / 94%);
+  color: #e8f0f2;
+  box-shadow: 0 5px 16px rgb(0 0 0 / 35%);
+  backdrop-filter: blur(8px);
+}
+
+.global-map-swipe-control input:focus-visible {
+  outline: 2px solid #8ddfe0;
+  outline-offset: 2px;
+}
+
+.global-map-swipe-control__slider { display: grid; gap: 1px; color: #d7e1e3; font-size: .62rem; }
+.global-map-swipe-control__slider > span { display: flex; justify-content: space-between; gap: 8px; }
+.global-map-swipe-control__slider output { color: #8ddfe0; font-variant-numeric: tabular-nums; }
+.global-map-swipe-control__slider input { width: 100%; margin: 1px 0 0; accent-color: #60d3df; cursor: ew-resize; }
+.global-map-swipe-control__slider input:disabled { cursor: wait; opacity: .55; }
+.global-map-swipe-control__sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  clip-path: inset(50%);
+}
+
+@media (max-width: 600px) {
+  .wx-root.wx-hazard-shell.wetland-global-workspace .global-map-swipe-control {
+    top: 62px;
+    right: 8px;
+    width: min(240px, calc(100% - 16px));
+    padding: 5px 7px;
+  }
+}

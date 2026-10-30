@@ -4,5 +4,7 @@
   "evidence_url": "/forests/rondonia/2026.10.08-v1/evidence.zip",
   "checksums_url": "/forests/rondonia/2026.10.08-v1/checksums.json",
   "archive_sha256": "27cd2090ba5af16c91d69e35f24b2b813148436152c6845aa911269f7f800c43",
-  "native_archive_sha256": "64901ab17fb15f94b92a9c495fbf74f2d4e3ec263e3406b3b60f4000f7d4b330"
+  "native_archive_sha256": "64901ab17fb15f94b92a9c495fbf74f2d4e3ec263e3406b3b60f4000f7d4b330",
+  "physics_grid_url": "/physics/rondonia/2026.10.29-v1/pixel-grid.json",
+  "physics_grid_checksums_url": "/physics/rondonia/2026.10.29-v1/checksums.json"
 }

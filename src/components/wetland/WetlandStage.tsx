@@ -139,6 +139,8 @@ function PatchLayer({ list, interactive, dim }: { list: WetlandPatch[]; interact
 export default function WetlandStage() {
   const { patches, lock, viewMode, satelliteBasemap, siteBoundary, selectedPatch, pulseData, probeResult, probeActive } = useWetlandStore();
   const [split, setSplit] = useState(50);
+  const [basemapReady, setBasemapReady] = useState(false);
+  const [basemapFailed, setBasemapFailed] = useState(false);
   const wrap = useRef<HTMLDivElement>(null);
   const drag = useRef(false);
   useEffect(() => {
@@ -154,7 +156,14 @@ export default function WetlandStage() {
       <MapContainer center={MAP_CONFIG.center} zoom={11} minZoom={5} maxZoom={17} zoomControl={false} style={{ width: "100%", height: "100%" }}>
         <FitView />
         <ZoomControl position="bottomleft" />
-        {satelliteBasemap && <TileLayer url={MAP_CONFIG.tileUrl} attribution={MAP_CONFIG.tileAttribution} />}
+        {satelliteBasemap && <TileLayer
+          url={MAP_CONFIG.tileUrl}
+          attribution={MAP_CONFIG.tileAttribution}
+          eventHandlers={{
+            tileload: () => { setBasemapReady(true); setBasemapFailed(false); },
+            tileerror: () => { if (!basemapReady) setBasemapFailed(true); },
+          }}
+        />}
         {viewMode === "RADAR" && <RadarOverlay />}
         {siteBoundary && <Pane name="wxBoundary" style={{ zIndex: 420 }}><LeafletGeoJSON data={siteBoundary} interactive={false} style={{ color: "#5AC8D8", weight: 1.5, opacity: 0.9, fillOpacity: 0, dashArray: "6 5" }} /></Pane>}
         {lock ? <>
@@ -164,6 +173,10 @@ export default function WetlandStage() {
         </> : <Pane name="wxPatches" style={{ zIndex: 400 }}><PatchLayer list={patches} interactive dim={dimOthers} /></Pane>}
         <DetectiveClicks />
       </MapContainer>
+
+      {satelliteBasemap && !basemapReady && <div className={`wx-basemap-status${basemapFailed ? " is-error" : ""}`} role="status" aria-live="polite">
+        {basemapFailed ? "Satellite imagery unavailable · radar layers remain visible" : "Loading satellite imagery…"}
+      </div>}
 
       {probeActive && probeResult && <div className="wx-crosshair-note" aria-hidden="true">{probeResult.lat.toFixed(4)}°, {probeResult.lng.toFixed(4)}°</div>}
 

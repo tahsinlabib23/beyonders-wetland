@@ -84,6 +84,19 @@ positive categories in metadata; an unclassified date-coded raster must not be
 treated as an ordinary boolean map. GLAD cautions against deriving forest-loss
 area estimates from alert pixels: <https://glad.umd.edu/dataset/glad-forest-alerts>.
 
+The public Rondônia case offers an optional live tile overlay from the Global
+Forest Watch tile cache (`umd_glad_sentinel2_alerts/latest`). The UI sends
+`start_date` and `end_date` filters covering the first baseline date through
+the selected NISAR date, plus an optional confirmed-only filter. This narrows
+the live alert display to a relevant time window, but does not turn it into a
+reproducible reference package: the project has not computed candidate-to-alert
+pixel overlap, and the source-rendered tile snapshot can change as GLAD updates.
+Treat a visible match as positive event context only. Check the alert dates and
+confidence in the official GLAD viewer; missing alerts remain unassessed and
+are not reference negatives. Use the operator import workflow for a dated,
+archived raster and record its version/checksum. GLAD-S2 maps alerts within its
+primary-forest mask in the Amazon basin, not all forest or all land.
+
 ## Claim gate and limitations
 
 Automated runs always retain `UNVERIFIED_RADAR_CHANGE_CANDIDATES`. Independent

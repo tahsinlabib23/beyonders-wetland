@@ -75,3 +75,18 @@ NASA CMR contains the paired compatible BETA scenes and the sample non-authorita
 ```
 
 This produces an independent local run. The available adjacent HLS comparisons, common-clear coverage, and offsets determine whether an optical check is usable. The NASA event visualization is regional context. Do not attribute the NASA product's published flood outlines to the local detector.
+
+The current completed run is `ec8fa5ee15ae41d1aa89f930f2b47e36`, published as `2026.10.29-chokwe`. It produced 127 HH-darkening candidate patches (29.87 km²), not confirmed flood polygons. Its best HLS pair is 7 January → 22 January with 1.26% common-clear study coverage; none of the candidate area was assessed, so the optical comparison is inconclusive and no accuracy score should be reported. The published package can be selected in the Wetlands saved-study control.
+
+The later UNOSAT positive-only comparison is reproduced from the official Sentinel-1 GIS product. Download and extract the SHP archive into the ignored local cache path, then run:
+
+```powershell
+$zip = ".\pipeline\output\reference-cache\unosat_4232_sentinel1_flood_shp.zip"
+$dest = ".\pipeline\output\reference-cache\unosat_4232_shp"
+New-Item -ItemType Directory -Force $dest | Out-Null
+Invoke-WebRequest "https://unosat.org/static/unosat_filesystem/4232/FL20251231MOZ_SHP.zip" -OutFile $zip
+Expand-Archive -LiteralPath $zip -DestinationPath $dest -Force
+.\pipeline\venv\Scripts\python.exe pipeline/compare_chokwe_unosat.py
+```
+
+The script rasterizes the 23 and 24 January Sentinel-1 water and analysis extent layers onto the run's native NISAR grid and writes `docs/chokwe-unosat-overlap.json`. It reports positive overlap and candidate-footprint coverage only. The reference is six/seven days after the NISAR event and preliminary, not field-validated; there are no assessed negative labels, so do not calculate precision, recall, or F1 from this overlay. The local source archive is excluded from Git; the public UI links directly to the official UNOSAT source.

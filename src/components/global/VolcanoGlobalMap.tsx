@@ -31,6 +31,19 @@ export interface VolcanoCoverage {
 function FocusVolcano({ selected }: { selected: VolcanoRecord | null }) {
   const map = useMap();
   useEffect(() => {
+    const container = map.getContainer();
+    let frame = requestAnimationFrame(() => map.invalidateSize({ pan: false }));
+    const observer = new ResizeObserver(() => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => map.invalidateSize({ pan: false }));
+    });
+    observer.observe(container);
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [map]);
+  useEffect(() => {
     if (selected) map.flyTo([selected.latitude, selected.longitude], Math.max(map.getZoom(), 4), { duration: 0.6 });
   }, [map, selected]);
   return null;

@@ -8,12 +8,23 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
 export interface GlobePin { lat: number; lng: number }
-export interface GlobeCaseMarker { id: string; lat: number; lng: number; label: string; sub: string }
+export type GlobeHazard = "wetland" | "forest" | "volcano";
+export interface GlobeCaseMarker {
+  id: string;
+  hazard: GlobeHazard;
+  lat: number;
+  lng: number;
+  label: string;
+  sub: string;
+  href: string;
+  color: string;
+}
 
 interface Globe3DProps {
   pinMode: boolean;
   pin: GlobePin | null;
   caseMarkers: GlobeCaseMarker[];
+  focusLocation: GlobePin | null;
   onPin: (lat: number, lng: number) => void;
   onCaseClick: (id: string) => void;
   onHoverCoord: (lat: number | null, lng: number | null) => void;
@@ -46,23 +57,37 @@ function makeGlowTexture(): THREE.Texture {
   c.width = c.height = 128;
   const g = c.getContext("2d")!;
   const grad = g.createRadialGradient(64, 64, 0, 64, 64, 64);
-  grad.addColorStop(0, "rgba(255,190,90,1)");
-  grad.addColorStop(0.25, "rgba(255,170,70,0.85)");
-  grad.addColorStop(0.55, "rgba(255,150,50,0.22)");
-  grad.addColorStop(1, "rgba(255,150,50,0)");
+  // White alpha texture keeps each marker's material tint vivid.
+  grad.addColorStop(0, "rgba(255,255,255,1)");
+  grad.addColorStop(0.25, "rgba(255,255,255,0.82)");
+  grad.addColorStop(0.55, "rgba(255,255,255,0.2)");
+  grad.addColorStop(1, "rgba(255,255,255,0)");
   g.fillStyle = grad;
   g.fillRect(0, 0, 128, 128);
   const t = new THREE.CanvasTexture(c);
   return t;
 }
 
-interface MarkerObj { id: string; group: THREE.Group; pulse: THREE.Sprite }
+interface MarkerObj { id: string; group: THREE.Group; pulse: THREE.Sprite; labelOffsetX: number }
 
-export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick, onHoverCoord }: Globe3DProps) {
+function distanceKm(a: GlobePin, b: GlobePin) {
+  const toRadians = (degrees: number) => (degrees * Math.PI) / 180;
+  const dLat = toRadians(b.lat - a.lat);
+  const dLng = toRadians(b.lng - a.lng);
+  const latA = toRadians(a.lat);
+  const latB = toRadians(b.lat);
+  const h = Math.sin(dLat / 2) ** 2 + Math.cos(latA) * Math.cos(latB) * Math.sin(dLng / 2) ** 2;
+  return 6371 * 2 * Math.atan2(Math.sqrt(h), Math.sqrt(1 - h));
+}
+
+export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPin, onCaseClick, onHoverCoord }: Globe3DProps) {
+  const focusLatitude = focusLocation?.lat;
+  const focusLongitude = focusLocation?.lng;
   const mountRef = useRef<HTMLDivElement>(null);
   const labelPinRef = useRef<HTMLDivElement>(null);
-  const labelRefs = useRef(new Map<string, HTMLDivElement | null>());
+  const labelRefs = useRef(new Map<string, HTMLElement | null>());
   const markerLayerRef = useRef<THREE.Group | null>(null);
+  const globeGroupRef = useRef<THREE.Group | null>(null);
   const glowTexRef = useRef<THREE.Texture | null>(null);
   const markerObjs = useRef<MarkerObj[]>([]);
   const hitMeshes = useRef<THREE.Mesh[]>([]);
@@ -89,6 +114,7 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
     camera.position.set(0, 0.25, 5.6);
 
     const globeGroup = new THREE.Group();
+    globeGroupRef.current = globeGroup;
     scene.add(globeGroup);
     // Start spun so Bangladesh faces the camera; intro flight brings it closer.
     globeGroup.rotation.y = Math.PI / 2 - THREE.MathUtils.degToRad(91.04 + 180);
@@ -238,7 +264,7 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
     const labelPin = labelPinRef.current;
     const projV = new THREE.Vector3();
     const camDir = new THREE.Vector3();
-    const placeLabel = (obj: THREE.Object3D, div: HTMLDivElement | null, visible: boolean) => {
+    const placeLabel = (obj: THREE.Object3D, div: HTMLElement | null, visible: boolean, offsetX = 0) => {
       if (!div) return;
       obj.getWorldPosition(projV);
       camDir.copy(camera.position).normalize();
@@ -248,14 +274,16 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
       const w = mount.clientWidth, h = mount.clientHeight;
       div.style.opacity = "1";
       div.style.pointerEvents = visible ? "auto" : "none";
-      div.style.transform = `translate(${(p.x * 0.5 + 0.5) * w}px, ${(-p.y * 0.5 + 0.5) * h}px) translate(-50%,-135%)`;
+      div.style.transform = `translate(${(p.x * 0.5 + 0.5) * w + offsetX}px, ${(-p.y * 0.5 + 0.5) * h}px) translate(-50%,-135%)`;
     };
 
     let raf = 0;
-    const clock = new THREE.Clock();
+    const timer = new THREE.Timer();
+    timer.connect(document);
     const animate = () => {
       raf = requestAnimationFrame(animate);
-      const t = clock.getElapsedTime();
+      timer.update();
+      const t = timer.getElapsed();
       const now = performance.now();
 
       // Intro flight.
@@ -269,13 +297,16 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
         globeGroup.rotation.y += velX;
         globeGroup.rotation.x = THREE.MathUtils.clamp(globeGroup.rotation.x + velY, -0.85, 0.85);
         velX *= 0.94; velY *= 0.94;
-        if (!reduceMotion && now - lastInteract > 3000) globeGroup.rotation.y += 0.0011;
+        // Keep published case locations in view after the initial category
+        // framing. Users can still drag the globe; unattended auto-spin would
+        // otherwise carry one or more study markers behind the planet.
+        if (!reduceMotion && markerObjs.current.length === 0 && now - lastInteract > 3000) globeGroup.rotation.y += 0.0011;
       }
       // Marker pulses (phase-offset per case).
       markerObjs.current.forEach((mo, i) => {
-        const s = 0.16 + Math.sin(t * 2.6 + i * 1.7) * 0.045;
+        const s = 0.13 + Math.sin(t * 2.6 + i * 1.7) * 0.025;
         mo.pulse.scale.setScalar(s);
-        (mo.pulse.material as THREE.SpriteMaterial).opacity = 0.65 + Math.sin(t * 2.6 + i * 1.7) * 0.2;
+        (mo.pulse.material as THREE.SpriteMaterial).opacity = 0.78 + Math.sin(t * 2.6 + i * 1.7) * 0.17;
       });
 
       // Satellite orbit (inclined, period ~14s).
@@ -314,7 +345,7 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
         pinGroup.position.copy(latLngToVec3(p.lat, p.lng, R * 1.012));
       } else pinGroup.visible = false;
 
-      for (const mo of markerObjs.current) placeLabel(mo.group, labelRefs.current.get(mo.id) ?? null, true);
+      for (const mo of markerObjs.current) placeLabel(mo.group, labelRefs.current.get(mo.id) ?? null, true, mo.labelOffsetX);
       placeLabel(pinGroup, labelPin, !!p);
 
       renderer.render(scene, camera);
@@ -323,8 +354,10 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
 
     return () => {
       cancelAnimationFrame(raf);
+      timer.dispose();
       ro.disconnect();
       markerLayerRef.current = null;
+      globeGroupRef.current = null;
       glowTexRef.current = null;
       markerObjs.current = [];
       hitMeshes.current = [];
@@ -341,6 +374,15 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
       mount.removeChild(el);
     };
   }, []);
+
+  // Face the first study in the active category toward the camera when the
+  // user switches the globe filter. The globe remains freely draggable.
+  useEffect(() => {
+    const group = globeGroupRef.current;
+    if (!group || focusLatitude == null || focusLongitude == null) return;
+    group.rotation.y = -Math.PI / 2 - THREE.MathUtils.degToRad(focusLongitude);
+    group.rotation.x = THREE.MathUtils.degToRad(focusLatitude);
+  }, [focusLatitude, focusLongitude]);
 
   // (Re)build one pulsing marker per real case.
   useEffect(() => {
@@ -361,18 +403,48 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
     hitMeshes.current = [];
     for (const m of caseMarkers) {
       const group = new THREE.Group();
-      const core = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xffc46b, transparent: true, depthWrite: false }));
-      core.scale.setScalar(0.11);
-      const pulse = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xff9a3c, transparent: true, opacity: 0.8, depthWrite: false }));
-      pulse.scale.setScalar(0.16);
-      group.add(pulse, core);
+      const halo = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: m.color, transparent: true, opacity: 0.28, depthWrite: false }));
+      halo.scale.setScalar(0.24);
+      const pulse = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: m.color, transparent: true, opacity: 0.9, depthWrite: false }));
+      pulse.scale.setScalar(0.13);
+      // Keep a crisp center so close published sites remain distinguishable
+      // when their soft halos overlap at globe scale.
+      const core = new THREE.Mesh(
+        new THREE.SphereGeometry(0.015, 12, 12),
+        new THREE.MeshBasicMaterial({ color: m.color, toneMapped: false }),
+      );
+      const center = new THREE.Mesh(
+        new THREE.SphereGeometry(0.007, 10, 10),
+        new THREE.MeshBasicMaterial({ color: 0xe8fdff, toneMapped: false }),
+      );
+      group.add(halo, pulse, core, center);
       // Invisible fat hit-target so the marker is easy to tap.
       const hit = new THREE.Mesh(new THREE.SphereGeometry(0.09, 12, 12), new THREE.MeshBasicMaterial({ visible: false }));
       hit.userData.caseId = m.id;
       group.add(hit);
-      group.position.copy(latLngToVec3(m.lat, m.lng, R * 1.012));
+
+      const nearby = caseMarkers
+        .filter((candidate) => candidate.hazard === m.hazard && distanceKm(m, candidate) < 160)
+        .sort((a, b) => a.id.localeCompare(b.id));
+      const nearbyIndex = nearby.findIndex((candidate) => candidate.id === m.id);
+      const visualOffset = nearby.length > 1 ? (nearbyIndex - (nearby.length - 1) / 2) * 0.05 : 0;
+      const truePosition = latLngToVec3(m.lat, m.lng, R * 1.012);
+      const latitude = THREE.MathUtils.degToRad(m.lat);
+      const longitude = THREE.MathUtils.degToRad(m.lng);
+      const east = new THREE.Vector3(-Math.cos(latitude) * Math.sin(longitude), 0, -Math.cos(latitude) * Math.cos(longitude)).normalize();
+      const displayPosition = truePosition.clone().addScaledVector(east, visualOffset).setLength(R * 1.012);
+      if (visualOffset !== 0) {
+        const tetherGeometry = new THREE.BufferGeometry().setFromPoints([truePosition, displayPosition]);
+        const tether = new THREE.Line(
+          tetherGeometry,
+          new THREE.LineBasicMaterial({ color: m.color, transparent: true, opacity: 0.8, depthWrite: false }),
+        );
+        layer.add(tether);
+      }
+      group.position.copy(displayPosition);
       layer.add(group);
-      markerObjs.current.push({ id: m.id, group, pulse });
+      const labelOffsetX = nearby.length > 1 ? (nearbyIndex - (nearby.length - 1) / 2) * 150 : 0;
+      markerObjs.current.push({ id: m.id, group, pulse, labelOffsetX });
       hitMeshes.current.push(hit);
     }
   }, [caseMarkers]);
@@ -380,10 +452,18 @@ export default function Globe3D({ pinMode, pin, caseMarkers, onPin, onCaseClick,
   return (
     <div ref={mountRef} className="globe-mount" aria-label="Interactive 3D globe of Earth">
       {caseMarkers.map((m) => (
-        <div key={m.id} ref={(d) => { labelRefs.current.set(m.id, d); }} className="globe-tag globe-tag--case">
+        <button
+          key={m.id}
+          ref={(d) => { labelRefs.current.set(m.id, d); }}
+          type="button"
+          className="globe-tag globe-tag--case"
+          data-hazard={m.hazard}
+          aria-label={`Open ${m.label} ${m.hazard} study`}
+          onClick={() => onCaseClick(m.id)}
+        >
           <strong>{m.label}</strong>
           <span>{m.sub}</span>
-        </div>
+        </button>
       ))}
       <div ref={labelPinRef} className="globe-tag globe-tag--pin">
         <strong>{pin ? `${Math.abs(pin.lat).toFixed(2)}°${pin.lat >= 0 ? "N" : "S"} ${Math.abs(pin.lng).toFixed(2)}°${pin.lng >= 0 ? "E" : "W"}` : ""}</strong>

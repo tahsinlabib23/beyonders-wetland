@@ -1,0 +1,355 @@
+{
+  "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+  "site_name": "Chokwe event study box",
+  "hazard_type": "wetland_flood_change",
+  "product": "NISAR_L2_GCOV_BETA_V1",
+  "dates": [
+    "2026-01-17"
+  ],
+  "baseline_dates": [
+    "2026-01-05"
+  ],
+  "boundary_source": "Rectangular analysis box around Chokwe; not an authoritative wetland boundary",
+  "method_version": "hh-hv-change-v1",
+  "reference": {
+    "status": "INCONCLUSIVE",
+    "reference_validated": false,
+    "cross_sensor_check_completed": false,
+    "site": "Chokwe event study box",
+    "reference_product": "NASA HLS S30 v2.0 (Sentinel-2 surface reflectance)",
+    "reference_product_short_name": "HLSS30, HLSL30",
+    "source_url": "https://hls.gsfc.nasa.gov/data-products/",
+    "selection": {
+      "method": "Maximum common cloud-free study-area coverage; ties favor closer dates. Detection agreement is not used for selection.",
+      "date_tolerance_days": 5,
+      "available_pairs": 28,
+      "evaluated_pairs": 28,
+      "attempts": [
+        {
+          "baseline_scene": "HLS.L30.T36JVT.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026004T073219.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 1040510,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.L30.T36JVT.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 14079,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026004T073219.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 14079,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026009T073311.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 1040510,
+          "event_clear_pixels": 14079,
+          "common_clear_pixels": 14079,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 14079,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JVT.2026009T073311.v2.0",
+          "event_scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 14079,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.L30.T36JWT.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JWT.2026004T073219.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JWT.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 293391,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JWT.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026019T073231.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.L30.T36JWT.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 603,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JWT.2026004T073219.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 603,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JWT.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 293391,
+          "event_clear_pixels": 603,
+          "common_clear_pixels": 603,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36JWT.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36JWT.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 603,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.L30.T36KVU.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36KVU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 9,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KVU.2026004T073219.v2.0",
+          "event_scene": "HLS.S30.T36KVU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 9,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KVU.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36KVU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 237536,
+          "event_clear_pixels": 9,
+          "common_clear_pixels": 9,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KVU.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36KVU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 9,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KWU.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36KWU.2026017T074139.v2.0",
+          "baseline_clear_pixels": 71568,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KWU.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36KWU.2026017T074139.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KWU.2026007T074219.v2.0",
+          "event_scene": "HLS.S30.T36KWU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 71568,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.S30.T36KWU.2026002T074331.v2.0",
+          "event_scene": "HLS.S30.T36KWU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.L30.T36KWU.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36KWU.2026017T074139.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        },
+        {
+          "baseline_scene": "HLS.L30.T36KWU.2026004T074344.v2.0",
+          "event_scene": "HLS.S30.T36KWU.2026022T074221.v2.0",
+          "baseline_clear_pixels": 0,
+          "event_clear_pixels": 0,
+          "common_clear_pixels": 0,
+          "status": "READ"
+        }
+      ],
+      "catalog_searches": [
+        {
+          "collection": "HLSS30",
+          "records": 19,
+          "limit_reached": false,
+          "status": "SEARCHED"
+        },
+        {
+          "collection": "HLSL30",
+          "records": 4,
+          "limit_reached": false,
+          "status": "SEARCHED"
+        }
+      ]
+    },
+    "comparison": {
+      "baseline": {
+        "nisar_date": "2026-01-05",
+        "nisar_observation_dates": [
+          "2026-01-05"
+        ],
+        "nisar_method": "single preceding GCOV observation",
+        "hls_date": "2026-01-07",
+        "offset_days": 2,
+        "scene": "HLS.S30.T36JVT.2026007T074219.v2.0",
+        "product": "S30"
+      },
+      "event": {
+        "nisar_date": "2026-01-17",
+        "hls_date": "2026-01-22",
+        "offset_days": 5,
+        "scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+        "product": "S30"
+      },
+      "hls_tile": "T36JVT",
+      "spatial_resolution_m": 30,
+      "mndwi_threshold": 0.0,
+      "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+      "evaluated_class": "OPEN_WATER",
+      "vegetated_inundation_checked": false,
+      "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+    },
+    "coverage": {
+      "study_area_valid_pixels": 1121391,
+      "common_clear_pixels": 14079,
+      "common_clear_fraction": 0.012554942923565465,
+      "common_clear_area_km2": 1.4079000000000002,
+      "minimum_clear_fraction_for_check": 0.2
+    },
+    "metrics": {
+      "true_positive_pixels": 0,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 885,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "intersection_over_union": 0.0
+    },
+    "radar_grid_metrics": {
+      "note": "Legacy aligned radar-grid counts retained for reproducibility; finer radar pixels are not independent HLS samples.",
+      "true_positive_pixels": 0,
+      "false_positive_pixels": 0,
+      "false_negative_pixels": 885,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "intersection_over_union": 0.0
+    },
+    "optical_support": {
+      "support": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions",
+      "resampling": "area-weighted average from native GCOV grid to HLS grid",
+      "native_hls_pixels_assessed": 1568,
+      "hls_pixel_area_km2": 0.0009,
+      "study_area_km2": 112.13910000659823,
+      "common_clear_area_km2": 1.4079000001966953,
+      "common_clear_fraction": 0.012554942924580766,
+      "radar_candidate_area_km2": 0.0,
+      "radar_candidate_area_in_hls_footprint_km2": 30.00120026625413,
+      "candidate_assessed_area_km2": 0.0,
+      "candidate_assessed_fraction": 0.0,
+      "optical_new_water_area_km2": 0.0882,
+      "true_positive_area_km2": 0.0,
+      "false_positive_area_km2": 0.0,
+      "false_negative_area_km2": 0.0882,
+      "precision": null,
+      "recall": 0.0,
+      "f1": 0.0,
+      "intersection_over_union": 0.0
+    },
+    "reason": "Too few co-registered, cloud-free pixels overlap the wetland mask for a useful check.",
+    "limitations": [
+      "This is a cross-sensor agreement check, not field truth or a formal accuracy estimate.",
+      "HLS dates may differ from NISAR dates by the offsets shown; water can change between acquisitions.",
+      "Clouds and HLS's 30 m pixels reduce comparable coverage relative to the NISAR grid.",
+      "Pixels flagged with high aerosol optical thickness are excluded; lower aerosol levels can still affect reflectance.",
+      "MNDWI can miss flooded vegetation, turbid water, and mixed shoreline pixels.",
+      "S30/L30 bands are harmonized, but residual sensor and atmospheric differences can affect mixed-sensor pairs.",
+      "Only open-water candidates are evaluated; vegetated-inundation candidates are not validated."
+    ]
+  },
+  "claim": "Measured radar-change candidates; confirmed flooding is not established.",
+  "publication_version": "2026.10.29-chokwe"
+}

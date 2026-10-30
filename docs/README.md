@@ -1,12 +1,15 @@
 # Project documentation
 
 - [Project plan and release gates](project-plan.md)
+- [2026 NASA Space Apps challenge coverage](challenge-coverage.md)
 - [Architecture and public/local modes](architecture.md)
 - [Wetland scientific method](scientific-method.md)
 - [Wetland evidence inventory](evidence-report.md)
+- [Chókwè UNOSAT spatial-overlap report](chokwe-unosat-overlap.json)
 - [Volcano inputs, method and scientific limits](volcano-method.md)
 - [Volcano acceptance report and release notes](volcano-release.md)
 - [Forest inputs, method and scientific limits](forest-method.md)
+- [Interactive radar physics, sonification and evidence briefs](radar-physics-tools.md)
 - [Forest operator workflow and publication](forest-operator-guide.md)
 - [Data and publication schemas](data-specification.md)
 - [Installation, private authentication and processing](operator-guide.md)

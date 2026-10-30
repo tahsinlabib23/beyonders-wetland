@@ -16,19 +16,24 @@ function MapInteraction({ onProbe, focus, bbox }: { onProbe: (lat: number, lon: 
 
 function bounds(bbox: number[]): LatLngBoundsExpression { return [[bbox[1], bbox[0]], [bbox[3], bbox[2]]]; }
 
-export default function DeformationMap({ bbox, referenceBbox, imageUrl, point, focus, onProbe, regions }: {
-  bbox: number[]; referenceBbox: number[]; imageUrl: string; point: {lat: number; lon: number} | null;
+export default function DeformationMap({ bbox, referenceBbox, imageUrl, imageOpacity = .9, emptyMessage, point, focus, onProbe, regions }: {
+  bbox: number[]; referenceBbox: number[]; imageUrl: string | null; emptyMessage?: string; point: {lat: number; lon: number} | null;
+  imageOpacity?: number;
   focus: VolcanoFocus | null; onProbe: (lat: number, lon: number) => void;
   regions: {name: string; lat: number; lon: number}[];
 }) {
   const [failedImage, setFailedImage] = useState<string|null>(null);
   const [tileFailed, setTileFailed] = useState(false);
-  return <><MapContainer bounds={bounds(bbox)} minZoom={7} maxZoom={17} maxBounds={[[12.7,39.8],[14.4,41.6]]} maxBoundsViscosity={1} style={{height:"100%",width:"100%"}}>
+  const [west,south,east,north] = bbox;
+  const latitudePadding = Math.max((north - south) * .75, .25);
+  const longitudePadding = Math.max((east - west) * .75, .25);
+  const mapBounds: LatLngBoundsExpression = [[Math.max(-85.05,south-latitudePadding),Math.max(-180,west-longitudePadding)],[Math.min(85.05,north+latitudePadding),Math.min(180,east+longitudePadding)]];
+  return <><MapContainer bounds={bounds(bbox)} minZoom={3} maxZoom={17} maxBounds={mapBounds} maxBoundsViscosity={1} style={{height:"100%",width:"100%"}}>
     <TileLayer url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}" attribution="Tiles © Esri, USGS, NOAA" noWrap eventHandlers={{tileerror:()=>setTileFailed(true)}} />
-    <ImageOverlay key={imageUrl} url={imageUrl} bounds={bounds(bbox)} opacity={.9} eventHandlers={{error:()=>setFailedImage(imageUrl)}} />
+    {imageUrl&&<ImageOverlay key={imageUrl} url={imageUrl} bounds={bounds(bbox)} opacity={imageOpacity} eventHandlers={{error:()=>setFailedImage(imageUrl)}} />}
     <Rectangle bounds={bounds(referenceBbox)} pathOptions={{color:"#36e1cb",fill:false,weight:2,dashArray:"5 5"}}><Tooltip>Assumed-stable reference patch</Tooltip></Rectangle>
     {regions.map(region => <CircleMarker key={region.name} center={[region.lat,region.lon]} radius={4} pathOptions={{color:"white",fillColor:"#191e1c",fillOpacity:1,weight:1.5}}><Tooltip permanent direction={region.name.endsWith("south")?"right":"top"}>{region.name}</Tooltip></CircleMarker>)}
     {point && <CircleMarker center={[point.lat,point.lon]} radius={6} pathOptions={{color:"#ffdf63",fill:false,weight:3}} />}
     <MapInteraction onProbe={onProbe} focus={focus} bbox={bbox} />
-  </MapContainer>{(failedImage===imageUrl||tileFailed)&&<p className="deformation-map-error" role="status">{failedImage===imageUrl?"This published radar layer could not load. Choose another layer or reload the page.":"Satellite background tiles are unavailable. Published radar layers remain available."}</p>}</>;
+  </MapContainer>{(!imageUrl||failedImage===imageUrl||tileFailed)&&<p className="deformation-map-error" role="status">{!imageUrl?emptyMessage??"This radar layer is not available for the selected interval.":failedImage===imageUrl?"This published radar layer could not load. Choose another layer or reload the page.":"Satellite background tiles are unavailable. Published radar layers remain available."}</p>}</>;
 }

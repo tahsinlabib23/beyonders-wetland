@@ -1,0 +1,49 @@
+{
+  "id": "kilauea-episode-36-2025",
+  "title": "K\u012blauea \u00b7 Episode 36, Hawai\u02bbi",
+  "event_date": "2025-11-09",
+  "bbox": [
+    -155.45,
+    19.3,
+    -155.05,
+    19.55
+  ],
+  "boundary_source": "Analyst-defined WGS84 study rectangle around K\u012blauea summit; not a volcano boundary",
+  "reference_bbox": [
+    -155.14,
+    19.31,
+    -155.12,
+    19.33
+  ],
+  "reference_note": "Analyst-selected southeast reference patch outside the summit caldera; stability is assumed and must be inspected against the phase/coherence layers, not treated as surveyed ground truth",
+  "coherence_floor": 0.3,
+  "display_spacing_degrees": 0.0008,
+  "display_limit_cm": 10,
+  "event_context_url": "https://volcanoes.usgs.gov/hans-public/vona/DOI-USGS-HVO-2025-11-10T01:52:38+00:00",
+  "nisar_pairs": [
+    {
+      "start": "2025-11-03",
+      "end": "2025-11-15",
+      "track": "072",
+      "direction": "D",
+      "frame": "079",
+      "release": "X05010",
+      "label": "Repeat-pass interval spanning USGS episode 36"
+    }
+  ],
+  "sentinel_pairs": [],
+  "regions": [
+    {
+      "name": "K\u012blauea summit",
+      "lon": -155.287,
+      "lat": 19.421,
+      "radius_km": 2.5
+    },
+    {
+      "name": "Halema\u02bbuma\u02bbu",
+      "lon": -155.278,
+      "lat": 19.406,
+      "radius_km": 1.5
+    }
+  ]
+}

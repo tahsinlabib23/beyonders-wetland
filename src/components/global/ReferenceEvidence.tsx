@@ -2,6 +2,7 @@
 import { publicClient } from "@/lib/app-mode";
 
 import { useEffect, useState } from "react";
+import SensorCurtain from "../shared/SensorCurtain";
 
 type Metrics = { matching_pixels: number; radar_only_pixels: number; optical_only_pixels: number; precision: number | null; recall: number | null; f1: number | null };
 type OpticalSupport = { support: string; native_hls_pixels_assessed: number; hls_pixel_area_km2: number; study_area_km2: number;
@@ -10,6 +11,7 @@ type OpticalSupport = { support: string; native_hls_pixels_assessed: number; hls
   true_positive_area_km2: number; false_positive_area_km2: number; false_negative_area_km2: number;
   precision: number | null; recall: number | null; f1: number | null; intersection_over_union: number | null };
 type Visuals = { images: Record<string, string>; width: number; height: number; bounds: number[][]; legend: { value: number; label: string; color: string }[]; rgb_display: string; display_note: string };
+type RadarPreview = { run_id: string; date: string; layers: Record<string, { images: Record<string, string>; bounds: number[][]; width: number; height: number; scale_db: number[] }> };
 type Evidence = Visuals & {
   run_id: string; baseline_date: string; event_date: string; created_at: string; reference_status?: string;
   baseline_method?: { baseline_method?: string; baseline_observation_dates?: string[]; baseline_observation_count?: number };
@@ -25,7 +27,9 @@ type Evidence = Visuals & {
   limitations: string[];
 };
 const percentage = (value: number | null | undefined) => value == null ? "—" : `${(value * 100).toFixed(1)}%`;
+const precisePercentage = (value: number | null | undefined) => value == null ? "—" : `${(value * 100).toFixed(value > 0 && value < 0.001 ? 4 : 1)}%`;
 const categoryNames: Record<string, string> = { water_on_both_optical_dates: "Water on both optical dates", not_water_on_either_optical_date: "Not water on either optical date", optical_water_recession: "Water became non-water in HLS" };
+const sameBounds = (a: number[][], b: number[][]) => a.length === b.length && a.every((row, i) => row.length === b[i]?.length && row.every((value, j) => Math.abs(value - (b[i]?.[j] ?? Number.NaN)) < 1e-6));
 
 export default function ReferenceEvidence({ runId, refreshKey }: { runId: string; refreshKey: number }) {
   const [evidence, setEvidence] = useState<Evidence | null>(null);
@@ -34,6 +38,8 @@ export default function ReferenceEvidence({ runId, refreshKey }: { runId: string
   const [imageChoice, setImageChoice] = useState("rgb");
   const [mapChoice, setMapChoice] = useState("agreement");
   const [opacity, setOpacity] = useState(80);
+  const [curtainChannel, setCurtainChannel] = useState("hh");
+  const [radarRequest, setRadarRequest] = useState<{ runId: string; date: string; preview: RadarPreview | null; error: string }>({ runId: "", date: "", preview: null, error: "" });
   useEffect(() => {
     const controller = new AbortController();
     fetch(`/api/wetland/reference-evidence?run=${runId}`, { signal: controller.signal })
@@ -43,25 +49,69 @@ export default function ReferenceEvidence({ runId, refreshKey }: { runId: string
     return () => controller.abort();
   }, [runId, refreshKey]);
   const current = evidence?.run_id === runId ? evidence : null;
-  const comparisonUsable = current?.reference_status === "CROSS_SENSOR_CHECK";
   const alternative = pairChoice === "alternate" ? current?.alternate_date_check : null;
+  const radarDate = alternative?.event_date || current?.event_date;
+  useEffect(() => {
+    if (!radarDate) return;
+    const controller = new AbortController();
+    fetch(`/api/wetland/radar?run=${encodeURIComponent(runId)}&date=${encodeURIComponent(radarDate)}`, { signal: controller.signal })
+      .then(async (response) => { const value = await response.json(); if (!response.ok) throw new Error(value.error || "Matching NISAR radar image unavailable."); return value as RadarPreview; })
+      .then((preview) => setRadarRequest({ runId, date: radarDate, preview, error: "" }))
+      .catch((reason: unknown) => { if (!controller.signal.aborted) setRadarRequest({ runId, date: radarDate, preview: null, error: reason instanceof Error ? reason.message : "Matching NISAR radar image unavailable." }); });
+    return () => controller.abort();
+  }, [runId, refreshKey, radarDate]);
+  const comparisonUsable = current?.reference_status === "CROSS_SENSOR_CHECK";
   const visuals = alternative?.visuals || current;
   const metrics = alternative?.metrics || current?.metrics;
   const opticalSupport = alternative?.optical_support || current?.optical_support;
   const beforeDate = alternative?.baseline_date || current?.comparison.baseline.hls_date;
   const afterDate = alternative?.event_date || current?.comparison.event.hls_date;
+  const afterScene = alternative?.event_scene || current?.comparison.event.scene;
+  const opticalSensor = afterScene?.includes(".S30.") ? "Sentinel-2" : afterScene?.includes(".L30.") ? "Landsat" : "Landsat / Sentinel-2";
   const coverage = alternative?.optical_support?.common_clear_fraction ?? current?.optical_support?.common_clear_fraction ?? alternative?.common_clear_fraction ?? current?.coverage.common_clear_fraction;
   const candidateCoverage = alternative?.optical_support?.candidate_assessed_fraction ?? current?.optical_support?.candidate_assessed_fraction ?? alternative?.candidate_compared_fraction ?? current?.candidate_coverage.compared_fraction;
+  const radarRequestMatches = radarRequest.runId === runId && radarRequest.date === radarDate;
+  const radarPreview = radarRequestMatches ? radarRequest.preview : null;
+  const radarError = radarRequestMatches ? radarRequest.error : "";
+  const radarLayer = radarPreview?.run_id === runId && radarPreview.date === radarDate ? radarPreview.layers[curtainChannel] : null;
+  const opticalOffsetDays = radarDate ? Math.round((Date.parse(`${afterDate}T00:00:00Z`) - Date.parse(`${radarDate}T00:00:00Z`)) / 86_400_000) : 0;
   const artifact = (name: string, download = false) => `/api/wetland/artifact?run=${runId}&file=${encodeURIComponent(name)}${download ? "&download=1" : ""}`;
   return <section className="nisar-tools-section nisar-reference-evidence" id="nisar-reference-evidence" aria-labelledby="nisar-reference-title">
-    <div className="nisar-tools-heading"><div><p className="global-eyebrow">INDEPENDENT OPTICAL EVIDENCE</p><h2 id="nisar-reference-title">Does the change agree?</h2><p>Inspect the featured case’s reference images and see where the sensors agree, disagree, or cannot be compared.</p></div><a className="nisar-download" href="#nisar-process">{publicClient ? "How evidence is published" : "Prepare or update evidence ↑"}</a></div>
+    <div className="nisar-tools-heading"><div><p className="global-eyebrow">X-RAY COMPARISON · MEASURED INPUTS</p><h2 id="nisar-reference-title">What can optical see, and what does radar measure?</h2><p>Compare real HLS optical and NISAR previews from the selected study. Dates, valid coverage and disagreements stay visible; the two sensors measure different signals.</p></div><a className="nisar-download" href="#nisar-process">{publicClient ? "How evidence is published" : "Prepare or update evidence ↑"}</a></div>
     {error ? <p className="nisar-tool-hint">{error} {publicClient ? "Ask the operator to publish the optical evidence." : <>Select <strong>Prepare optical evidence</strong> in the processing panel.</>}</p> : !current || !visuals || !metrics ? <p role="status">Loading optical evidence…</p> : <>
       <div className="nisar-evidence-finding">{comparisonUsable ? <><strong>{current.radar_only_categories.find((item) => item.key === "water_on_both_optical_dates")?.fraction_of_radar_only === 1 ? "Assessed radar candidates were already water" : "Radar change needs independent interpretation"}</strong><p>{current.detector_audit.finding}</p><p>{current.radar_only_categories.find((item) => item.key === "water_on_both_optical_dates")?.pixels.toLocaleString()} primary-reference radar-only pixels were water on both optical dates. {current.detector_audit.existing_water_interpretation}</p></> : <><strong>Optical comparison inconclusive</strong><p>Only {percentage(current.optical_support?.common_clear_fraction ?? current.coverage.common_clear_fraction)} of the study mask was comparable. These images show where optical evidence was available, but the small overlap cannot support an agreement or accuracy score. Most radar candidates remain unassessed.</p></>}</div>
       <div className="nisar-evidence-controls">
         <label>Reference comparison<select value={pairChoice} onChange={(event) => setPairChoice(event.target.value)}><option value="primary">Published · {current.comparison.baseline.hls_date} → {current.comparison.event.hls_date}</option>{current.alternate_date_check && <option value="alternate">Closer-date audit · {current.alternate_date_check.baseline_date} → {current.alternate_date_check.event_date}</option>}</select></label>
         <div><p className="nisar-evidence-control-label">Optical panels</p><div className="nisar-channel-buttons" role="group" aria-label="Optical image display"><button type="button" aria-pressed={imageChoice === "rgb"} onClick={() => setImageChoice("rgb")}>True colour</button><button type="button" aria-pressed={imageChoice === "water"} onClick={() => setImageChoice("water")}>Water masks</button></div></div>
         <div><p className="nisar-evidence-control-label">Comparison map</p><div className="nisar-channel-buttons" role="group" aria-label="Reference comparison map"><button type="button" aria-pressed={mapChoice === "agreement"} onClick={() => setMapChoice("agreement")}>Agreement</button><button type="button" aria-pressed={mapChoice === "coverage"} onClick={() => setMapChoice("coverage")}>Clear coverage</button><button type="button" aria-pressed={mapChoice === "overlay"} onClick={() => setMapChoice("overlay")}>Radar on optical</button></div></div>
+        <div><p className="nisar-evidence-control-label">Radar view in swipe</p><div className="nisar-channel-buttons" role="group" aria-label="NISAR polarization for the swipe"><button type="button" aria-pressed={curtainChannel === "hh"} onClick={() => setCurtainChannel("hh")}>HH · HHHH</button><button type="button" aria-pressed={curtainChannel === "hv"} onClick={() => setCurtainChannel("hv")}>HV · HVHV</button></div></div>
       </div>
+      {radarError ? <p className="nisar-tool-hint" role="status">The optical comparison is available, but its matching radar preview could not be loaded: {radarError}</p>
+        : !radarLayer ? <p className="nisar-tool-hint" role="status">Loading the matching NISAR image for {radarDate}…</p>
+          : !sameBounds(visuals.bounds, radarLayer.bounds) ? <p className="nisar-tool-hint" role="status">The saved optical and radar previews do not share a verified map extent, so the aligned swipe is unavailable.</p>
+            : <SensorCurtain
+              title="Optical vs radar · same study footprint"
+              description="Slide across a registered HLS optical image and NISAR backscatter preview. Clouds and QA exclusions remain visible; radar uses microwave measurements and does not depend on sunlight or a cloud-free view."
+              left={{
+                label: imageChoice === "rgb" ? `NASA HLS · ${opticalSensor} true colour` : `NASA HLS · ${opticalSensor} water + QA`,
+                date: afterDate ?? "Date unavailable",
+                src: artifact(visuals.images[`after_${imageChoice}`]),
+                alt: imageChoice === "rgb" ? `NASA HLS true-colour image from ${afterDate}; clouds are visible and masked pixels are unassessed.` : `NASA HLS water-index screen from ${afterDate}; grey pixels are excluded by quality screening and remain unassessed.`,
+              }}
+              right={{
+                label: `NISAR L2 GCOV · ${curtainChannel.toUpperCase()} after`,
+                date: radarDate ?? current.event_date,
+                src: artifact(radarLayer.images.after),
+                alt: `NISAR ${curtainChannel.toUpperCase()} backscatter in decibels on ${current.event_date}; transparent pixels are invalid or unavailable. Amber outlines mark radar-change candidates.`,
+              }}
+              rightOverlaySrc={artifact(visuals.images.candidate_overlay)}
+              rightOverlayAlt="Amber outlines show exploratory radar-change candidates; they are not confirmed flood boundaries."
+              alignment="registered"
+              imageFit="fill"
+              aspectRatio={`${visuals.width} / ${visuals.height}`}
+              tone="dark"
+              note={`Optical image date: ${afterDate ?? "not recorded"}. NISAR observation date: ${radarDate ?? current.event_date}${opticalOffsetDays === 0 ? " (same day)" : ` (${Math.abs(opticalOffsetDays)} days ${opticalOffsetDays < 0 ? "before" : "after"} the optical image)`}. ${curtainChannel.toUpperCase()} backscatter display scale: ${radarLayer.scale_db[0]} to ${radarLayer.scale_db[1]} dB. Only ${precisePercentage(coverage)} of the study area had common clear optical and valid radar coverage for this pair; ${coverage != null && coverage < 0.2 ? "the check is inconclusive and the remaining area is unassessed." : "see the QA layer for excluded pixels."} Amber outlines are exploratory detector candidates, not independently confirmed flood boundaries.`}
+            />}
       <div className="nisar-evidence-metrics" aria-label="Selected comparison summary"><div><strong>{percentage(coverage)}</strong><span>study area comparable</span></div><div><strong>{percentage(candidateCoverage)}</strong><span>{opticalSupport ? "candidate area assessed in HLS footprint" : "radar-grid candidate cells assessed"}</span></div><div><strong>{comparisonUsable ? metrics.matching_pixels.toLocaleString() : "—"}</strong><span>{comparisonUsable ? "matched radar-grid cells · legacy" : "comparison insufficient"}</span></div><div><strong>{comparisonUsable ? percentage(metrics.f1) : "—"}</strong><span>{comparisonUsable ? "legacy grid F1" : "F1 not reported"}</span></div></div>
       {opticalSupport ? <div className="nisar-evidence-finding"><strong>Native 30 m HLS comparison · area-weighted</strong><p>{opticalSupport.common_clear_area_km2.toFixed(2)} km² of clear, valid radar support was comparable ({percentage(opticalSupport.common_clear_fraction)} of the study area). {comparisonUsable ? `The area-weighted scores are TP ${opticalSupport.true_positive_area_km2.toFixed(4)} km², radar-only ${opticalSupport.false_positive_area_km2.toFixed(4)} km², and optical-only ${opticalSupport.false_negative_area_km2.toFixed(4)} km². Precision ${percentage(opticalSupport.precision)} · recall ${percentage(opticalSupport.recall)} · F1 ${percentage(opticalSupport.f1)}.` : "Coverage is below the required minimum, so precision, recall and F1 are not interpreted."}</p><p>{opticalSupport.support}. The radar-grid cell counts above are retained only to reproduce the earlier comparison.</p></div>
         : <p className="nisar-tool-hint">This saved evidence predates native 30 m area scoring. Rebuild optical evidence after updating the pipeline to calculate it; legacy radar-grid counts are not independent HLS samples.</p>}

@@ -232,6 +232,47 @@
       "interpretation": "UNVERIFIED_RADAR_CHANGE"
     },
     {
+      "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+      "site_name": "Chokwe event study box",
+      "check": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+      "status": "INCONCLUSIVE",
+      "coverage_fraction": 0.012554942924580766,
+      "comparison": {
+        "baseline": {
+          "nisar_date": "2026-01-05",
+          "nisar_observation_dates": [
+            "2026-01-05"
+          ],
+          "nisar_method": "single preceding GCOV observation",
+          "hls_date": "2026-01-07",
+          "offset_days": 2,
+          "scene": "HLS.S30.T36JVT.2026007T074219.v2.0",
+          "product": "S30"
+        },
+        "event": {
+          "nisar_date": "2026-01-17",
+          "hls_date": "2026-01-22",
+          "offset_days": 5,
+          "scene": "HLS.S30.T36JVT.2026022T074221.v2.0",
+          "product": "S30"
+        },
+        "hls_tile": "T36JVT",
+        "spatial_resolution_m": 30,
+        "mndwi_threshold": 0.0,
+        "qa_mask": "HLS v2 Fmask: cloud, adjacent-to-cloud/shadow, cloud shadow, snow/ice, and high aerosol",
+        "evaluated_class": "OPEN_WATER",
+        "vegetated_inundation_checked": false,
+        "optical_support_method": "native HLS 30 m cells with area-averaged NISAR valid/candidate fractions"
+      },
+      "metrics_reportable": false,
+      "precision": null,
+      "recall": null,
+      "f1": null,
+      "radar_only_categories": null,
+      "reference_validated": false,
+      "interpretation": "UNVERIFIED_RADAR_CHANGE"
+    },
+    {
       "run_id": "f6e80781dbbc43bc895f80d8236520cf",
       "site_name": "Tanguar Haor study box",
       "check": "f6e80781dbbc43bc895f80d8236520cf",

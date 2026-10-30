@@ -113,6 +113,8 @@ export interface ForestPublication {
     checksums_url: string;
     archive_sha256: string;
     native_download_url?: string;
+    physics_grid_url?: string;
+    physics_grid_checksums_url?: string;
 }
 export function coordinate(value: string, axis: "latitude" | "longitude"): number | null {
     const trimmed = value.trim();

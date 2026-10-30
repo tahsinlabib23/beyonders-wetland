@@ -51,6 +51,7 @@ export function completedNisarRuns() {
     try {
       const { manifest } = pipelineRun(id);
       if (manifest.data_source !== "NISAR") return [];
+      if (manifest.superseded_by) return [];
       return [{ run_id: id, site_name: String(manifest.site_name || "Study area"),
         baseline_date: manifest.baseline_date, selected_date: manifest.selected_date,
         completed_at: manifest.completed_at, observation_count: manifest.observation_count,

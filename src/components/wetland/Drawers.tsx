@@ -3,7 +3,7 @@
 import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { useWetlandStore } from "@/lib/store";
-import { showcaseUrl, type ShowcaseReference } from "@/lib/showcase";
+import { datesWithPatches, showcaseUrl, type ShowcaseReference } from "@/lib/showcase";
 import { downloadFile, patchesCSV } from "@/lib/real-export";
 import { challenge, changeStory, evidenceStack, fmtDate, fmtDateLong, interpret, interpretationOfClass, opticalLabel, opticalState, regionLabel, type StackStatus } from "@/lib/story";
 import { KindTag, Section, TierBadge, ToolFrame, type Kind } from "./ui";
@@ -107,6 +107,110 @@ export function DetectiveDrawer() {
           <div><dt>Previous-date overlap</dt><dd>{selectedPatch?.id === r.region_id && selectedPatch?.temporal_overlap_fraction != null ? `${Math.round(selectedPatch.temporal_overlap_fraction * 100)}% of this region was flagged before` : "Select the region to see its tests"}</dd></div>
           <div><dt>Reading</dt><dd>{dark ? "HH-darkening candidate" : bright ? "HH-increase candidate" : "No clear HH change here"}</dd></div></dl>
       </> : <p className="wx-note">No detector result at this location. That means no candidate here. It does not mean the surface is unchanged.</p>}
+    </ToolFrame>
+  );
+}
+
+/* ── Wetland pulse: restore the area-over-time view in the current drawer UI. ── */
+function WetlandPulseChart() {
+  const { pulseData, selectedDateIndex, setSelectedDateIndex, setIsPlaying, dataTier, showcase } = useWetlandStore();
+  const available = useMemo(() => dataTier === "SHOWCASE" && showcase ? datesWithPatches(showcase) : null, [dataTier, showcase]);
+  const points = useMemo(() => {
+    const dates = pulseData?.dates ?? [];
+    if (!dates.length) return [];
+    const first = Date.parse(`${dates[0].date}T00:00:00Z`);
+    const last = Date.parse(`${dates[dates.length - 1].date}T00:00:00Z`);
+    const maxArea = Math.max(0.01, ...dates.filter((item) => !available || available.has(item.date)).map((item) => item.area_km2));
+    const left = 54; const right = 606; const top = 26; const bottom = 168;
+    const span = Math.max(last - first, 1);
+    return dates.map((item, index) => {
+      const time = Date.parse(`${item.date}T00:00:00Z`);
+      const hasResult = !available || available.has(item.date);
+      return {
+        ...item,
+        index,
+        hasResult,
+        x: dates.length === 1 ? (left + right) / 2 : left + ((time - first) / span) * (right - left),
+        y: hasResult ? bottom - (Math.max(0, item.area_km2) / maxArea) * (bottom - top) : bottom,
+      };
+    });
+  }, [pulseData, available]);
+
+  if (!pulseData || !points.length) return null;
+
+  const top = 26; const bottom = 168;
+  const maxArea = Math.max(0.01, ...points.filter((point) => point.hasResult).map((point) => point.area_km2));
+  const markers = [
+    { date: pulseData.onset, label: "Onset", className: "is-onset" },
+    { date: pulseData.peak.date, label: "Peak", className: "is-peak" },
+    { date: pulseData.recession_start, label: "Recession", className: "is-recession" },
+  ].flatMap((marker) => {
+    if (!marker.date) return [];
+    const point = points.find((item) => item.date === marker.date);
+    return point ? [{ ...marker, x: point.x }] : [];
+  });
+  const active = points[Math.min(Math.max(selectedDateIndex, 0), points.length - 1)];
+  const fmtArea = (value: number) => `${value.toFixed(value >= 10 ? 0 : 1)} km²`;
+
+  function selectPoint(index: number, hasResult: boolean) {
+    if (!hasResult) return;
+    setIsPlaying(false);
+    setSelectedDateIndex(index);
+  }
+
+  return (
+    <ToolFrame title="Wetland pulse" lede="Candidate area across the case’s actual NISAR acquisition dates. Select a bar to synchronize the map and timeline."
+      limitation="Bars show recorded candidate area only on acquired dates. No values are interpolated between observations, and candidate area is not confirmed flood extent.">
+      <div className="wx-pulse-chart">
+        <div className="wx-pulse-chart__summary" aria-live="polite">
+          <span className="wx-micro">Selected observation</span>
+          <strong>{fmtDate(active.date, { month: "short", day: "numeric", year: "numeric" })}</strong>
+          <span className="wx-mono">{active.hasResult ? `${fmtArea(active.area_km2)} · ${active.patches} regions` : "Acquired · result not exported"}</span>
+        </div>
+        <div className="wx-pulse-chart__scroll">
+          <svg className="wx-pulse-chart__svg" viewBox="0 0 620 218" role="group" aria-label={`Discrete wetland candidate-area chart for ${points.length} NISAR acquisition dates`}>
+            <text className="wx-pulse-chart__axis-label" x="12" y="16">Candidate area · km²</text>
+            {[0, 0.5, 1].map((fraction) => {
+              const y = bottom - fraction * (bottom - top);
+              return <g key={fraction}>
+                <line className="wx-pulse-chart__grid" x1="54" x2="606" y1={y} y2={y} />
+                <text className="wx-pulse-chart__tick" x="46" y={y + 4} textAnchor="end">{(maxArea * fraction).toFixed(maxArea >= 10 ? 0 : 1)}</text>
+              </g>;
+            })}
+            {markers.map((marker) => <g key={marker.label} className={`wx-pulse-chart__marker ${marker.className}`}>
+              <line x1={marker.x} x2={marker.x} y1={top} y2={bottom} />
+              <text x={marker.x} y="18" textAnchor="middle">{marker.label}</text>
+            </g>)}
+            <line className="wx-pulse-chart__baseline" x1="54" x2="606" y1={bottom} y2={bottom} />
+            {points.map((point) => {
+              const selected = point.index === selectedDateIndex;
+              const barTop = point.hasResult ? point.y : bottom - 5;
+              const barHeight = point.hasResult ? Math.max(2, bottom - point.y) : 5;
+              const label = point.hasResult
+                ? `${fmtDate(point.date, { month: "long", day: "numeric", year: "numeric" })}: ${point.area_km2.toFixed(2)} square kilometres in ${point.patches} candidate regions`
+                : `${fmtDate(point.date, { month: "long", day: "numeric", year: "numeric" })}: acquired, but no candidate-region result was exported`;
+              return <g key={point.date} className={`wx-pulse-chart__bar${selected ? " is-selected" : ""}${point.hasResult ? "" : " is-unassessed"}`}>
+                <rect className="wx-pulse-chart__hit" x={point.x - 12} y={top} width="24" height={bottom - top} role="button"
+                  tabIndex={point.hasResult ? 0 : -1} aria-disabled={!point.hasResult} aria-pressed={selected && point.hasResult}
+                  aria-label={label} onClick={() => selectPoint(point.index, point.hasResult)}
+                  onKeyDown={(event) => { if (event.key === "Enter" || event.key === " ") { event.preventDefault(); selectPoint(point.index, point.hasResult); } }}>
+                  <title>{label}</title>
+                </rect>
+                <rect className="wx-pulse-chart__column" x={point.x - 7} y={barTop} width="14" height={barHeight} rx="2" aria-hidden="true" />
+                {selected && point.hasResult && <circle className="wx-pulse-chart__selection" cx={point.x} cy={point.y} r="7" aria-hidden="true" />}
+                <text className={`wx-pulse-chart__date${selected ? " is-selected" : ""}`} x={point.x} y="190" textAnchor="middle">{fmtDate(point.date, { month: "short", day: "numeric" })}</text>
+              </g>;
+            })}
+          </svg>
+        </div>
+        <div className="wx-pulse-chart__legend" aria-label="Chart legend">
+          <span><i className="is-area" />Candidate area</span>
+          <span><i className="is-onset" />Onset</span>
+          <span><i className="is-peak" />Peak</span>
+          <span><i className="is-recession" />Recession</span>
+        </div>
+        <p className="wx-caption">{pulseData.product ?? "NISAR L2 GCOV"} · provisional · {points.length} acquisitions. Click a bar or focus it and press Enter to inspect its date on the map.</p>
+      </div>
     </ToolFrame>
   );
 }
@@ -404,6 +508,7 @@ export function ExplorePanel() {
   return (
     <div className="wx-panel">
       <PanelHead n="01" title="Explore" lede="Touch the data. Click a glowing region to interrogate it — or switch on SAR Detective and probe any point on the map." />
+      <WetlandPulseChart />
       <button type="button" className={`wx-detective${detectiveOn ? " is-on" : ""}`} aria-pressed={detectiveOn}
         onClick={() => setDetectiveOn(!detectiveOn)}>
         <span className="wx-micro">{detectiveOn ? "● Detective active — click anywhere on the map" : "SAR Detective"}</span>

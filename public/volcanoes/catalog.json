@@ -30,6 +30,29 @@
       },
       "path": "/volcano/hayli-gubbi",
       "case_file": "hayli-gubbi-2025.json"
+    },
+    {
+      "id": "kilauea-episode-36-2025",
+      "name": "Kīlauea · Episode 36",
+      "country": "United States",
+      "event_date": "2025-11-09",
+      "hazard_type": "volcanic_deformation",
+      "evidence_status": "EVENT_CONTEXT_ONLY",
+      "beyonders_processing_status": "COMPLETE",
+      "scientific_interpretation": "PHASE_DERIVED_LOS_CANDIDATES",
+      "reference_availability": "EVENT_CONTEXT_ONLY",
+      "publication": {
+        "version": "2026.10.30-v3",
+        "method_version": "gunw-relative-los-1.0.1",
+        "index_url": "/volcanoes/kilauea-episode-36-2025/index.json",
+        "study_url": "/volcanoes/kilauea-episode-36-2025/2026.10.30-v3/study.json",
+        "evidence_url": "/volcanoes/kilauea-episode-36-2025/2026.10.30-v3/evidence.zip",
+        "bbox": [-155.45, 19.3, -155.05, 19.55],
+        "available_dates": ["2025-11-03", "2025-11-15"],
+        "previous_versions": ["2026.10.30-v1", "2026.10.30-v2"]
+      },
+      "path": "/volcano/kilauea",
+      "case_file": null
     }
   ]
 }

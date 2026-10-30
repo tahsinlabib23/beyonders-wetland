@@ -71,7 +71,7 @@ export default function TimeMachine() {
       </div>
 
       <div className="wx-track" role="group" aria-label="Observations on a real time axis">
-        <span className="wx-track__cap">Dots are real NISAR acquisitions. Bar height is flagged area. Nothing is drawn between dates.</span>
+        <span className="wx-track__cap">Dots mark processed comparison dates. Baseline inputs may include earlier scenes. Nothing is drawn between acquisition dates.</span>
         <div className="wx-track__axis" />
         {geometry.gaps.map((g) => (
           <div key={g.from.date} className="wx-gap" style={{ left: `${g.from.x}%`, width: `${g.to.x - g.from.x}%` }}>

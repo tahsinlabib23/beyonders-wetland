@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
+import "leaflet/dist/leaflet.css";
 import "./globals.css";
+import "@/styles/atlas.css";
+import "@/components/wetland/experience.css";
+import "@/styles/hazard-workspace.css";
 import HazardNavigation from "@/components/layout/HazardNavigation";
 
 export const metadata: Metadata = {
-  title: "Beyonders — Earth in Motion | NASA Space Apps 2026",
+  title: "GeoNexSAR — Watch Earth's surface change with NISAR radar",
   description:
-    "Explore NISAR observations of wetlands, volcanic ground deformation and forest change, with clear evidence status and uncertainty.",
+    "GeoNexSAR turns NASA–ISRO NISAR radar into an interactive investigation: explore real processed cases, interrogate the evidence, and challenge every result.",
   keywords: [
     "NISAR",
     "wetland",

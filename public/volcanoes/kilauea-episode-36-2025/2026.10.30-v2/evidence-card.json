@@ -1,0 +1,22 @@
+{
+  "hazard_type": "volcanic_deformation",
+  "study_id": "kilauea-episode-36-2025",
+  "publication_version": "2026.10.30-v2",
+  "method_version": "gunw-relative-los-1.0.1",
+  "run_completion": "COMPLETE",
+  "reference_availability": "AVAILABLE",
+  "scientific_interpretation": "PHASE_DERIVED_LOS_CANDIDATES",
+  "boundary_source": "Analyst-defined WGS84 study rectangle around K\u012blauea summit; not a volcano boundary",
+  "observations": "study.json",
+  "comparison": "study.json#comparisons",
+  "method": "volcano_pipeline.py",
+  "configuration": "method-config.json",
+  "downloads": "evidence.zip",
+  "context_sources": [
+    "https://nisar-docs.asf.alaska.edu/gunw/",
+    "https://hyp3-docs.asf.alaska.edu/guides/gunw_product_guide/",
+    "https://volcanoes.usgs.gov/hans-public/vona/DOI-USGS-HVO-2025-11-10T01:52:38+00:00",
+    "https://www.usgs.gov/volcanoes/kilauea/science/eruption-information"
+  ],
+  "interpretation_note": "Different sensor geometry and date windows prevent direct accuracy scoring or a vertical/3D inversion. Event reports are context only."
+}

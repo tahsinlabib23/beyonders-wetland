@@ -40,6 +40,19 @@
       "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
       "path": "releases/2026.10.07/runs/3b01cdb5674a44ea9c6c3d17ec8c07b8",
       "published_at": "2026-10-07T12:57:39.372230+00:00"
+    },
+    {
+      "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+      "site_name": "Chokwe event study box",
+      "hazard_type": "wetland_flood_change",
+      "publication_version": "2026.10.29-chokwe",
+      "dates": [
+        "2026-01-17"
+      ],
+      "method_version": "hh-hv-change-v1",
+      "evidence_status": "INCONCLUSIVE",
+      "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+      "path": "releases/2026.10.29-chokwe/runs/ec8fa5ee15ae41d1aa89f930f2b47e36"
     }
   ],
   "releases": [
@@ -82,6 +95,19 @@
       "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
       "path": "releases/2026.10.07/runs/3b01cdb5674a44ea9c6c3d17ec8c07b8",
       "published_at": "2026-10-07T12:57:39.372230+00:00"
+    },
+    {
+      "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+      "site_name": "Chokwe event study box",
+      "hazard_type": "wetland_flood_change",
+      "publication_version": "2026.10.29-chokwe",
+      "dates": [
+        "2026-01-17"
+      ],
+      "method_version": "hh-hv-change-v1",
+      "evidence_status": "INCONCLUSIVE",
+      "interpretation_status": "UNVERIFIED_RADAR_CHANGE",
+      "path": "releases/2026.10.29-chokwe/runs/ec8fa5ee15ae41d1aa89f930f2b47e36"
     }
   ]
 }

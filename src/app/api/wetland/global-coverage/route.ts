@@ -114,6 +114,7 @@ function sceneFeature(raw: unknown) {
 
 export async function GET(request: NextRequest) {
   const date = request.nextUrl.searchParams.get("date") ?? "";
+  const forceRefresh = Number(request.nextUrl.searchParams.get("refresh") ?? 0) > 0;
   const parsedDate = new Date(`${date}T00:00:00.000Z`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(date) || Number.isNaN(parsedDate.valueOf()) ||
     parsedDate.toISOString().slice(0, 10) !== date) {
@@ -121,6 +122,11 @@ export async function GET(request: NextRequest) {
   }
   if (date > new Date().toISOString().slice(0, 10)) {
     return NextResponse.json({ error: "Future dates are not available in the NASA catalog." }, { status: 400 });
+  }
+  if (date === SNAPSHOT_DATE && request.nextUrl.searchParams.get("snapshot") === "1") {
+    return NextResponse.json({ ...globalCoverageSnapshot, snapshotFallback: true }, {
+      headers: { "Cache-Control": "public, max-age=300, stale-while-revalidate=900" },
+    });
   }
 
   const features: ReturnType<typeof sceneFeature>[] = [];
@@ -137,7 +143,7 @@ export async function GET(request: NextRequest) {
 
       const response = await fetch(url, {
         headers: { Accept: "application/vnd.nasa.cmr.umm_results+json" },
-        cache: "no-store",
+        ...(forceRefresh ? { cache: "no-store" as const } : { next: { revalidate: 300 } }),
         signal: AbortSignal.timeout(25_000),
       });
       if (!response.ok) throw new Error(`NASA CMR returned HTTP ${response.status}.`);

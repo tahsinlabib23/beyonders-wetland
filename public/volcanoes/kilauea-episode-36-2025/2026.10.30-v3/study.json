@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "id": "kilauea-episode-36-2025",
+  "hazard_type": "volcanic_deformation",
+  "title": "K\u012blauea \u00b7 Episode 36, Hawai\u02bbi",
+  "publication_version": "2026.10.30-v3",
+  "method_version": "gunw-relative-los-1.0.1",
+  "created_at": "2026-10-30T09:37:26.313209+00:00",
+  "run_completion": "COMPLETE",
+  "scientific_interpretation": "PHASE_DERIVED_LOS_CANDIDATES",
+  "event_date": "2025-11-09",
+  "event_context": {
+    "name": "USGS Hawaiian Volcano Observatory \u00b7 K\u012blauea episode 36 notice",
+    "url": "https://volcanoes.usgs.gov/hans-public/vona/DOI-USGS-HVO-2025-11-10T01:52:38+00:00",
+    "note": "Eruption event context only; not ground truth for NISAR deformation."
+  },
+  "reference_availability": "EVENT_CONTEXT_ONLY",
+  "bbox": [
+    -155.45,
+    19.3,
+    -155.05,
+    19.55
+  ],
+  "boundary_source": "Analyst-defined WGS84 study rectangle around K\u012blauea summit; not a volcano boundary",
+  "reference_bbox": [
+    -155.14,
+    19.31,
+    -155.12,
+    19.33
+  ],
+  "reference_note": "Analyst-selected southeast reference patch outside the summit caldera; stability is assumed and must be inspected against the phase/coherence layers, not treated as surveyed ground truth",
+  "coherence_floor": 0.3,
+  "display_limit_cm": 40,
+  "display_scale_note": "LOS preview PNGs use one fixed symmetric \u00b140 cm color stretch for all pairs. Preview colors saturate outside that range; native GeoTIFF values and statistics are unchanged. Light center colors indicate values near zero; transparent pixels are unassessed.",
+  "regions": [
+    {
+      "name": "K\u012blauea summit",
+      "lon": -155.287,
+      "lat": 19.421,
+      "radius_km": 2.5
+    },
+    {
+      "name": "Halema\u02bbuma\u02bbu",
+      "lon": -155.278,
+      "lat": 19.406,
+      "radius_km": 1.5
+    }
+  ],
+  "pairs": [
+    {
+      "id": "nisar-2025-11-03-2025-11-15",
+      "granule_id": "NISAR_L2_PR_GUNW_004_072_D_079_005_4000_SH_20251103T045814_20251103T045834_20251115T045815_20251115T045834_X05010_N_P_J_001",
+      "cmr_concept_id": "G4058287539-ASF",
+      "sensor": "NISAR",
+      "start": "2025-11-03",
+      "end": "2025-11-15",
+      "label": "Repeat-pass interval spanning USGS episode 36",
+      "collection": "NISAR_L2_GUNW_BETA_V1",
+      "maturity": "BETA",
+      "data_url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GUNW_BETA_V1/NISAR_L2_PR_GUNW_004_072_D_079_005_4000_SH_20251103T045814_20251103T045834_20251115T045815_20251115T045834_X05010_N_P_J_001/NISAR_L2_PR_GUNW_004_072_D_079_005_4000_SH_20251103T045814_20251103T045834_20251115T045815_20251115T045834_X05010_N_P_J_001.h5",
+      "track": "72",
+      "direction": "DESCENDING",
+      "look_direction": "Left",
+      "polarization": "HH",
+      "product_version": "1.0.2",
+      "upstream_processor_version": "R05.00.8",
+      "wavelength_m": 0.2419632429378531,
+      "native_crs": "EPSG:32604",
+      "transform": [
+        80.0,
+        0.0,
+        872560.0,
+        0.0,
+        -80.0,
+        2166480.0
+      ],
+      "native_spacing": [
+        80.0,
+        80.0
+      ],
+      "phase_sign": "Earlier reference; positive phase is increasing range. LOS = -phase * wavelength / (4 pi), positive toward sensor.",
+      "phase_to_toward_sign": -1,
+      "original_dates_verified": true,
+      "crop_bbox": [
+        -155.45,
+        19.3,
+        -155.05,
+        19.55
+      ],
+      "subset_sha256": "1aa04a64c3692a93f50d3ca7329884f7b7ca26af005e212bf0796d22eb8f3fd0",
+      "statistics": {
+        "valid_fraction": 0.6325723066791066,
+        "valid_pixels": 115261,
+        "total_pixels": 182210,
+        "native_envelope_pixels": 191172,
+        "analysis_area_km2": 1166.1440000000002,
+        "assessed_area_km2": 737.6704000000002,
+        "cropped_area_km2": 1223.5008000000003,
+        "median_coherence": 0.4746975898742676,
+        "p05_cm": -36.01761245727539,
+        "p95_cm": 0.52205890417099,
+        "reference_pixels": 529,
+        "reference_phase_radians": -29.905311584472656,
+        "reference_component": 2,
+        "reference_mad_cm": 1.597699761390686,
+        "regions": [
+          {
+            "name": "K\u012blauea summit",
+            "valid_fraction": 0.6260162601626016,
+            "pixels": 1925,
+            "p05_cm": -23.966880798339844,
+            "median_cm": -21.71242332458496,
+            "p95_cm": -19.35120964050293
+          },
+          {
+            "name": "Halema\u02bbuma\u02bbu",
+            "valid_fraction": 0.3773755656108597,
+            "pixels": 417,
+            "p05_cm": -23.621713638305664,
+            "median_cm": -19.009477615356445,
+            "p95_cm": -15.829808235168457
+          }
+        ],
+        "uncertainty_status": "NOT_QUANTIFIED",
+        "uncertainty_note": "Reference MAD is spatial reference-patch dispersion, not displacement accuracy. Atmosphere, ionosphere, tides, unwrap errors and reference motion may contribute."
+      },
+      "grid": "nisar-2025-11-03-2025-11-15/grid.json",
+      "los_image": "nisar-2025-11-03-2025-11-15/los.png",
+      "coherence_image": "nisar-2025-11-03-2025-11-15/coherence.png",
+      "assessed_image": "nisar-2025-11-03-2025-11-15/assessed.png",
+      "los_download": "nisar-2025-11-03-2025-11-15/los_cm.tif"
+    }
+  ],
+  "comparisons": [],
+  "default_pair_id": "nisar-2025-11-03-2025-11-15",
+  "corrections": {
+    "ionosphere": "NOT_APPLIED",
+    "troposphere": "NOT_APPLIED",
+    "solid_earth_tides": "NOT_APPLIED"
+  },
+  "limitations": [
+    "Apparent LOS change includes deformation and remaining propagation/orbit/DEM/unwrapping errors.",
+    "Each pair is separately referenced, not a cumulative time series. Positive cm points toward the sensor.",
+    "Only the component connected to the assumed-stable reference patch is interpreted.",
+    "Coherence is a quality indicator, not a confidence percentage. No per-pixel accuracy estimate is available.",
+    "Sentinel-1 comparisons are complementary views with different intervals, not deformation ground truth."
+  ],
+  "method_source_sha256": "6c62ac588287d7d73bdf2ed487fb1f1d8189e215be8512a3f3db57305843de9d",
+  "config_sha256": "7505a41aaa57f7c4ea57eff274eb8cd024eb4c456d34acc099e498e39b6f6f8c"
+}

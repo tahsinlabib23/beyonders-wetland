@@ -24,6 +24,30 @@
   ],
   "product_maturity": "BETA",
   "compatible_provisional_hits": 0,
-  "downloaded_or_processed": false,
+  "source_access": "Remote range reads; the study subset was processed locally, and full HDF5 granules were not saved as local files.",
+  "local_run": {
+    "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+    "publication_version": "2026.10.29-chokwe",
+    "run_status": "COMPLETE",
+    "candidate_patches": 127,
+    "candidate_area_km2": 29.8718,
+    "reference_status": "INCONCLUSIVE",
+    "hls_common_clear_fraction": 0.012554942923565465,
+    "candidate_area_assessed_fraction": 0.0
+  },
+  "follow_up_reference": {
+    "provider": "UNITAR/UNOSAT",
+    "product_id": 4232,
+    "product_url": "https://unosat.org/products/4232",
+    "sentinel1_source_zip": "https://unosat.org/static/unosat_filesystem/4232/FL20251231MOZ_SHP.zip",
+    "acquisition_dates": ["2026-01-23", "2026-01-24"],
+    "days_after_nisar_event": [6, 7],
+    "candidate_overlap_area_km2": [26.3533, 26.6291],
+    "candidate_fraction_overlapping_water": [0.8822, 0.8914],
+    "candidate_coverage_fraction": [1.0, 1.0],
+    "preliminary": true,
+    "field_validated": false,
+    "status": "POSITIVE_SPATIAL_SUPPORT_ONLY; NO ACCURACY METRICS"
+  },
   "event_reference": "https://svs.gsfc.nasa.gov/5661/"
 }

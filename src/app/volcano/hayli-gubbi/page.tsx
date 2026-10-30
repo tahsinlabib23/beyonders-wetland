@@ -1,4 +1,3 @@
-import Link from "next/link";
 import Image from "next/image";
 import DeformationExplorer from "@/components/volcano/DeformationExplorer";
 import caseStudy from "../../../../public/volcanoes/hayli-gubbi-2025.json";
@@ -10,19 +9,10 @@ export const metadata = {
 
 export default function HayliGubbiCasePage() {
   return (
-    <main className="volcano-page volcano-case-page">
-      <header className="volcano-page__heading volcano-case-hero">
-        <div>
-          <p className="volcano-kicker">NISAR RADAR EVIDENCE · AFAR, ETHIOPIA</p>
-          <h1>What moved beneath Erta Ale?</h1>
-          <p className="volcano-lede">Explore official NISAR interferograms around the November 2025 eruption, compare independent Sentinel-1 views, and inspect the evidence behind each map sample.</p>
-        </div>
-        <Link className="volcano-case-link" href="/volcano/global">← Back to volcano map</Link>
-      </header>
-
-      <div className="volcano-case-status"><span>HAZARD</span><strong>Volcanic ground deformation</strong><span className="volcano-case-status__divider" /><span>INTERPRETATION</span><strong>Phase-derived apparent LOS change · uncertainty visible</strong></div>
-
+    <>
       <DeformationExplorer />
+
+      <main className="volcano-page volcano-case-page">
 
       <section className="volcano-case-grid">
         <article className="volcano-case-panel volcano-case-map-panel">
@@ -93,6 +83,7 @@ export default function HayliGubbiCasePage() {
         {caseStudy.sources.map((source) => <a key={source.url} href={source.url} target="_blank" rel="noreferrer">{source.title} ↗</a>)}
         <a href="https://science.nasa.gov/earth/earth-observatory/hayli-gubbis-explosive-first-impression/" target="_blank" rel="noreferrer">NASA Earth Observatory satellite imagery ↗</a>
       </footer>
-    </main>
+      </main>
+    </>
   );
 }

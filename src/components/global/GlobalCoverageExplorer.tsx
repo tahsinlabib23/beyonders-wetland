@@ -4,6 +4,7 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Feature, FeatureCollection, MultiPolygon } from "geojson";
+import InvestigationWorkspace from "@/components/layout/InvestigationWorkspace";
 
 export interface GlobalScene {
   sceneId: string;
@@ -138,81 +139,23 @@ export default function GlobalCoverageExplorer() {
     setDate(shifted.toISOString().slice(0, 10));
   }
 
-  return (
-    <main className="global-coverage-page">
-      <header className="global-header">
-        <div className="global-brand">
-          <span className="global-brand__mark" aria-hidden="true">B</span>
-          <div><strong>BEYONDERS</strong><span>WETLAND PULSE</span></div>
-          <span className="global-header__divider" aria-hidden="true" />
-          <span className="global-header__section">Worldwide scene coverage</span>
-        </div>
-        <div className="detection-header-actions">
-          <Link className="global-back-link" href="/wetland/global">Global detections <span aria-hidden="true">↗</span></Link>
-          <Link className="global-back-link" href="/wetland?source=raster">Haor analysis <span aria-hidden="true">↗</span></Link>
-        </div>
-      </header>
-
-      <section className="global-intro" aria-labelledby="global-title">
-        <div>
-          <p className="global-eyebrow">REAL NASA NISAR SATELLITE SCENES</p>
-          <h1 id="global-title">See where the satellite has observed</h1>
-          <p className="global-description">Choose a date to see satellite-image coverage around the world. Each outline marks one image footprint; select it for a preview and data link. Coverage outlines are not wetland or flood detections.</p>
-        </div>
-        <div className="global-date-control">
-          <label htmlFor="coverage-date">Observation date (UTC)</label>
-          <div className="global-date-inputs">
-            <button type="button" aria-label="Previous day" onClick={() => shiftDate(-1)} disabled={date <= FIRST_PROVISIONAL_DATE}>‹</button>
-            <input
-              id="coverage-date"
-              type="date"
-              value={date}
-              min={FIRST_PROVISIONAL_DATE}
-              max={today}
-              onChange={(event) => { beginQuery(); setDate(event.target.value); }}
-            />
-            <button type="button" aria-label="Next day" onClick={() => shiftDate(1)} disabled={dateIsToday}>›</button>
-          </div>
-        </div>
-      </section>
-
-      <div className="global-status-row" aria-live="polite">
-        <div className="global-count">
-          <strong>{loading ? "…" : (data?.totalHits ?? 0).toLocaleString()}</strong>
-          <span>{loading ? "Searching NASA catalog" : "scenes listed for this date"}</span>
-        </div>
-        <div className="global-status-meta">
-          <span className={`global-source-pill ${loading ? "global-source-pill--loading" : error ? "global-source-pill--error" : data?.snapshotFallback ? "global-source-pill--snapshot" : "global-source-pill--live"}`} aria-live="polite"><i aria-hidden="true" />{loading ? "Checking NASA catalog…" : error ? "NASA catalog unavailable" : data?.snapshotFallback ? "Saved snapshot · Oct 1, 2026" : "NASA catalog · live"}</span>
-          <button className="global-refresh" type="button" onClick={() => { beginQuery(); setRefreshKey((value) => value + 1); }} disabled={loading}>Refresh</button>
-          <button className="global-refresh" type="button" onClick={() => data && downloadInventory(date, data.features)} disabled={loading || !data?.features.length}>Download scene CSV</button>
-        </div>
+  return <InvestigationWorkspace hazard="wetland" className="global-coverage-page global-scene-workspace" caseName="GLOBAL NISAR SCENE COVERAGE" title="See where NISAR has observed" subtitle="Every outline is an acquired satellite scene, not a wetland or flood detection. Choose a footprint to inspect the record and data links." rail={<>
+    <section className="global-scene-rail" aria-labelledby="global-title">
+      <p className="global-eyebrow">REAL NASA NISAR SATELLITE SCENES</p>
+      <div className="global-scene-count"><strong>{loading ? "…" : (data?.totalHits ?? 0).toLocaleString()}</strong><span>{loading ? "Searching NASA catalog" : "scenes listed for this date"}</span></div>
+      <span className={`global-source-pill ${loading ? "global-source-pill--loading" : error ? "global-source-pill--error" : data?.snapshotFallback ? "global-source-pill--snapshot" : "global-source-pill--live"}`} aria-live="polite"><i aria-hidden="true" />{loading ? "Checking NASA catalog…" : error ? "NASA catalog unavailable" : data?.snapshotFallback ? "Saved snapshot · Oct 1, 2026" : "NASA catalog · live"}</span>
+      <div className="global-scene-links"><Link href="/wetland/global">Global detections ↗</Link><Link href="/wetland?source=raster">Haor analysis ↗</Link></div>
+    </section>
+  </>} map={<div className="global-map-panel">
+      <div className="global-map-topline"><span>WORLDWIDE COVERAGE</span><span>{data ? `${data.loadedFeatures.toLocaleString()} scenes on map` : "Daily satellite coverage"}</span></div>
+      <div className="global-map-wrap" role="region" aria-label="World map showing NISAR scene coverage footprints">
+        <GlobalSceneMap date={date} refreshKey={refreshKey} features={collection} selectedSceneId={chosenScene?.sceneId ?? null} onSelect={selectScene} />
+        {loading && <div className="global-map-overlay" role="status">Searching NASA’s global scene catalog…</div>}
+        {!loading && !error && data?.features.length === 0 && <div className="global-map-overlay global-map-overlay--empty"><strong>No footprints listed for {date}</strong><span>Try an adjacent UTC date. Archive ingest can lag behind acquisition.</span></div>}
+        {error && <div className="global-map-overlay global-map-overlay--empty" role="alert"><strong>Catalog request failed</strong><span>{error}</span></div>}
       </div>
-
-      <section className="global-workspace" aria-label="Global NISAR coverage explorer">
-        <div className="global-map-panel">
-          <div className="global-map-topline">
-            <span>WORLDWIDE COVERAGE</span>
-            <span>{data ? `${data.loadedFeatures.toLocaleString()} scenes on map` : "Daily satellite coverage"}</span>
-          </div>
-          <div className="global-map-wrap" role="region" aria-label="World map showing NISAR scene coverage footprints">
-            <GlobalSceneMap date={date} refreshKey={refreshKey} features={collection} selectedSceneId={chosenScene?.sceneId ?? null} onSelect={selectScene} />
-            {loading && <div className="global-map-overlay" role="status">Searching NASA’s global scene catalog…</div>}
-            {!loading && !error && data?.features.length === 0 && (
-              <div className="global-map-overlay global-map-overlay--empty">
-                <strong>No footprints listed for {date}</strong>
-                <span>Try an adjacent UTC date. Archive ingest can lag behind acquisition.</span>
-              </div>
-            )}
-            {error && <div className="global-map-overlay global-map-overlay--empty" role="alert"><strong>Catalog request failed</strong><span>{error}</span></div>}
-          </div>
-          <div className="global-map-legend" aria-label="Orbit direction legend">
-            <span><i className="global-legend-swatch global-legend-swatch--ascending" />Ascending orbit</span>
-            <span><i className="global-legend-swatch global-legend-swatch--descending" />Descending orbit</span>
-            <span className="global-legend-note">Coverage only · no wetland detections</span>
-          </div>
-        </div>
-
-        <aside className="global-scene-panel" aria-label="Selected scene details">
+  </div>} drawer={<aside className="global-scene-panel" aria-label="Selected scene details">
+          <div className="global-scene-control-block"><div className="global-date-control"><label htmlFor="coverage-date">Observation date (UTC)</label><div className="global-date-inputs"><button type="button" aria-label="Previous day" onClick={() => shiftDate(-1)} disabled={date <= FIRST_PROVISIONAL_DATE}>‹</button><input id="coverage-date" type="date" value={date} min={FIRST_PROVISIONAL_DATE} max={today} onChange={(event) => { beginQuery(); setDate(event.target.value); }} /><button type="button" aria-label="Next day" onClick={() => shiftDate(1)} disabled={dateIsToday}>›</button></div></div><div className="global-scene-actions"><button className="global-refresh" type="button" onClick={() => { beginQuery(); setRefreshKey((value) => value + 1); }} disabled={loading}>Refresh catalog</button><button className="global-refresh" type="button" onClick={() => data && downloadInventory(date, data.features)} disabled={loading || !data?.features.length}>Download scene CSV</button></div></div>
           <div className="global-scene-panel__heading">
             <div><p className="global-eyebrow">SELECTED SCENE</p><h2>{chosenScene ? "Scene details" : "Choose a footprint"}</h2></div>
             <span className="global-live-mark" title="NASA scene catalog record"><i />NASA record</span>
@@ -254,13 +197,5 @@ export default function GlobalCoverageExplorer() {
             <p className="global-provisional-note">NISAR L2 GCOV is provisional. This scene footprint and browse image show where an acquisition exists; no global inundation classification has been computed.</p>
             {chosenScene.dataUrl ? <a className="global-data-link" href={chosenScene.dataUrl} target="_blank" rel="noreferrer">Open science file <span>Earthdata Login may be required ↗</span></a> : <p className="global-data-link global-data-link--disabled">Science file link unavailable</p>}
           </> : <p className="global-empty-detail">Choose a colored footprint on the map or select a scene after the catalog loads.</p>}
-        </aside>
-      </section>
-
-      <footer className="global-footer">
-        <span>Catalog source: NASA CMR · {data?.product ?? "NISAR_L2_GCOV_PROVISIONAL_V1"}</span>
-        <span>{data?.snapshotFallback ? "Snapshot fallback for 1 Oct 2026; choose another date when live CMR access is available." : data?.truncated ? "Catalog result limit reached; narrow the date to inspect a smaller set." : "Browse data may be public; science HDF5 access can require Earthdata Login."}</span>
-      </footer>
-    </main>
-  );
+        </aside>} footer={<><div className="global-map-legend" aria-label="Orbit direction legend"><span><i className="global-legend-swatch global-legend-swatch--ascending" />Ascending orbit</span><span><i className="global-legend-swatch global-legend-swatch--descending" />Descending orbit</span><span className="global-legend-note">Coverage only · no wetland detections</span></div><span className="iw-footer-note">Catalog: NASA CMR · {data?.product ?? "NISAR_L2_GCOV_PROVISIONAL_V1"} · {data?.snapshotFallback ? "saved snapshot" : data?.truncated ? "result cap reached" : "science HDF5 may require Earthdata Login"}</span></>} />;
 }

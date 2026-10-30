@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "run_id": "ec8fa5ee15ae41d1aa89f930f2b47e36",
+  "site_name": "Chokwe event study box",
+  "study_bounds_wgs84": [32.93, -24.58, 33.03, -24.48],
+  "nisar": {
+    "product": "NISAR_L2_GCOV_BETA_V1",
+    "maturity": "BETA",
+    "baseline_date": "2026-01-05",
+    "event_date": "2026-01-17",
+    "method": "HH change <= -2.5 dB, one preceding observation",
+    "candidate_patches": 127,
+    "candidate_pixels": 298718,
+    "candidate_area_km2": 29.8718,
+    "analysis_box_area_km2": 112.1391,
+    "grid_crs": "EPSG:32736",
+    "pixel_area_km2": 0.0001
+  },
+  "reference": {
+    "provider": "UNITAR/UNOSAT",
+    "product_id": 4232,
+    "product_url": "https://unosat.org/products/4232",
+    "source_zip_url": "https://unosat.org/static/unosat_filesystem/4232/FL20251231MOZ_SHP.zip",
+    "sensor": "Sentinel-1",
+    "product_dates": ["2026-01-23", "2026-01-24"],
+    "preliminary": true,
+    "field_validated": false,
+    "overlay_method": "Rasterize the published water extent and analysis extent onto the native NISAR classification grid; count NISAR candidate pixels within mapped water.",
+    "cell_rule": "Candidate overlap is positive spatial support only; no reference-negative labels are available.",
+    "results": [
+      {
+        "acquisition_date": "2026-01-23",
+        "days_after_nisar_event": 6,
+        "reference_water_pixels_in_study_box": 451759,
+        "candidate_pixels_overlapping_reference_water": 263533,
+        "candidate_overlap_area_km2": 26.3533,
+        "candidate_fraction_overlapping_reference_water": 0.8822,
+        "candidate_pixels_inside_reference_analysis_extent": 298718,
+        "candidate_coverage_fraction": 1.0
+      },
+      {
+        "acquisition_date": "2026-01-24",
+        "days_after_nisar_event": 7,
+        "reference_water_pixels_in_study_box": 457085,
+        "candidate_pixels_overlapping_reference_water": 266291,
+        "candidate_overlap_area_km2": 26.6291,
+        "candidate_fraction_overlapping_reference_water": 0.8914,
+        "candidate_pixels_inside_reference_analysis_extent": 298718,
+        "candidate_coverage_fraction": 1.0
+      }
+    ]
+  },
+  "independent_optical_check": {
+    "status": "INCONCLUSIVE",
+    "provider": "NASA HLS",
+    "dates": ["2026-01-07", "2026-01-22"],
+    "common_clear_fraction_of_study_area": 0.012554942923565465,
+    "candidate_area_assessed_fraction": 0.0,
+    "coverage_floor_fraction": 0.2
+  },
+  "interpretation": "The later Sentinel-1 water extents spatially overlap most NISAR HH-darkening candidates. The 6-7 day offset, preliminary unvalidated reference, differing sensors/products, and positive-only water layer prevent this from being same-date truth or a formal accuracy/precision/recall/F1 assessment. The HLS optical comparison remains inconclusive, and the study remains unverified radar-change candidates."
+}

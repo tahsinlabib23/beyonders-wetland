@@ -53,6 +53,16 @@ export async function GET(request: NextRequest) {
     const boundary = readPipelineOutput("site_boundary.geojson", run) as { type?: unknown; features?: unknown[] };
     if (boundary.type !== "FeatureCollection" || !Array.isArray(boundary.features)) throw new Error("Invalid NISAR study boundary.");
     const caseStudy = readPipelineOutput("case_study.json", run) as Record<string, unknown>;
+    try {
+      const config = readPipelineOutput("processing_config.json", run) as { processing?: { minimum_valid_fraction?: unknown } };
+      const minimumValidFraction = config.processing?.minimum_valid_fraction;
+      const method = caseStudy.method as Record<string, unknown> | undefined;
+      if (typeof minimumValidFraction === "number" && Number.isFinite(minimumValidFraction) && method && method.minimum_valid_fraction == null) {
+        caseStudy.method = { ...method, minimum_valid_fraction: minimumValidFraction };
+      }
+    } catch {
+      // Older public study packages may omit the operator processing configuration.
+    }
     const referenceValidation = readPipelineOutput("reference_validation.json", run) as Record<string, unknown>;
 
     const stats = pulse.dates.find((item) => item.date === selectedDate) ?? null;

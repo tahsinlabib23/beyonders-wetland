@@ -6,6 +6,8 @@ from pathlib import Path
 import re
 
 import numpy as np
+from rasterio.features import rasterize
+from rasterio.warp import transform_geom
 from shapely.geometry import shape
 from shapely.ops import unary_union
 
@@ -77,6 +79,9 @@ def check_saved_date(run_id, event_date):
     if actual != expected or int(common.sum()) != reference["coverage"]["common_clear_pixels"]:
         raise ValueError("Rendered evidence does not reproduce the reference counts; evidence was not published.")
     candidates = valid & (grid == 1)
+    candidate_coverage = {"total_pixels": int(candidates.sum()), "compared_pixels": int(radar.sum()),
+                          "unassessed_pixels": int((candidates & ~common).sum()),
+                          "compared_fraction": int(radar.sum())/int(candidates.sum()) if candidates.any() else None}
     radar_only = radar & ~optical
     categories = {
         "water_on_both_optical_dates": radar_only & (before["index"] > threshold) & (after["index"] > threshold),
@@ -84,6 +89,22 @@ def check_saved_date(run_id, event_date):
         "optical_water_recession": radar_only & (before["index"] > threshold) & (after["index"] <= threshold),
     }
     visuals = _render(output, profile, study, before, after, common, radar, optical, threshold, candidates)
+    patches = json.loads((folder/selected["patches_file"]).read_text(encoding="utf-8"))
+    patch_context = []
+    for feature in patches.get("features", []):
+        properties = feature.get("properties", {})
+        if properties.get("classification") != "OPEN_WATER":
+            continue
+        geometry = transform_geom("EPSG:4326", profile["crs"], feature["geometry"])
+        mask = rasterize([(geometry, 1)], out_shape=grid.shape, transform=profile["transform"],
+                         fill=0, dtype="uint8") == 1
+        assessed = mask & radar
+        total = int(mask.sum())
+        patch_context.append({"id": properties.get("id"), "area_km2": properties.get("area_km2"),
+            "total_pixels": total, "compared_pixels": int(assessed.sum()),
+            "clear_fraction": int(assessed.sum())/total if total else 0,
+            "matching_new_water_pixels": int((assessed & optical).sum()),
+            "water_on_both_optical_dates_pixels": int((assessed & categories["water_on_both_optical_dates"]).sum())})
     report = {
         "run_id": run_id, "event_date": event_date,
         "baseline_observation_dates": selected["baseline_observation_dates"],
@@ -94,6 +115,7 @@ def check_saved_date(run_id, event_date):
         "radar_grid_metrics": metrics,
         "radar_only_categories": {name: int(mask.sum()) for name, mask in categories.items()},
         "candidate_pixels": int(candidates.sum()), "candidate_compared_pixels": int(radar.sum()),
+        "candidate_coverage": candidate_coverage, "patch_context": patch_context,
         "visuals": visuals,
         "note": "Satellite agreement is not field validation. This check preserves the saved median radar baseline and does not change the run's selected date.",
     }

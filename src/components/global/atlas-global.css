@@ -145,4 +145,4 @@
 .detection-page .detection-note--error strong { display: block; margin-bottom: 4px; color: #ffd0d0; }
 .detection-page .detection-note--error span { display: block; color: #e6b8b8; line-height: 1.55; }
 .detection-page .atlas-report-actions button:disabled { opacity: .48; cursor: not-allowed; transform: none; box-shadow: none; }
-.detection-page .place-search-form :is(input, button):focus-visible, .detection-page .map-coordinate-form :is(input, button):focus-visible, .detection-page .atlas-report-actions button:focus-visible { outline: 2px solid #ffb35c; outline-offset: 3px; }
+.detection-page .place-search-form :is(input, button):focus-visible, .detection-page .map-coordinate-form :is(input, button):focus-visible, .detection-page :is(.map-coordinate-disclosure, .map-layer-settings) > summary:focus-visible, .detection-page .atlas-report-actions button:focus-visible { outline: 2px solid #ffb35c; outline-offset: 3px; }

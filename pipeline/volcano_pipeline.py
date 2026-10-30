@@ -164,7 +164,8 @@ def acquire(config, cache, offline=False):
             results = remote_call(lambda: earthaccess.search_data(short_name=collection, bounding_box=tuple(config['bbox']),
                 temporal=(selection['start'], selection['end']), count=200))
             if sensor == 'NISAR':
-                matches = [r for r in results if f"_{selection['track']}_A_{selection['frame']}_" in r['umm']['GranuleUR']
+                direction = selection.get('direction', 'A')
+                matches = [r for r in results if f"_{selection['track']}_{direction}_{selection['frame']}_" in r['umm']['GranuleUR']
                     and f"_{selection['start'].replace('-', '')}T" in r['umm']['GranuleUR']
                     and f"_{selection['end'].replace('-', '')}T" in r['umm']['GranuleUR']
                     and f"_{selection['release']}_" in r['umm']['GranuleUR']]
@@ -286,7 +287,10 @@ def save_tiff(path, array, info):
 def save_overlay(path, array, kind, limit):
     normalized = np.clip((array + limit) / (2 * limit), 0, 1) if kind == 'los' else np.clip(array, 0, 1)
     colors = colormaps['RdBu' if kind == 'los' else 'gray'](np.nan_to_num(normalized, nan=0), bytes=True)
-    colors[:, :, 3] = np.where(np.isfinite(array), 220, 0).astype('uint8')
+    # Keep the basemap legible below near-zero LOS values while retaining a visible,
+    # distinct mask: transparent pixels remain strictly unassessed.
+    alpha = 180 if kind == 'los' else 220
+    colors[:, :, 3] = np.where(np.isfinite(array), alpha, 0).astype('uint8')
     Image.fromarray(colors).save(path)
 
 
@@ -342,9 +346,12 @@ def publish(sources, config, output, version):
         study = {'schema_version': 1, 'id': config['id'], 'hazard_type': 'volcanic_deformation', 'title': config['title'],
                  'publication_version': version, 'method_version': METHOD, 'created_at': datetime.now(timezone.utc).isoformat(),
                  'run_completion': 'COMPLETE', 'scientific_interpretation': 'PHASE_DERIVED_LOS_CANDIDATES',
-                 'event_date': config['event_date'], 'bbox': config['bbox'], 'boundary_source': config['boundary_source'],
+                 'event_date': config['event_date'], 'event_context': config.get('event_context'),
+                 'reference_availability': config.get('reference_availability', 'AVAILABLE'),
+                 'bbox': config['bbox'], 'boundary_source': config['boundary_source'],
                  'reference_bbox': config['reference_bbox'], 'reference_note': config['reference_note'],
                  'coherence_floor': config['coherence_floor'], 'display_limit_cm': config['display_limit_cm'],
+                 'display_scale_note': f"LOS preview PNGs use one fixed symmetric ±{config['display_limit_cm']} cm color stretch for all pairs. Preview colors saturate outside that range; native GeoTIFF values and statistics are unchanged. Light center colors indicate values near zero; transparent pixels are unassessed.",
                  'regions': config['regions'], 'pairs': pairs, 'comparisons': comparisons,
                  'default_pair_id': event['id'], 'corrections': {'ionosphere': 'NOT_APPLIED', 'troposphere': 'NOT_APPLIED', 'solid_earth_tides': 'NOT_APPLIED'},
                  'limitations': ['Apparent LOS change includes deformation and remaining propagation/orbit/DEM/unwrapping errors.',
@@ -361,17 +368,17 @@ def publish(sources, config, output, version):
         write_json(folder/'evidence-card.json', {
             'hazard_type': 'volcanic_deformation', 'study_id': config['id'],
             'publication_version': version, 'method_version': METHOD,
-            'run_completion': 'COMPLETE', 'reference_availability': 'AVAILABLE',
+            'run_completion': 'COMPLETE', 'reference_availability': config.get('reference_availability', 'AVAILABLE'),
             'scientific_interpretation': 'PHASE_DERIVED_LOS_CANDIDATES',
             'boundary_source': config['boundary_source'], 'observations': 'study.json',
             'comparison': 'study.json#comparisons', 'method': 'volcano_pipeline.py',
             'configuration': 'method-config.json', 'downloads': 'evidence.zip',
-            'context_sources': [
+            'context_sources': config.get('context_sources', [
                 'https://nisar-docs.asf.alaska.edu/gunw/',
                 'https://hyp3-docs.asf.alaska.edu/guides/gunw_product_guide/',
-                'https://volcano.si.edu/showreport.cfm?wvar=GVP.WVAR20251126-221091'],
+                'https://volcano.si.edu/showreport.cfm?wvar=GVP.WVAR20251126-221091']),
             'interpretation_note': 'Different sensor geometry and date windows prevent direct accuracy scoring or a vertical/3D inversion. Event reports are context only.'})
-        (folder/'README.txt').write_text('Beyonders volcanic phase evidence package\nMethod: '+METHOD+'\nRead study.json for dates, original products, masks, reference, conventions and limitations.\nNative cropped source layers and relative LOS GeoTIFFs are included. Source-subset.npz contains actual spatially cropped official phase/coherence/component data, not full SLC scenes.\nPublished grids are nearest-neighbor WGS84 views; null means unassessed. No atmospheric/ionospheric/tide correction is applied.\nNo volcanic prediction or attribution of every phase feature to eruption.\nReproduce in a Beyonders checkout: install pipeline/requirements.txt, copy each pair source-subset.npz to pipeline/output/volcano-inputs/hayli-gubbi/PAIR_ID.npz and source.json to PAIR_ID.json; run python pipeline/volcano_pipeline.py --offline --version NEW_VERSION. Use this package method-config.json with --config if needed. See docs/operator-guide.md and docs/volcano-method.md in the repository.\n', encoding='utf-8')
+        (folder/'README.txt').write_text('Beyonders volcanic phase evidence package\nMethod: '+METHOD+'\nRead study.json for dates, original products, masks, reference, conventions and limitations.\nNative cropped source layers and relative LOS GeoTIFFs are included. Source-subset.npz contains actual spatially cropped official phase/coherence/component data, not full SLC scenes.\nPublished grids are nearest-neighbor WGS84 views; null means unassessed. No atmospheric/ionospheric/tide correction is applied.\nNo volcanic prediction or attribution of every phase feature to eruption.\nReproduce in a Beyonders checkout: install pipeline/requirements.txt, copy each pair source-subset.npz to pipeline/output/volcano-inputs/'+config['id']+'/PAIR_ID.npz and source.json to PAIR_ID.json; run python pipeline/volcano_pipeline.py --offline --config method-config.json --version NEW_VERSION. See docs/operator-guide.md and docs/volcano-method.md in the repository.\n', encoding='utf-8')
         files = sorted(p for p in folder.rglob('*') if p.is_file())
         write_json(folder/'checksums.json', {p.relative_to(folder).as_posix(): digest(p) for p in files})
         with zipfile.ZipFile(folder/'evidence.zip', 'w', compression=zipfile.ZIP_DEFLATED) as archive:

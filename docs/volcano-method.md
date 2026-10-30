@@ -2,9 +2,9 @@
 
 ## Scope and status
 
-The global directory shows Smithsonian GVP catalog points and NASA CMR GUNW footprints. Only the Hayli Gubbi / Erta Ale regional study has processed phase layers. Empty places mean no processed result available. The wetland GCOV detector is not used here.
+The global directory shows Smithsonian GVP catalog points and NASA CMR GUNW footprints. Published regional phase studies currently cover Hayli Gubbi / Erta Ale and Kīlauea. Empty places mean no processed result available. The wetland GCOV detector is not used here.
 
-Current publication: `public/volcanoes/hayli-gubbi/2026.10.07-v2/`; method `gunw-relative-los-1.0.1`. This is post-processing of **official geocoded unwrapped interferograms**, not raw-SLC interferometry or reproduction of a paper's GAMMA/3D inversion. Run completion is COMPLETE, reference availability AVAILABLE, scientific interpretation PHASE_DERIVED_LOS_CANDIDATES; comparison is CROSS_SENSOR_CONTEXT. None of those states means confirmed volcanic causation or prediction.
+Current publication: `public/volcanoes/hayli-gubbi/2026.10.30-v3/`; method `gunw-relative-los-1.0.1`. This is post-processing of **official geocoded unwrapped interferograms**, not raw-SLC interferometry or reproduction of a paper's GAMMA/3D inversion. Run completion is COMPLETE, reference availability AVAILABLE, scientific interpretation PHASE_DERIVED_LOS_CANDIDATES; comparison is CROSS_SENSOR_CONTEXT. None of those states means confirmed volcanic causation or prediction.
 
 ## Actual inputs
 
@@ -29,6 +29,16 @@ Exact granule IDs, CMR concept IDs, original authenticated download URLs, proces
 7. Compute statistics on native grids. Projected cells use their grid area; ARIA cell areas are geodesic. Report assessed fraction/area inside the analysis box and separate crop-envelope area. Circular regional samples (1 km Erta Ale north/south, 1.5 km Hayli Gubbi) are analyst-defined ROIs, not established crater boundaries.
 8. Publish native cropped GeoTIFFs and source arrays plus nearest-neighbor geographic previews. The display grid samples native values; the public inspector is labeled as a geographic display sample. Rounded JSON is unsuitable for exact measurements; use native GeoTIFFs.
 
+LOS preview maps use one fixed symmetric ±5 cm color stretch across all intervals. This is a display choice set from the observed pair ranges (the largest absolute p05/p95 is 3.47 cm), not a detection threshold; PNG colors saturate outside the stretch, while source GeoTIFFs and summary statistics retain the full values. Near-white center colors mean values near zero; only fully transparent cells are unassessed.
+
+## Kīlauea episode 36 study
+
+The separate publication `public/volcanoes/kilauea-episode-36-2025/2026.10.30-v3/` processes one real NISAR L2 GUNW BETA HH product. Its reference and secondary acquisitions are November 3 and November 15, 2025, on descending track 72 / frame 79. The interval spans the USGS-reported episode 36 event date of November 9. The analyst-defined study rectangle is `[-155.45, 19.30, -155.05, 19.55]` (west, south, east, north), not a geological boundary. The separate assumed reference patch is `[-155.14, 19.31, -155.12, 19.33]`; its 529 screened samples have 1.60 cm spatial MAD. Reference stability is not independently surveyed.
+
+The GUNW product has 80 m native pixels in EPSG:32604 and an L-band wavelength of about 0.242 m. The published display grid uses a fixed ±40 cm stretch because the study-wide p05 LOS value is approximately −36.0 cm. Median screened coverage is 63.3% of the analyst rectangle (737.7 km² of 1,166.1 km²). The two circular analyst ROIs have about 63% and 38% valid samples, with median apparent LOS values near −21.7 cm and −19.0 cm. These large relative values are sensitive to reference selection and uncorrected atmospheric, ionospheric, orbit, DEM and unwrapping effects. They are **phase-derived candidates**, not an independently confirmed deformation estimate or an attribution to the eruption. No Sentinel-1 GUNW pair is included; the USGS notice confirms event context only.
+
+The crop cache is checksum-protected under `pipeline/output/volcano-inputs/kilauea-episode-36-2025/`. It is about 2.5 MB; the public evidence package is about 14.7 MB. The remote product itself is about 1.5 GB, but the pipeline streams the spatial subset and does not save the full granule. Reproduce with `python pipeline/volcano_pipeline.py --config pipeline/volcano_kilauea.json --offline --version NEW_VERSION` after the cropped cache exists. The package lists prior immutable experimental v1/v2 publications; the catalog points to v3, whose display scale and evidence-status fields are corrected.
+
 Ionosphere phase-screen arrays are retained when present, but **ionosphere, troposphere and solid-Earth-tide corrections are not applied**. Residual propagation, orbital, DEM, reference-motion and unwrap errors may contribute to every apparent LOS value. Reference-patch dispersion is `1.4826 × median absolute deviation`; this is spatial dispersion, not per-pixel uncertainty or displacement accuracy.
 
 ## Independent comparison and interpretation
@@ -37,7 +47,7 @@ Compare the event NISAR pair to the two ARIA views on the same nearest-neighbor 
 
 The event NISAR interval has substantially wider regional ranges near Erta Ale than its pre/post intervals. Sentinel-1 also shows localized phase structure there, with different ranges and lower regional coverage. Hayli Gubbi has much lower event NISAR coverage than surrounding areas. Consult the publication's actual regional counts/ranges before interpreting a map; the different sensor signs and magnitudes do not by themselves prove disagreement or a particular eruption mechanism. The current data supports showing **apparent LOS evidence and uncertainty**, not attribution of every feature to the eruption.
 
-The Smithsonian/USGS report independently records the November 23 eruption, ash and gas; it is event context, not deformation ground truth. NASA optical images dated November 15, 23 and 24 show event context and are locally cached with source/checksum provenance.
+For Hayli Gubbi, the Smithsonian/USGS report records the November 23 eruption, ash and gas; it is event context, not deformation ground truth. NASA optical images dated November 15, 23 and 24 show event context and are locally cached with source/checksum provenance. For Kīlauea, the [USGS episode 36 notice](https://volcanoes.usgs.gov/hans-public/vona/DOI-USGS-HVO-2025-11-10T01:52:38+00:00) records the event, but provides no independent displacement reference.
 
 ## Literature comparator
 

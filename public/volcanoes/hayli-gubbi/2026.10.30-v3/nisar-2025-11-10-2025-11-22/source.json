@@ -1,0 +1,41 @@
+{
+  "granule_id": "NISAR_L2_PR_GUNW_004_172_A_008_005_2000_SH_20251110T024617_20251110T024652_20251122T024618_20251122T024652_X05010_N_F_J_001",
+  "cmr_concept_id": "G4058289806-ASF",
+  "sensor": "NISAR",
+  "start": "2025-11-10",
+  "end": "2025-11-22",
+  "label": "Before the eruption",
+  "collection": "NISAR_L2_GUNW_BETA_V1",
+  "maturity": "BETA",
+  "data_url": "https://nisar.asf.earthdatacloud.nasa.gov/NISAR/NISAR_L2_GUNW_BETA_V1/NISAR_L2_PR_GUNW_004_172_A_008_005_2000_SH_20251110T024617_20251110T024652_20251122T024618_20251122T024652_X05010_N_F_J_001/NISAR_L2_PR_GUNW_004_172_A_008_005_2000_SH_20251110T024617_20251110T024652_20251122T024618_20251122T024652_X05010_N_F_J_001.h5",
+  "track": "172",
+  "direction": "ASCENDING",
+  "look_direction": "Left",
+  "polarization": "HH",
+  "product_version": "1.0.2",
+  "upstream_processor_version": "R05.00.8",
+  "wavelength_m": 0.24393202441008952,
+  "native_crs": "EPSG:32637",
+  "transform": [
+    80.0,
+    0.0,
+    667520.0,
+    0.0,
+    -80.0,
+    1520880.0
+  ],
+  "native_spacing": [
+    80.0,
+    80.0
+  ],
+  "phase_sign": "Earlier reference; positive phase is increasing range. LOS = -phase * wavelength / (4 pi), positive toward sensor.",
+  "phase_to_toward_sign": -1,
+  "original_dates_verified": true,
+  "crop_bbox": [
+    40.55,
+    13.4,
+    40.85,
+    13.75
+  ],
+  "subset_sha256": "ce6a8b65f6808b1c2592e9a85a8a71cb66b70fd0c1c1c875ee680d0920ba2e7d"
+}

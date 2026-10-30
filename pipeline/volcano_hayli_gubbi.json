@@ -8,7 +8,7 @@
   "reference_note": "West of the volcanic chain; assumed stable for relative referencing, not surveyed or proven stationary",
   "coherence_floor": 0.3,
   "display_spacing_degrees": 0.0008,
-  "display_limit_cm": 60,
+  "display_limit_cm": 5,
   "nisar_pairs": [
     {"start": "2025-11-10", "end": "2025-11-22", "track": "172", "frame": "008", "release": "X05010", "label": "Before the eruption"},
     {"start": "2025-11-22", "end": "2025-12-04", "track": "172", "frame": "008", "release": "X05010", "label": "Spans the eruption"},
