@@ -5,11 +5,13 @@ import Link from "next/link";
 import { useWetlandStore } from "@/lib/store";
 import { datesWithPatches, showcaseUrl, type ShowcaseReference } from "@/lib/showcase";
 import { downloadFile, patchesCSV } from "@/lib/real-export";
-import { challenge, changeStory, evidenceStack, fmtDate, fmtDateLong, interpret, interpretationOfClass, opticalLabel, opticalState, regionLabel, type StackStatus } from "@/lib/story";
+import { challenge, changeStory, daysBetween, evidenceStack, fmtDate, fmtDateLong, interpret, interpretationOfClass, opticalLabel, opticalState, regionLabel, summarizeEvidence, temporalOverlapContext, regionNavigationContext, regionDistributionContext, buildRegionEvidenceBrief, type StackStatus } from "@/lib/story";
 import { KindTag, Section, TierBadge, ToolFrame, type Kind } from "./ui";
+import FieldVolumeDisclosure from "@/components/shared/FieldVolumeDisclosure";
+import ScatteringHypothesisPanel from "@/components/shared/ScatteringHypothesisPanel";
 
 const STATUS_WORD: Record<StackStatus, string> = { PASS: "Passed", PARTIAL: "Partial", FAIL: "Not shown", UNAVAILABLE: "Unavailable" };
-const pct1 = (v: number | null | undefined) => (v == null ? "n/a" : `${(v * 100).toFixed(1)}%`);
+const pct1 = (v: number | null | undefined) => (v == null ? "n/a" : v > 0 && v * 100 < 0.1 ? "<0.1%" : `${(v * 100).toFixed(1)}%`);
 
 /* ── Evidence stack: which evidence exists. A test outcome, never a confidence score. ── */
 export function EvidenceStack() {
@@ -30,10 +32,94 @@ export function EvidenceStack() {
   );
 }
 
+/* ── Evidence overview: counts and groups, never a combined score. ── */
+function EvidenceOverview() {
+  const { selectedPatch: patch, dataTier, pulseData } = useWetlandStore();
+  if (!patch) return null;
+  const summary = summarizeEvidence(evidenceStack(patch, opticalState(dataTier, pulseData)));
+  const groups = [
+    { key: "PASS", label: "Passed checks", rows: summary.passed },
+    { key: "PARTIAL", label: "Partial checks", rows: summary.partial },
+    { key: "FAIL", label: "Failed checks", rows: summary.failed },
+    { key: "UNAVAILABLE", label: "Not assessed", rows: summary.unavailable },
+  ] as const;
+  return (
+    <div className="wx-evidence-overview" data-passed={summary.passed.length}
+      data-partial={summary.partial.length} data-failed={summary.failed.length}
+      data-unavailable={summary.unavailable.length}
+      aria-label="Evidence grouped by recorded check status">
+      <div className="wx-evidence-overview__counts" aria-label="Evidence check counts">
+        {groups.map((group) => (
+          <div className="wx-evidence-overview__count" data-status={group.key} key={group.key}>
+            <strong>{group.rows.length}</strong><span>{group.label}</span>
+          </div>
+        ))}
+      </div>
+      <div className="wx-evidence-overview__groups">
+        {groups.filter((group) => group.rows.length > 0).map((group) => (
+          <section key={group.key} data-status={group.key}>
+            <h4>{group.label}</h4>
+            <ul>
+              {group.rows.map((row) => <li key={row.key}>
+                <strong>{row.label}</strong><small>{row.detail}</small>
+              </li>)}
+            </ul>
+          </section>
+        ))}
+      </div>
+      <p className="wx-evidence-overview__note">These are counts of recorded checks, not a probability, confidence score, or proof of flooding. The unavailable group includes evidence that was not collected, such as field observations.</p>
+    </div>
+  );
+}
+
+/* ── Dated temporal-overlap evidence ── */
+function RegionTemporalEvidence({ patch, pulse }: { patch: NonNullable<ReturnType<typeof useWetlandStore.getState>["selectedPatch"]>; pulse: ReturnType<typeof useWetlandStore.getState>["pulseData"] }) {
+  const context = temporalOverlapContext(patch, pulse);
+  const overlap = context.overlapFraction;
+  const statusLabel = context.status === "PASS" ? "Meets 50% criterion"
+    : context.status === "PARTIAL" ? "Below 50% criterion"
+      : context.status === "FAIL" ? "Temporal check failed" : "Not assessed";
+  const classLabel = patch.classification === "OPEN_WATER" ? "open-water" : patch.classification === "VEGETATED_INUNDATION" ? "vegetated-inundation" : "uncertain";
+  return (
+    <div className="wx-temporal-evidence" data-status={context.status}
+      data-current-date={patch.date} data-previous-date={context.previousDate ?? ""}
+      data-overlap-fraction={overlap == null ? "" : String(overlap)}
+      data-threshold-percent={context.thresholdFraction * 100}>
+      {context.previousDate && overlap != null ? <>
+        <div className="wx-temporal-evidence__head">
+          <div><span className="wx-micro">PRECEDING ACQUISITION</span><strong>{fmtDateLong(context.previousDate)}</strong></div>
+          <span className="wx-temporal-evidence__status" data-status={context.status}>{statusLabel}</span>
+        </div>
+        <div className="wx-temporal-evidence__summary">
+          <strong>{pct1(overlap)}</strong>
+          <span>same-class pixel overlap</span>
+        </div>
+        <div className="wx-temporal-evidence__meter" role="meter"
+          aria-label="Share of this region also flagged with the same class on the preceding acquisition"
+          aria-valuemin={0} aria-valuemax={100} aria-valuenow={overlap * 100}
+          aria-valuetext={`${pct1(overlap)} same-class pixel overlap`}>
+          <span style={{ width: `${overlap * 100}%` }} />
+          <i aria-hidden="true" />
+        </div>
+        <div className="wx-temporal-evidence__scale"><span>0%</span><span>50% pipeline threshold</span><span>100%</span></div>
+        <p>{pct1(overlap)} of the pixels inside this {classLabel} candidate on {fmtDateLong(patch.date)} were also assigned the same class on the previous processed acquisition{context.intervalDays != null ? ` (${context.intervalDays} days earlier)` : ""}.</p>
+        <p className="wx-temporal-evidence__note">This is directional pixel overlap, not a persistent region match. Candidate IDs include the acquisition date, so regions are regenerated per observation. No values are interpolated between acquisition dates.</p>
+      </> : <>
+        <span className="wx-micro">{context.dateInSeries ? "FIRST PROCESSED ACQUISITION" : "DATE NOT IN LOADED SERIES"}</span>
+        <strong>{context.previousDate ? "Previous-date overlap was not recorded" : "No preceding acquisition to compare"}</strong>
+        <p>{context.dateInSeries ? "This is the earliest observation in the loaded series. The detector has no earlier class grid for a same-class overlap check." : "This candidate date is not present in the loaded acquisition timeline, so a previous-date comparison cannot be resolved."}</p>
+      </>}
+    </div>
+  );
+}
+
 /* ── Why this region? ── */
 export function InvestigationDrawer() {
-  const { selectedPatch: p, dataTier, pulseData, challengeOpen, setChallengeOpen, showcase, patches, setSelectedPatch } = useWetlandStore();
-  const largest = useMemo(() => [...patches].sort((a, b) => b.area_km2 - a.area_km2).slice(0, 8), [patches]);
+  const { selectedPatch: p, dataTier, pulseData, challengeOpen, setChallengeOpen, showcase, patches, setSelectedPatch, vegFilter,
+    selectedDateIndex, viewMode, mapMode, showcaseId } = useWetlandStore();
+  const [shareMessage, setShareMessage] = useState("");
+  const [shareFallback, setShareFallback] = useState("");
+  const largest = useMemo(() => [...patches].sort((a, b) => b.area_km2 - a.area_km2 || a.id.localeCompare(b.id)).slice(0, 8), [patches]);
   if (!p) return (
     <ToolFrame title="Why this region?" lede="Click a candidate region on the map to see what the radar measured there and which checks it passed."
       limitation="A candidate region is a possible change that needs interpretation. It is not a confirmed flood.">
@@ -42,22 +128,98 @@ export function InvestigationDrawer() {
         <ul className="wx-regions">{largest.map((r) => <li key={r.id}><button type="button" onClick={() => setSelectedPatch(r)}><span>{regionLabel(r.id)}</span><span className="wx-mono">{r.area_km2.toFixed(3)} km²</span></button></li>)}</ul></div>}
     </ToolFrame>
   );
+  // Capture the non-null selection before defining callbacks that use it.
+  const selectedRegion = p;
+  const regionNav = regionNavigationContext(patches, selectedRegion.id, vegFilter);
+  const regionDistribution = regionDistributionContext(patches, p.id, vegFilter);
   const optical = opticalState(dataTier, pulseData);
   const it = interpret(p, optical);
   const ev = showcase?.reference.evidence;
   const ch = challenge(p, optical, { baselineMad: p.baseline_hh_temporal_mad_db, baselineCount: p.baseline_observation_count, referenceLimitations: ev?.limitations,
     opticalReason: showcase?.reference.validation ? String((showcase.reference.validation as { reason?: string }).reason ?? "") || undefined : undefined });
+  function exportRegionBrief() {
+    const brief = buildRegionEvidenceBrief(selectedRegion, pulseData, dataTier, optical, regionDistribution, vegFilter);
+    downloadFile(
+      `beyonders-${selectedRegion.date}-${selectedRegion.id.replace(/[^a-zA-Z0-9_-]/g, "-")}-evidence.json`,
+      JSON.stringify(brief, null, 2),
+      "application/json;charset=utf-8",
+    );
+  }
+  async function copyRegionLink() {
+    const params = new URLSearchParams({
+      date: String(selectedDateIndex),
+      filter: vegFilter,
+      mode: viewMode,
+      mapMode,
+      region: selectedRegion.id,
+    });
+    if (dataTier === "SHOWCASE") params.set("case", showcaseId);
+    if (dataTier === "LOCAL_RUN") params.set("source", "raster");
+    const url = `${window.location.origin}/wetland?${params.toString()}`;
+    try {
+      await navigator.clipboard.writeText(url);
+      setShareFallback("");
+      setShareMessage("Direct link copied. It restores this acquisition and candidate when the same data are available.");
+    } catch {
+      setShareFallback(url);
+      setShareMessage("Clipboard access is unavailable. Copy the link below.");
+    }
+  }
   return (
     <ToolFrame title="Why this region?" lede={`${regionLabel(p.id)} was flagged on ${fmtDateLong(p.date)}. Here is the evidence behind it, and what it cannot tell us.`}
       limitation="Radar change does not by itself prove flooding. The same signal can come from other changes at the surface."
       action={<button className="wx-btn wx-btn--primary" onClick={() => setChallengeOpen(!challengeOpen)} aria-expanded={challengeOpen}>{challengeOpen ? "Hide the challenge" : "Challenge this detection"}</button>}>
+      <nav className="wx-region-nav" aria-label="Candidate region navigation"
+        data-region-id={p.id} data-acquisition-date={p.date} data-class-filter={vegFilter}
+        data-view-mode={viewMode} data-map-mode={mapMode}
+        data-position={regionNav.currentIndex >= 0 ? regionNav.currentIndex + 1 : 0} data-total={regionNav.total}>
+        <button type="button" disabled={!regionNav.previous}
+          aria-label={regionNav.previous ? `Previous region: ${regionLabel(regionNav.previous.id)}` : "Previous region"}
+          onClick={() => { if (regionNav.previous) setSelectedPatch(regionNav.previous); }}>Previous</button>
+        <p aria-live="polite"><strong>{regionNav.currentIndex >= 0 ? `${regionNav.currentIndex + 1} of ${regionNav.total}` : "Not in this filter"}</strong><span>Largest area first</span></p>
+        <button type="button" disabled={!regionNav.next}
+          aria-label={regionNav.next ? `Next region: ${regionLabel(regionNav.next.id)}` : "Next region"}
+          onClick={() => { if (regionNav.next) setSelectedPatch(regionNav.next); }}>Next</button>
+      </nav>
       <dl className="wx-facts">
         <div><dt>Area</dt><dd>{p.area_km2.toFixed(4)} km²</dd></div>
         <div><dt>Class</dt><dd>{p.interpretation_label ?? interpretationOfClass(p.classification)}</dd></div>
         <div><dt>Centroid</dt><dd className="wx-mono">{p.centroid[0].toFixed(4)}°N {p.centroid[1].toFixed(4)}°E</dd></div>
       </dl>
+      <section className="wx-region-context" aria-label="Same-acquisition candidate context"
+        data-region-id={p.id} data-total={regionDistribution.total}
+        data-area-rank={regionDistribution.areaRank ?? ""}
+        data-delta-rank={regionDistribution.deltaHhRank ?? ""}>
+        <div className="wx-region-context__head">
+          <strong>Compared with this observation</strong>
+          <span>{regionDistribution.total} candidates{vegFilter === "ALL" ? "" : " · current class"}</span>
+        </div>
+        {regionDistribution.areaRank != null && regionDistribution.deltaHhRank != null ? (
+          <div className="wx-region-context__grid">
+            <div><span>Area position</span><strong>{regionDistribution.areaRank} of {regionDistribution.total}</strong></div>
+            <div><span>Median candidate area</span><strong>{regionDistribution.medianAreaKm2?.toFixed(3) ?? "n/a"} km²</strong></div>
+            <div><span>|ΔHH| position</span><strong>{regionDistribution.deltaHhRank} of {regionDistribution.total}</strong></div>
+            <div><span>Median |ΔHH|</span><strong>{regionDistribution.medianAbsDeltaHhDb?.toFixed(2) ?? "n/a"} dB</strong></div>
+          </div>
+        ) : <p className="wx-region-context__note">This candidate is outside the active class filter, so no cohort position is shown.</p>}
+        <p className="wx-region-context__note">Positions and medians describe only the currently loaded acquisition and class filter. They are descriptive comparisons, not detection confidence, flood severity, or validation.</p>
+        <div className="wx-region-context__export">
+          <button type="button" className="wx-btn" onClick={exportRegionBrief}>Download this region&apos;s evidence brief</button>
+          <button type="button" className="wx-btn" onClick={() => void copyRegionLink()}>Copy direct region link</button>
+          <span>JSON export · or share the selected view</span>
+        </div>
+        {shareMessage && <p className="wx-region-context__share-message" role="status">{shareMessage}</p>}
+        {shareFallback && <label className="wx-share-fallback">Direct region link<input readOnly value={shareFallback} onFocus={(event) => event.currentTarget.select()} /></label>}
+      </section>
       <div className="wx-interp"><span className="wx-micro">Interpretation</span><strong>{it.headline}</strong><p>{it.note}</p></div>
-      <Section eyebrow="Evidence" title="What do we actually know?"><EvidenceStack /></Section>
+      <Section eyebrow="Evidence" title="What do we actually know?">
+        <EvidenceOverview />
+        <details className="wx-raw wx-evidence-details">
+          <summary>See individual evidence checks</summary>
+          <EvidenceStack />
+        </details>
+      </Section>
+      <Section eyebrow="Across acquisitions" title="Preceding-observation overlap"><RegionTemporalEvidence patch={p} pulse={pulseData} /></Section>
       <Section eyebrow="Provenance" title="How this result was built">
         <ol className="wx-flow">
           <li><KindTag kind="observed" /><span>NISAR L2 GCOV HH and HV power, acquired {p.date}</span><span className="wx-mono">HH {p.hh_before.toFixed(1)} → {p.hh_after.toFixed(1)} dB · HV {p.hv_before.toFixed(1)} → {p.hv_after.toFixed(1)} dB</span></li>
@@ -72,6 +234,7 @@ export function InvestigationDrawer() {
           <ul className="wx-checks">{ch.items.map((i) => <li key={i.text} data-tone={i.tone}><i className="wx-dot" aria-hidden="true" /><div><strong>{i.text}</strong>{i.detail && <small>{i.detail}</small>}</div></li>)}</ul>
           <p className="wx-micro">Other explanations that remain plausible</p>
           <ul className="wx-plain">{ch.alternatives.map((a) => <li key={a}>{a}</li>)}</ul>
+          <ScatteringHypothesisPanel key={p.id} patch={p} />
           <dl className="wx-status">
             <div><dt>Status</dt><dd>{ch.status}</dd></div><div><dt>Interpretation</dt><dd>{ch.interpretation}</dd></div>
             <div><dt>Independent support</dt><dd>{ch.independent}</dd></div><div><dt>Validation</dt><dd>{ch.validation}</dd></div><div><dt>Recommendation</dt><dd>{ch.recommendation}</dd></div>
@@ -121,7 +284,8 @@ function WetlandPulseChart() {
     const first = Date.parse(`${dates[0].date}T00:00:00Z`);
     const last = Date.parse(`${dates[dates.length - 1].date}T00:00:00Z`);
     const maxArea = Math.max(0.01, ...dates.filter((item) => !available || available.has(item.date)).map((item) => item.area_km2));
-    const left = 54; const right = 606; const top = 26; const bottom = 168;
+    // A compact viewBox keeps all seven dates legible inside the narrow desktop drawer.
+    const left = 48; const right = 364; const top = 38; const bottom = 168;
     const span = Math.max(last - first, 1);
     return dates.map((item, index) => {
       const time = Date.parse(`${item.date}T00:00:00Z`);
@@ -136,9 +300,19 @@ function WetlandPulseChart() {
     });
   }, [pulseData, available]);
 
+  const fmtArea = (value: number) => `${value.toFixed(value >= 10 ? 0 : 1)} km²`;
+  const fieldVolumeData = useMemo(() => points.map((point) => ({
+    id: point.date,
+    label: fmtDate(point.date, { month: "short", day: "numeric" }),
+    value: point.area_km2,
+    valueLabel: fmtArea(point.area_km2),
+    context: point.fraction,
+    available: point.hasResult,
+  })), [points]);
+
   if (!pulseData || !points.length) return null;
 
-  const top = 26; const bottom = 168;
+  const top = 38; const bottom = 168;
   const maxArea = Math.max(0.01, ...points.filter((point) => point.hasResult).map((point) => point.area_km2));
   const markers = [
     { date: pulseData.onset, label: "Onset", className: "is-onset" },
@@ -150,7 +324,6 @@ function WetlandPulseChart() {
     return point ? [{ ...marker, x: point.x }] : [];
   });
   const active = points[Math.min(Math.max(selectedDateIndex, 0), points.length - 1)];
-  const fmtArea = (value: number) => `${value.toFixed(value >= 10 ? 0 : 1)} km²`;
 
   function selectPoint(index: number, hasResult: boolean) {
     if (!hasResult) return;
@@ -168,20 +341,20 @@ function WetlandPulseChart() {
           <span className="wx-mono">{active.hasResult ? `${fmtArea(active.area_km2)} · ${active.patches} regions` : "Acquired · result not exported"}</span>
         </div>
         <div className="wx-pulse-chart__scroll">
-          <svg className="wx-pulse-chart__svg" viewBox="0 0 620 218" role="group" aria-label={`Discrete wetland candidate-area chart for ${points.length} NISAR acquisition dates`}>
-            <text className="wx-pulse-chart__axis-label" x="12" y="16">Candidate area · km²</text>
+          <svg className="wx-pulse-chart__svg" viewBox="0 0 390 218" role="group" aria-label={`Discrete wetland candidate-area chart for ${points.length} NISAR acquisition dates`}>
+            <text className="wx-pulse-chart__axis-label" x="8" y="16">km²</text>
             {[0, 0.5, 1].map((fraction) => {
               const y = bottom - fraction * (bottom - top);
               return <g key={fraction}>
-                <line className="wx-pulse-chart__grid" x1="54" x2="606" y1={y} y2={y} />
-                <text className="wx-pulse-chart__tick" x="46" y={y + 4} textAnchor="end">{(maxArea * fraction).toFixed(maxArea >= 10 ? 0 : 1)}</text>
+                <line className="wx-pulse-chart__grid" x1="48" x2="364" y1={y} y2={y} />
+                <text className="wx-pulse-chart__tick" x="42" y={y + 4} textAnchor="end">{(maxArea * fraction).toFixed(maxArea >= 10 ? 0 : 1)}</text>
               </g>;
             })}
-            {markers.map((marker) => <g key={marker.label} className={`wx-pulse-chart__marker ${marker.className}`}>
+            {markers.map((marker, markerIndex) => <g key={marker.label} className={`wx-pulse-chart__marker ${marker.className}`}>
               <line x1={marker.x} x2={marker.x} y1={top} y2={bottom} />
-              <text x={marker.x} y="18" textAnchor="middle">{marker.label}</text>
+              <text x={marker.x} y={markerIndex % 2 === 0 ? 16 : 28} textAnchor="middle">{marker.label}</text>
             </g>)}
-            <line className="wx-pulse-chart__baseline" x1="54" x2="606" y1={bottom} y2={bottom} />
+            <line className="wx-pulse-chart__baseline" x1="48" x2="364" y1={bottom} y2={bottom} />
             {points.map((point) => {
               const selected = point.index === selectedDateIndex;
               const barTop = point.hasResult ? point.y : bottom - 5;
@@ -211,6 +384,19 @@ function WetlandPulseChart() {
         </div>
         <p className="wx-caption">{pulseData.product ?? "NISAR L2 GCOV"} · provisional · {points.length} acquisitions. Click a bar or focus it and press Enter to inspect its date on the map.</p>
       </div>
+      <FieldVolumeDisclosure
+        kind="wetland"
+        title="Wetland pulse in three dimensions"
+        metricLabel="Recorded candidate area"
+        contextLabel="Study-area share"
+        observations={fieldVolumeData}
+        selectedId={active.date}
+        onSelectId={(id) => {
+          const point = points.find((item) => item.date === id);
+          if (point) selectPoint(point.index, point.hasResult);
+        }}
+        note="Columns use actual exported NISAR candidate area by acquisition date. The water surface is conceptual, not a measured elevation model or a confirmed flood extent."
+      />
     </ToolFrame>
   );
 }
@@ -250,11 +436,70 @@ export function SensitivityDrawer() {
 
 /* ── What happened? ── */
 export function StoryDrawer() {
-  const { pulseData, dataTier, showcase } = useWetlandStore();
-  if (!pulseData) return null;
+  const { pulseData, dataTier, showcase, selectedDateIndex } = useWetlandStore();
+  if (!pulseData?.dates.length) return null;
+
+  const dates = pulseData.dates;
+  const activeIndex = Math.min(Math.max(Math.trunc(selectedDateIndex), 0), dates.length - 1);
+  const active = dates[activeIndex];
+  const previous = activeIndex > 0 ? dates[activeIndex - 1] : null;
+  const availableDates = dataTier === "SHOWCASE" && showcase ? datesWithPatches(showcase) : null;
+  const hasResult = !availableDates || availableDates.has(active.date);
+  const previousHasResult = Boolean(previous && (!availableDates || availableDates.has(previous.date)));
+  const areaDelta = previous && previousHasResult && hasResult ? active.area_km2 - previous.area_km2 : null;
+  const regionDelta = previous && previousHasResult && hasResult ? active.patches - previous.patches : null;
+  const gapDays = previous && previousHasResult ? daysBetween(previous.date, active.date) : null;
+  const signedArea = areaDelta == null ? null : `${areaDelta > 0 ? "+" : areaDelta < 0 ? "−" : ""}${Math.abs(areaDelta).toFixed(2)} km²`;
+  const signedRegions = regionDelta == null ? null : `${regionDelta > 0 ? "+" : regionDelta < 0 ? "−" : ""}${Math.abs(regionDelta)}`;
   const paras = changeStory(pulseData, dataTier, opticalState(dataTier, pulseData), showcase?.reference);
+
   return (
     <ToolFrame title="What happened?" lede="A plain-language summary written only from the measurements loaded in this case." limitation="This text names no causes and is not a flood report.">
+      <section className="wx-story-snapshot" aria-label="Selected observation context">
+        <header className="wx-story-snapshot__header">
+          <div>
+            <p className="wx-micro">Selected acquisition</p>
+            <strong>{fmtDateLong(active.date)}</strong>
+          </div>
+          {active.date === pulseData.peak.date && <span className="wx-story-snapshot__badge">Peak in this series</span>}
+        </header>
+        {hasResult ? (
+          <>
+            <dl className="wx-story-snapshot__metrics">
+              <div className="wx-story-snapshot__metric">
+                <dt>Candidate area</dt>
+                <dd>{active.area_km2.toFixed(2)} km²</dd>
+              </div>
+              <div className="wx-story-snapshot__metric">
+                <dt>Candidate regions</dt>
+                <dd>{active.patches.toLocaleString()}</dd>
+              </div>
+              <div className="wx-story-snapshot__metric">
+                <dt>Mapped-boundary share</dt>
+                <dd>{(active.fraction * 100).toFixed(1)}%</dd>
+              </div>
+            </dl>
+            {signedArea != null && signedRegions != null && previous ? (
+              <div className="wx-story-snapshot__comparison">
+                <p className="wx-micro">Change from {fmtDateLong(previous.date)}</p>
+                <div className="wx-story-snapshot__delta">
+                  <strong>{signedArea}</strong>
+                  <span>{signedRegions} candidate regions</span>
+                </div>
+                <p className="wx-story-snapshot__note">
+                  {gapDays} days between acquisitions. This is a difference between two recorded snapshots, not a daily rate.
+                </p>
+              </div>
+            ) : previous ? (
+              <p className="wx-story-snapshot__note">The preceding acquisition has no exported candidate result, so a date-to-date difference is not available.</p>
+            ) : (
+              <p className="wx-story-snapshot__note">This is the first acquisition in the loaded series; no earlier observation is available for comparison.</p>
+            )}
+          </>
+        ) : (
+          <p className="wx-story-snapshot__note">This acquisition is recorded, but no candidate-region result was exported for this date.</p>
+        )}
+      </section>
       <div className="wx-prose">{paras.map((t, i) => <p key={i}>{t}</p>)}</div>
     </ToolFrame>
   );
@@ -426,6 +671,7 @@ function RegionRegister() {
   const { patches, selectedPatch, setSelectedPatch, pulseData, selectedDateIndex, dataTier, showcaseId, vegFilter, setVegFilter, viewMode, mapMode, setDrawer, threshold, sensitivityData } = useWetlandStore();
   const [query, setQuery] = useState("");
   const [sort, setSort] = useState<"area" | "delta" | "id">("area");
+  const [visibleLimit, setVisibleLimit] = useState(100);
   const [format, setFormat] = useState<"csv" | "geojson" | "json">("csv");
   const [message, setMessage] = useState("");
   const [shareFallback, setShareFallback] = useState("");
@@ -433,8 +679,21 @@ function RegionRegister() {
   const rows = useMemo(() => patches
     .filter((p) => vegFilter === "ALL" || p.classification === vegFilter)
     .filter((p) => `${p.id} ${regionLabel(p.id)} ${p.classification} ${p.interpretation_label ?? ""}`.toLowerCase().includes(query.toLowerCase().trim()))
-    .sort((a, b) => sort === "area" ? b.area_km2 - a.area_km2 : sort === "delta" ? Math.abs(b.delta_hh) - Math.abs(a.delta_hh) : a.id.localeCompare(b.id)),
+    .sort((a, b) => {
+      if (sort === "area") return b.area_km2 - a.area_km2 || a.id.localeCompare(b.id);
+      if (sort === "delta") return Math.abs(b.delta_hh) - Math.abs(a.delta_hh) || a.id.localeCompare(b.id);
+      return a.id.localeCompare(b.id);
+    }),
   [patches, vegFilter, query, sort]);
+  const visibleRows = rows.slice(0, visibleLimit);
+  const hasActiveFilters = query.trim().length > 0 || vegFilter !== "ALL";
+
+  function resetRegister() {
+    setQuery("");
+    setVegFilter("ALL");
+    setSort("area");
+    setVisibleLimit(100);
+  }
 
   function exportRows() {
     const source = "NISAR";
@@ -483,16 +742,47 @@ function RegionRegister() {
     limitation="Exports preserve real-data provenance and scientific limitations. A candidate is not a confirmed flood.">
     <div className="wx-region-register">
     <div className="wx-region-tools">
-      <label>Search regions<input value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Region ID or class…" aria-label="Search candidate regions" /></label>
-      <label>Sort by<select value={sort} onChange={(e) => setSort(e.target.value as typeof sort)} aria-label="Sort regions"><option value="area">Largest area</option><option value="delta">Strongest |ΔHH|</option><option value="id">Region ID</option></select></label>
-      <label>Class filter<select value={vegFilter} onChange={(e) => setVegFilter(e.target.value as typeof vegFilter)} aria-label="Filter candidate class"><option value="ALL">All classes</option><option value="OPEN_WATER">HH-darkening</option><option value="VEGETATED_INUNDATION">Vegetation-related</option><option value="UNCERTAIN">Uncertain</option></select></label>
+      <label>Search regions<input value={query} onChange={(e) => { setQuery(e.target.value); setVisibleLimit(100); }} placeholder="Region ID or class…" aria-label="Search candidate regions" /></label>
+      <label>Sort by<select value={sort} onChange={(e) => { setSort(e.target.value as typeof sort); setVisibleLimit(100); }} aria-label="Sort regions"><option value="area">Largest area</option><option value="delta">Strongest |ΔHH|</option><option value="id">Region ID</option></select></label>
+      <label>Class filter<select value={vegFilter} onChange={(e) => { setVegFilter(e.target.value as typeof vegFilter); setVisibleLimit(100); }} aria-label="Filter candidate class"><option value="ALL">All classes</option><option value="OPEN_WATER">HH-darkening</option><option value="VEGETATED_INUNDATION">Vegetation-related</option><option value="UNCERTAIN">Uncertain</option></select></label>
     </div>
-    <div className="wx-region-table-wrap"><table className="wx-region-table"><thead><tr><th scope="col">Region</th><th scope="col">Area</th><th scope="col">ΔHH</th><th scope="col">Class</th></tr></thead>
-      <tbody>{rows.slice(0, 100).map((p) => <tr key={p.id} className={selectedPatch?.id === p.id ? "is-selected" : ""}>
-        <td><button type="button" onClick={() => { setSelectedPatch(p); setDrawer("EXPLORE"); }} aria-pressed={selectedPatch?.id === p.id}>{regionLabel(p.id)}</button></td>
-        <td className="wx-mono">{p.area_km2.toFixed(3)}</td><td className="wx-mono">{p.delta_hh > 0 ? "+" : ""}{p.delta_hh.toFixed(1)} dB</td><td>{p.classification === "OPEN_WATER" ? "HH-darkening" : p.classification === "VEGETATED_INUNDATION" ? "Vegetation" : "Uncertain"}</td>
-      </tr>)}</tbody></table></div>
-    {rows.length > 100 && <p className="wx-caption">Showing the first 100 of {rows.length}. Narrow your search or export to include every filtered region.</p>}
+    <div className="wx-region-summary">
+      <span role="status" aria-live="polite">Showing {visibleRows.length} of {rows.length} matching regions</span>
+      {hasActiveFilters && <button type="button" onClick={resetRegister}>Clear search and filters</button>}
+    </div>
+    {rows.length > 0 ? (
+      <>
+        <div className="wx-region-table-wrap"><table className="wx-region-table"><thead><tr><th scope="col">Region</th><th scope="col">Area</th><th scope="col">ΔHH</th><th scope="col">Class</th></tr></thead>
+          <tbody>{visibleRows.map((p) => <tr key={p.id} className={selectedPatch?.id === p.id ? "is-selected" : ""}>
+            <td><button type="button" onClick={() => { setSelectedPatch(p); setDrawer("EXPLORE"); }} aria-pressed={selectedPatch?.id === p.id}>{regionLabel(p.id)}</button></td>
+            <td className="wx-mono">{p.area_km2.toFixed(3)}</td><td className="wx-mono">{p.delta_hh > 0 ? "+" : ""}{p.delta_hh.toFixed(1)} dB</td><td>{p.classification === "OPEN_WATER" ? "HH-darkening" : p.classification === "VEGETATED_INUNDATION" ? "Vegetation" : "Uncertain"}</td>
+          </tr>)}</tbody></table></div>
+        <ul className="wx-region-cards" aria-label="Candidate regions">
+          {visibleRows.map((p) => (
+            <li key={p.id} data-region-id={p.id} className={selectedPatch?.id === p.id ? "wx-region-card is-selected" : "wx-region-card"}>
+              <button type="button" className="wx-region-card__select" onClick={() => { setSelectedPatch(p); setDrawer("EXPLORE"); }} aria-pressed={selectedPatch?.id === p.id}>
+                <span>{regionLabel(p.id)}</span><strong>{p.area_km2.toFixed(3)} km²</strong>
+              </button>
+              <div className="wx-region-card__meta">
+                <div><span>ΔHH</span><strong>{p.delta_hh > 0 ? "+" : ""}{p.delta_hh.toFixed(1)} dB</strong></div>
+                <div><span>Class</span><strong>{p.classification === "OPEN_WATER" ? "HH-darkening" : p.classification === "VEGETATED_INUNDATION" ? "Vegetation" : "Uncertain"}</strong></div>
+              </div>
+            </li>
+          ))}
+        </ul>
+        {visibleRows.length < rows.length && <div className="wx-region-pagination">
+          <span>{rows.length - visibleRows.length} more regions in this result</span>
+          <button type="button" className="wx-btn" onClick={() => setVisibleLimit((current) => Math.min(current + 100, rows.length))}>
+            Show next {Math.min(100, rows.length - visibleRows.length)} regions
+          </button>
+        </div>}
+      </>
+    ) : (
+      <div className="wx-region-empty" role="status">
+        <strong>No candidate regions match those criteria.</strong>
+        <p>Try a different region ID or class, or clear the current search and filters.</p>
+      </div>
+    )}
     <div className="wx-region-export"><label>Export format<select value={format} onChange={(e) => setFormat(e.target.value as typeof format)}><option value="csv">CSV · spreadsheet</option><option value="geojson">GeoJSON · map data</option><option value="json">JSON · reproducible snapshot</option></select></label>
       <button type="button" className="wx-btn wx-btn--primary" onClick={exportRows}>Export {rows.length} regions</button><button type="button" className="wx-btn" onClick={() => void shareView()}>Copy share link</button>
     </div>
@@ -507,14 +797,14 @@ export function ExplorePanel() {
   const { detectiveOn, setDetectiveOn } = useWetlandStore();
   return (
     <div className="wx-panel">
-      <PanelHead n="01" title="Explore" lede="Touch the data. Click a glowing region to interrogate it — or switch on SAR Detective and probe any point on the map." />
-      <WetlandPulseChart />
+      <PanelHead n="01" title="Explore" lede="Select a candidate region to inspect its radar measurements and limitations, or use SAR Detective to sample a point on the map." />
       <button type="button" className={`wx-detective${detectiveOn ? " is-on" : ""}`} aria-pressed={detectiveOn}
         onClick={() => setDetectiveOn(!detectiveOn)}>
         <span className="wx-micro">{detectiveOn ? "● Detective active — click anywhere on the map" : "SAR Detective"}</span>
         <strong>{detectiveOn ? "Tap again to switch off" : "Read the radar signal at any point"}</strong>
       </button>
       {detectiveOn ? <DetectiveDrawer /> : <InvestigationDrawer />}
+      <WetlandPulseChart />
       <RegionRegister />
       <StoryDrawer />
       <CompareDrawer />

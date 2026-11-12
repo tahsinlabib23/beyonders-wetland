@@ -88,3 +88,14 @@ using a 128 × 128 nearest-native-pixel grid. It displays backscatter and
 HH/HV-derived quantities; these do not uniquely label flooded vegetation, and
 the case has no matched C-band pixel comparison. See [radar physics tools](radar-physics-tools.md)
 for formulas, sample-grid provenance, and limitations.
+
+
+## Explore Agriculture soil moisture
+
+Open /agriculture to inspect the published Naogaon NISAR L3 SME2 PROVISIONAL study. The current DSG release contains six valid acquisition dates from 12 August through 23 October 2026; four other dates are explicitly listed as quality exclusions. The workspace includes an interactive map, selectable observation timeline, moisture and target-minus-baseline change layers, uncertainty/coverage summaries, a strict same-pixel cohort comparison, CSV export, and evidence/provenance review.
+
+Read the coverage figures separately: the latest target date has 57.9% valid AOI coverage; the change layer has 21.31% valid coverage; and the fixed all-date cohort covers 21.28% of the AOI. The change and cohort values are close to the fixed 20% policy floor, so the study remains exploratory. The release contains no Dynamic World crop mask, IMERG rainfall context, field reference or independent agricultural accuracy estimate.
+
+The Operator tab searches public NASA CMR metadata and prepares a guided handoff to the manual master-only GitHub Actions processing workflow. An operator must confirm the workflow run in GitHub; the browser does not download source granules or receive Earthdata credentials. The workspace verifies the published study and active preview checksums before rendering measurements. If publication is absent or integrity checks fail, it shows an explicit unavailable state rather than sample measurements.
+
+Interpret SME2 values as exploratory product estimates. NASA documents that the PROVISIONAL SME2 collection is not yet fully calibrated. The values are not crop-health labels, drought diagnoses, irrigation recommendations, crop-type maps or yield predictions.

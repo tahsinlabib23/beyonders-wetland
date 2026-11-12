@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { MapContainer, TileLayer, Pane, Polygon, Tooltip, GeoJSON as LeafletGeoJSON, ImageOverlay, ZoomControl, useMap, useMapEvents } from "react-leaflet";
 import type { LatLngBoundsExpression } from "leaflet";
 import "leaflet/dist/leaflet.css";
@@ -57,16 +57,16 @@ function FitView() {
   return null;
 }
 
-function SplitClip({ position }: { position: number }) {
+function SplitClip({ position, paneName = "wxAfter" }: { position: number; paneName?: string }) {
   const map = useMap();
   const update = () => {
-    const pane = map.getPane("wxAfter"); if (!pane) return;
+    const pane = map.getPane(paneName); if (!pane) return;
     const o = map.containerPointToLayerPoint([0, 0]); const s = map.getSize();
     const x = o.x + (s.x * position) / 100;
     pane.style.clipPath = `polygon(${x}px ${o.y}px, ${o.x + s.x}px ${o.y}px, ${o.x + s.x}px ${o.y + s.y}px, ${x}px ${o.y + s.y}px)`;
   };
   useMapEvents({ move: update, zoomend: update, resize: update });
-  useEffect(update, [map, position]);
+  useEffect(update, [map, position, paneName]);
   return null;
 }
 
@@ -97,24 +97,69 @@ function DetectiveClicks() {
   return null;
 }
 
-function RadarOverlay() {
-  const { dataTier, pipelineRunId, pulseData, selectedDateIndex, radarChannel, radarStage, radarOpacity, showcaseId } = useWetlandStore();
+function RadarOverlay({ onPreviewUnavailable, onImageFailure, split }: {
+  onPreviewUnavailable: (unavailable: boolean) => void;
+  onImageFailure: (failed: boolean) => void;
+  split: number;
+}) {
+  const { dataTier, pipelineRunId, pulseData, selectedDateIndex, radarChannel, radarOpacity, showcaseId, showcase, mapMode } = useWetlandStore();
   const date = pulseData?.dates[selectedDateIndex]?.date;
   const key = `${dataTier}:${pipelineRunId}:${showcaseId}:${date}`;
   const [loaded, setLoaded] = useState<{ key: string; preview: RadarPreview | null } | null>(null);
   const preview = loaded?.key === key ? loaded.preview : null;
   useEffect(() => {
     let live = true;
-    if (!date) return;
-    const load = dataTier === "SHOWCASE" ? loadShowcaseRadar(date, showcaseId)
+    onPreviewUnavailable(false);
+    onImageFailure(false);
+    if (!date) {
+      onPreviewUnavailable(true);
+      return () => { live = false; };
+    }
+    const load = dataTier === "SHOWCASE" ? loadShowcaseRadar(date, showcaseId, showcase?.manifest)
       : fetch(`/api/wetland/radar?run=${pipelineRunId}&date=${date}`).then((r) => r.ok ? r.json() as Promise<RadarPreview> : null)
         .then((v) => { if (v) for (const l of Object.values(v.layers)) l.images = Object.fromEntries(Object.entries(l.images).map(([k, f]) => [k, `/api/wetland/artifact?run=${pipelineRunId}&file=${encodeURIComponent(f)}`])); return v; }).catch(() => null);
-    void load.then((v) => { if (live) setLoaded({ key, preview: v }); });
+    void load.then((v) => {
+      if (!live) return;
+      setLoaded({ key, preview: v });
+      onPreviewUnavailable(!v);
+      onImageFailure(false);
+    });
     return () => { live = false; };
-  }, [date, dataTier, pipelineRunId, showcaseId, key]);
+  }, [date, dataTier, pipelineRunId, showcaseId, showcase?.manifest, key, onPreviewUnavailable, onImageFailure]);
   const layer = preview?.layers[radarChannel];
-  if (!layer || !layer.images[radarStage]) return null;
-  return <Pane name="wxRadar" style={{ zIndex: 380 }}><ImageOverlay url={layer.images[radarStage]} bounds={layer.bounds as LatLngBoundsExpression} opacity={radarOpacity} /></Pane>;
+  const beforeUrl = layer?.images.before;
+  const afterUrl = layer?.images.after;
+  const imageUrl = mapMode === "BEFORE" ? beforeUrl : mapMode === "AFTER" ? afterUrl : layer?.images.change;
+  useEffect(() => {
+    onImageFailure(false);
+  }, [imageUrl, beforeUrl, afterUrl, onImageFailure]);
+  if (!layer) return null;
+  if (mapMode === "SPLIT") {
+    if (!beforeUrl || !afterUrl) return null;
+    return <>
+      <Pane key="wxRadarBefore" name="wxRadarBefore" style={{ zIndex: 380 }}>
+        <ImageOverlay url={beforeUrl} bounds={layer.bounds as LatLngBoundsExpression} opacity={radarOpacity}
+          eventHandlers={{ error: () => onImageFailure(true), load: () => onImageFailure(false) }} />
+      </Pane>
+      <Pane key="wxRadarAfter" name="wxRadarAfter" style={{ zIndex: 381 }}>
+        <ImageOverlay url={afterUrl} bounds={layer.bounds as LatLngBoundsExpression} opacity={radarOpacity}
+          eventHandlers={{ error: () => onImageFailure(true), load: () => onImageFailure(false) }} />
+      </Pane>
+      <SplitClip position={split} paneName="wxRadarAfter" />
+    </>;
+  }
+  if (!imageUrl) return null;
+  return <Pane key="wxRadar" name="wxRadar" style={{ zIndex: 380 }}>
+    <ImageOverlay
+      url={imageUrl}
+      bounds={layer.bounds as LatLngBoundsExpression}
+      opacity={radarOpacity}
+      eventHandlers={{
+        error: () => onImageFailure(true),
+        load: () => onImageFailure(false),
+      }}
+    />
+  </Pane>;
 }
 
 function PatchLayer({ list, interactive, dim }: { list: WetlandPatch[]; interactive: boolean; dim: boolean }) {
@@ -137,10 +182,14 @@ function PatchLayer({ list, interactive, dim }: { list: WetlandPatch[]; interact
 }
 
 export default function WetlandStage() {
-  const { patches, lock, viewMode, satelliteBasemap, siteBoundary, selectedPatch, pulseData, probeResult, probeActive } = useWetlandStore();
+  const { patches, lock, viewMode, mapMode, selectedDateIndex, satelliteBasemap, siteBoundary, selectedPatch, pulseData, probeResult, probeActive } = useWetlandStore();
   const [split, setSplit] = useState(50);
   const [basemapReady, setBasemapReady] = useState(false);
   const [basemapFailed, setBasemapFailed] = useState(false);
+  const [radarPreviewUnavailable, setRadarPreviewUnavailable] = useState(false);
+  const [radarImageFailed, setRadarImageFailed] = useState(false);
+  const handleRadarPreviewUnavailable = useCallback((unavailable: boolean) => setRadarPreviewUnavailable(unavailable), []);
+  const handleRadarImageFailure = useCallback((failed: boolean) => setRadarImageFailed(failed), []);
   const wrap = useRef<HTMLDivElement>(null);
   const drag = useRef(false);
   useEffect(() => {
@@ -151,6 +200,7 @@ export default function WetlandStage() {
   }, []);
   const dimOthers = viewMode === "EXPLAIN" && !!selectedPatch;
   const dates = pulseData?.dates ?? [];
+  const isRadarSplit = viewMode === "RADAR" && mapMode === "SPLIT";
   return (
     <div className="wx-stage" ref={wrap}>
       <MapContainer center={MAP_CONFIG.center} zoom={11} minZoom={5} maxZoom={17} zoomControl={false} style={{ width: "100%", height: "100%" }}>
@@ -161,10 +211,14 @@ export default function WetlandStage() {
           attribution={MAP_CONFIG.tileAttribution}
           eventHandlers={{
             tileload: () => { setBasemapReady(true); setBasemapFailed(false); },
-            tileerror: () => { if (!basemapReady) setBasemapFailed(true); },
+            tileerror: () => { setBasemapFailed(true); },
           }}
         />}
-        {viewMode === "RADAR" && <RadarOverlay />}
+        {viewMode === "RADAR" && <RadarOverlay
+          onPreviewUnavailable={handleRadarPreviewUnavailable}
+          onImageFailure={handleRadarImageFailure}
+          split={split}
+        />}
         {siteBoundary && <Pane name="wxBoundary" style={{ zIndex: 420 }}><LeafletGeoJSON data={siteBoundary} interactive={false} style={{ color: "#5AC8D8", weight: 1.5, opacity: 0.9, fillOpacity: 0, dashArray: "6 5" }} /></Pane>}
         {lock ? <>
           <Pane name="wxBefore" style={{ zIndex: 400 }}><PatchLayer list={lock.before} interactive={false} dim={false} /></Pane>
@@ -174,22 +228,37 @@ export default function WetlandStage() {
         <DetectiveClicks />
       </MapContainer>
 
-      {satelliteBasemap && !basemapReady && <div className={`wx-basemap-status${basemapFailed ? " is-error" : ""}`} role="status" aria-live="polite">
+      {satelliteBasemap && (!basemapReady || basemapFailed) && <div className={`wx-basemap-status${basemapFailed ? " is-error" : ""}`} role="status" aria-live="polite">
         {basemapFailed ? "Satellite imagery unavailable · radar layers remain visible" : "Loading satellite imagery…"}
       </div>}
+      {viewMode === "RADAR" && radarPreviewUnavailable && (
+        <div className="wx-radar-status is-error" role="status" aria-live="polite">
+          Published radar preview unavailable for this date · candidate regions and study evidence remain available.
+        </div>
+      )}
+      {viewMode === "RADAR" && radarImageFailed && (
+        <div className="wx-radar-status is-error" role="status" aria-live="polite">
+          Radar preview loaded but could not be drawn · try another date or layer. Candidate regions remain available.
+        </div>
+      )}
 
       {probeActive && probeResult && <div className="wx-crosshair-note" aria-hidden="true">{probeResult.lat.toFixed(4)}°, {probeResult.lng.toFixed(4)}°</div>}
 
-      {lock && (
+      {(lock || isRadarSplit) && (
         <>
-          <div className="wx-split" role="slider" tabIndex={0} aria-label="Before and after divider" aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(split)}
+          <div className={lock ? "wx-split" : "wx-radar-split"} role="slider" tabIndex={0} aria-label={lock ? "Before and after divider" : "Radar baseline and after divider"} aria-valuemin={0} aria-valuemax={100} aria-valuenow={Math.round(split)}
             style={{ left: `${split}%` }}
             onPointerDown={(e) => { drag.current = true; (e.target as HTMLElement).setPointerCapture?.(e.pointerId); }}
             onKeyDown={(e) => { if (e.key === "ArrowLeft") { e.preventDefault(); setSplit((v) => Math.max(2, v - 4)); } if (e.key === "ArrowRight") { e.preventDefault(); setSplit((v) => Math.min(98, v + 4)); } if (e.key === "Home") setSplit(2); if (e.key === "End") setSplit(98); }}>
             <span className="wx-split__grip" />
           </div>
-          <div className="wx-split-label wx-split-label--l"><small>Before · candidate regions</small>{fmtDate(dates[lock.beforeIndex]?.date ?? "", { month: "short", day: "numeric", year: "numeric" })}</div>
-          <div className="wx-split-label wx-split-label--r"><small>After · candidate regions</small>{fmtDate(dates[lock.afterIndex]?.date ?? "", { month: "short", day: "numeric", year: "numeric" })}</div>
+          {lock ? <>
+            <div className="wx-split-label wx-split-label--l"><small>Before · candidate regions</small>{fmtDate(dates[lock.beforeIndex]?.date ?? "", { month: "short", day: "numeric", year: "numeric" })}</div>
+            <div className="wx-split-label wx-split-label--r"><small>After · candidate regions</small>{fmtDate(dates[lock.afterIndex]?.date ?? "", { month: "short", day: "numeric", year: "numeric" })}</div>
+          </> : <>
+            <div className="wx-split-label wx-split-label--l"><small>Before · baseline median</small>Earlier observations</div>
+            <div className="wx-split-label wx-split-label--r"><small>After · selected acquisition</small>{fmtDate(dates[selectedDateIndex]?.date ?? "", { month: "short", day: "numeric", year: "numeric" })}</div>
+          </>}
         </>
       )}
     </div>

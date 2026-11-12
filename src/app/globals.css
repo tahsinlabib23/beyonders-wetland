@@ -95,6 +95,11 @@ html {
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  /* The primary nav is sticky (52px). Leave clearance above any element a
+     scroll-into-view or anchor jump lands on, so controls such as the
+     workspace masthead's "Return to overview" button are never left
+     underneath the nav and unclickable. */
+  scroll-padding-top: 64px;
 }
 
 body {
@@ -178,75 +183,6 @@ body::before {
   overflow-y: auto;
   background: var(--bg-secondary);
   border-left: 1px solid var(--border-subtle);
-}
-
-/* ══════════════════════════════════════════════════════
-   HEADER
-   ══════════════════════════════════════════════════════ */
-
-.header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 var(--space-lg);
-  background: var(--bg-secondary);
-  border-bottom: 1px solid var(--border-subtle);
-  z-index: 100;
-}
-
-.header-brand {
-  display: flex;
-  align-items: center;
-  gap: var(--space-md);
-}
-
-.header-logo {
-  font-family: var(--font-display);
-  font-size: 1.15rem;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: -0.02em;
-}
-
-.header-logo span {
-  color: var(--accent-primary);
-}
-
-.header-module {
-  font-size: 0.75rem;
-  font-weight: 500;
-  text-transform: uppercase;
-  letter-spacing: 0.1em;
-  color: var(--text-muted);
-  padding: 3px 10px;
-  background: var(--surface-glass);
-  border-radius: var(--radius-sm);
-  border: 1px solid var(--border-subtle);
-}
-
-.header-meta {
-  display: flex;
-  align-items: center;
-  gap: var(--space-lg);
-}
-
-.header-site {
-  font-size: 0.85rem;
-  color: var(--text-secondary);
-}
-
-.header-site strong {
-  color: var(--text-primary);
-}
-
-.header-badge {
-  font-family: var(--font-mono);
-  font-size: 0.7rem;
-  padding: 3px 8px;
-  border-radius: var(--radius-sm);
-  background: rgba(239, 68, 68, 0.15);
-  color: #fca5a5;
-  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 /* ══════════════════════════════════════════════════════
@@ -1002,6 +938,16 @@ body::before {
   background: var(--bg-elevated) !important;
 }
 
+/* Override leaflet scale control styles (VP-2): the default is a white
+   bar with dark text, which reads as unthemed on the dark maps. Match the
+   zoom buttons above so all Leaflet chrome shares one treatment. */
+.leaflet-control-scale-line,
+.leaflet-control-scale-line:not(:first-child) {
+  background: var(--bg-tertiary) !important;
+  color: var(--text-primary) !important;
+  border-color: var(--border-default) !important;
+}
+
 /* ══════════════════════════════════════════════════════
    LANDING PAGE
    ══════════════════════════════════════════════════════ */
@@ -1231,24 +1177,6 @@ button:disabled { cursor: default; opacity: 0.45; }
   font-size: 0.75rem; text-decoration: none; transition: background var(--transition-fast), border-color var(--transition-fast);
 }
 .global-coverage-link:hover { background: rgba(0, 212, 255, 0.15); border-color: var(--accent-primary); }
-.header-global-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  min-height: 40px;
-  padding: 0 11px;
-  border: 1px solid var(--border-accent);
-  border-radius: var(--radius-sm);
-  background: rgba(0, 212, 255, 0.08);
-  color: #b8f4fb;
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-decoration: none;
-  white-space: nowrap;
-}
-.header-global-link:hover { background: rgba(0, 212, 255, 0.16); border-color: var(--accent-primary); }
-.header-global-link span { font-size: 1rem; }
 .global-coverage-page { height: 100dvh; min-height: 600px; display: flex; flex-direction: column; overflow: hidden; background: var(--bg-primary); }
 .global-header { min-height: 58px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 24px; background: var(--bg-secondary); border-bottom: 1px solid var(--border-subtle); }
 .global-brand { display: flex; align-items: center; gap: 12px; min-width: 0; }
@@ -1494,6 +1422,7 @@ button:disabled { cursor: default; opacity: 0.45; }
 .nisar-case-step p strong { color: var(--text-primary); }
 .nisar-case-step .nisar-case-step__detail { color: var(--text-muted); font-size: 0.71rem; }
 .nisar-case-step code { display: block; max-height: 4.4em; overflow: auto; margin-top: 8px; color: #9daec2; font-size: 0.62rem; line-height: 1.55; overflow-wrap: anywhere; }
+.nisar-case-step code:focus-visible { outline: 2px solid #92cde2; outline-offset: 3px; }
 .nisar-case-story__impact { display: flex; gap: 12px; align-items: baseline; margin-top: 14px; padding: 12px 14px; border-left: 2px solid #83e36f; border-radius: 0 7px 7px 0; background: rgba(131,227,111,0.06); }
 .nisar-case-story__impact strong { flex: 0 0 auto; color: #bdf3ae; font-size: 0.77rem; }
 .nisar-case-story__impact p, .nisar-case-story__scope { margin: 0; color: var(--text-secondary); font-size: 0.76rem; line-height: 1.6; }
@@ -2246,12 +2175,23 @@ button:disabled { cursor: default; opacity: 0.45; }
   color: #f6f3e9;
   font-family: var(--font-sans);
 }
-.hazard-nav__brand { color: #fff9eb; font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: 0.025em; text-decoration: none; }
+.hazard-nav__brand { display: inline-flex; min-height: 44px; align-items: center; color: #fff9eb; font-family: var(--font-display); font-size: 1rem; font-weight: 700; letter-spacing: 0.025em; text-decoration: none; }
 .hazard-nav__links { display: flex; height: 52px; align-items: stretch; gap: 4px; }
-.hazard-nav__links a { display: inline-flex; align-items: center; padding: 0 16px; border-bottom: 2px solid transparent; color: #d1d6d1; font-size: 0.82rem; text-decoration: none; transition: color 140ms ease, border-color 140ms ease; }
+.hazard-nav__links a { display: inline-flex; min-height: 44px; align-items: center; padding: 0 16px; border-bottom: 2px solid transparent; color: #d1d6d1; font-size: 0.82rem; text-decoration: none; transition: color 140ms ease, border-color 140ms ease; }
 .hazard-nav__links a:hover { color: #ffffff; }
 .hazard-nav__links a[aria-current="page"] { border-color: #f1a24b; color: #ffd39a; }
-.hazard-nav__mission { margin-left: auto; color: #9da8a3; font-size: 0.7rem; letter-spacing: 0.04em; }
+/* "More" menu: the advanced analysis tools, kept out of the primary row. */
+.hazard-nav__more { position: relative; display: inline-flex; align-items: stretch; }
+.hazard-nav__more > summary { display: inline-flex; min-height: 44px; align-items: center; padding: 0 16px; border-bottom: 2px solid transparent; color: #d1d6d1; font-size: 0.82rem; cursor: pointer; list-style: none; }
+.hazard-nav__more > summary::-webkit-details-marker { display: none; }
+.hazard-nav__more > summary:hover { color: #ffffff; }
+.hazard-nav__more > summary[aria-current="page"] { border-color: #f1a24b; color: #ffd39a; }
+.hazard-nav__more-panel { position: absolute; top: 52px; left: 0; z-index: 1501; display: flex; flex-direction: column; min-width: 250px; padding: 6px 0; border: 1px solid #2c3334; border-top: none; background: #192020; }
+.hazard-nav__more-panel a { display: flex; min-height: 44px; align-items: center; padding: 10px 16px; color: #d1d6d1; font-size: 0.82rem; text-decoration: none; }
+.hazard-nav__more-panel a:hover { color: #ffffff; background: #222a2a; }
+.hazard-nav__more-panel a[aria-current="page"] { color: #ffd39a; }
+/* Compact mobile navigation — hidden on desktop, takes over at phone width. */
+.hazard-nav__mobile { display: none; }
 
 /* Forest evidence follows the existing paper/map layout, with canopy-green context. */
 .forest-page { min-height: calc(100dvh - 52px); padding: clamp(22px,4vw,54px) clamp(16px,5vw,72px) 28px; background:#f0f1e9; color:#192b22; font-family:var(--font-sans); }
@@ -2371,7 +2311,7 @@ button:disabled { cursor: default; opacity: 0.45; }
 .volcano-controls { display: flex; min-width: 0; flex-direction: column; padding: 17px; border-left: 1px solid var(--volcano-line); font-family: var(--font-sans); }
 .volcano-controls > label, .volcano-date-range > label { margin-bottom: 6px; color: #3f4944; font-size: 0.73rem; font-weight: 700; }
 .volcano-controls input { min-width: 0; height: 39px; padding: 0 10px; border: 1px solid #92978d; border-radius: 0; background: #fffefa; color: #1d2521; font-size: 0.78rem; }
-.volcano-controls input:focus-visible, .volcano-controls button:focus-visible, .hazard-nav a:focus-visible, .volcano-page a:focus-visible { outline: 2px solid #b45d1e; outline-offset: 2px; }
+.volcano-controls input:focus-visible, .volcano-controls button:focus-visible, .hazard-nav a:focus-visible, .hazard-nav summary:focus-visible, .volcano-page a:focus-visible { outline: 2px solid #b45d1e; outline-offset: 2px; }
 .volcano-results { display: grid; max-height: 235px; overflow: auto; margin: 7px 0 14px; border-top: 1px solid var(--volcano-line); }
 .volcano-results button { display: flex; min-height: 48px; align-items: center; justify-content: space-between; gap: 12px; padding: 7px 8px; border: 0; border-bottom: 1px solid #deded6; background: transparent; color: #26302b; cursor: pointer; text-align: left; }
 .volcano-results button[aria-selected="true"] { border-left: 3px solid var(--volcano-ember); background: #f8efe3; }
@@ -2637,11 +2577,10 @@ button:disabled { cursor: default; opacity: 0.45; }
   .volcano-curtain-picker { grid-template-columns:1fr; }
 }
 @media (max-width: 650px) {
-  .hazard-nav { gap: 12px; padding: 0 10px; }
+  .hazard-nav { flex-wrap: wrap; gap: 0 12px; padding: 0 10px; }
   .hazard-nav__brand { font-size: 0.85rem; }
-  .hazard-nav__links { gap: 0; }
+  .hazard-nav__links { flex: 1 1 100%; flex-wrap: wrap; height: auto; gap: 0; }
   .hazard-nav__links a { padding: 0 9px; font-size: 0.73rem; }
-  .hazard-nav__mission { display: none; }
   .volcano-page { padding: 22px 12px; }
   .volcano-page__heading { align-items: start; flex-direction: column; gap: 16px; }
   .volcano-status-strip { align-items: start; flex-wrap: wrap; }
@@ -2674,6 +2613,57 @@ button:disabled { cursor: default; opacity: 0.45; }
   .band-xray__heading { flex-direction:column; gap:10px; }
   .band-xray__controls,.band-xray__body { grid-template-columns:1fr; }
   .band-xray__explanation { min-height:0; }
+}
+
+/* Phone widths: the desktop link row hides and the compact menu takes over. */
+@media (max-width: 860px) {
+  .hazard-nav__links { display: none; }
+  .hazard-nav__mobile { display: block; position: relative; margin-left: auto; }
+  .hazard-nav__mobile > summary {
+    display: flex;
+    min-width: 92px;
+    min-height: 44px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    padding: 9px 12px;
+    border: 1px solid #2c3334;
+    border-radius: 8px;
+    background: #222a2a;
+    color: #f6f3e9;
+    cursor: pointer;
+    font-size: 0.82rem;
+    list-style: none;
+  }
+  .hazard-nav__mobile > summary::-webkit-details-marker { display: none; }
+  .hazard-nav__mobile > summary:focus-visible { outline: 2px solid #b45d1e; outline-offset: 2px; }
+  .hazard-nav__mobile[open] > nav {
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    z-index: 1501;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 2px;
+    width: min(252px, calc(100vw - 36px));
+    padding: 8px;
+    border: 1px solid #2c3334;
+    border-radius: 10px;
+    background: #192020;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.42);
+  }
+  .hazard-nav__mobile[open] > nav a {
+    display: flex;
+    min-height: 44px;
+    align-items: center;
+    padding: 10px 12px;
+    border-radius: 6px;
+    color: #d1d6d1;
+    font-size: 0.82rem;
+    text-decoration: none;
+  }
+  .hazard-nav__mobile[open] > nav a:hover { color: #ffffff; background: #222a2a; }
+  .hazard-nav__mobile[open] > nav a[aria-current="page"] { color: #ffd39a; }
 }
 @media (prefers-reduced-motion: reduce) {
   .hazard-nav__links a { transition: none; }
@@ -2905,7 +2895,10 @@ textarea {
   color: #006a7c;
 }
 
-.mozambique-case__facts > div + div dt,
+.mozambique-case__facts > div + div dt {
+  color: #e2bd82 !important;
+}
+
 .mozambique-case__limits > strong {
   color: #854d0e !important;
 }
@@ -2944,4 +2937,237 @@ textarea {
 
 .mozambique-case__verdict i {
   box-shadow: none;
+}
+
+.chokwe-pixel-map { position: relative; }
+.chokwe-pixel-map__notice {
+  position: absolute;
+  z-index: 700;
+  right: 8px;
+  bottom: 8px;
+  left: 8px;
+  width: fit-content;
+  max-width: calc(100% - 16px);
+  padding: 7px 10px;
+  border: 1px solid rgba(212, 163, 91, .62);
+  border-left: 2px solid #d4a35b;
+  border-radius: 4px;
+  background: rgba(16, 19, 21, .94);
+  color: #e8d5b0;
+  font-size: .65rem;
+  line-height: 1.45;
+  pointer-events: none;
+}
+.chokwe-pixel-map__notice--radar { bottom: 54px; }
+
+/* Operator guide: long commands must wrap on narrow screens instead of
+   pushing the page sideways. */
+.operator-guide-page .operator-guide-command { white-space: pre-wrap; overflow-wrap: anywhere; overflow-x: auto; padding: 12px 14px; border: 1px solid #d8d3c4; border-radius: 8px; background: #fff; font-size: 13px; line-height: 1.6; }
+
+/* Operator guide links (VP-3): without a rule these render as unstyled
+   browser-default blue. Use the site's link treatment on light pages
+   (dark teal, bold, underlined — same as .mozambique-case__native-links a). */
+.operator-guide-page a {
+  color: #006a7c;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.operator-guide-page a:hover {
+  color: #075f65;
+}
+/* Chókwè follow-up: native-grid, positive-only GFM support audit. */
+.mozambique-case__native {
+  display: grid;
+  gap: 13px;
+  margin-top: 20px;
+  padding: clamp(15px, 2.2vw, 22px);
+  border: 1px solid #c7d5ce;
+  border-left: 4px solid #006a7c;
+  background: #f1f6f2;
+  color: #17231d;
+}
+.mozambique-case__native-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+.mozambique-case__native-heading .global-eyebrow {
+  margin-bottom: 6px;
+  color: #006a7c;
+  font-size: .62rem;
+  font-weight: 750;
+  letter-spacing: .09em;
+}
+.mozambique-case__native-heading h3 {
+  margin: 0;
+  color: #17231d;
+  font-size: clamp(1rem, 1.6vw, 1.3rem);
+  line-height: 1.3;
+}
+.mozambique-case__native-heading > span {
+  flex: 0 0 auto;
+  padding: 6px 8px;
+  border: 1px solid #976f35;
+  background: #fff8e9;
+  color: #6b4816;
+  font-size: .64rem;
+  font-weight: 700;
+}
+.mozambique-case__native-intro,
+.mozambique-case__native-note,
+.mozambique-case__native-method p {
+  margin: 0;
+  color: #425149;
+  font-size: .76rem;
+  line-height: 1.65;
+}
+.mozambique-case__native-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 9px;
+}
+.mozambique-case__native-grid > div {
+  display: grid;
+  align-content: start;
+  gap: 5px;
+  min-width: 0;
+  padding: 12px;
+  border: 1px solid #d1dcd4;
+  background: #fffefa;
+}
+.mozambique-case__native-grid strong {
+  color: #075f65;
+  font: 700 clamp(1.25rem, 2.5vw, 1.8rem)/1.15 var(--font-mono, monospace);
+  font-variant-numeric: tabular-nums;
+}
+.mozambique-case__native-grid span {
+  color: #26372e;
+  font-size: .68rem;
+  line-height: 1.45;
+}
+.mozambique-case__native-grid small {
+  color: #67766d;
+  font-size: .61rem;
+  line-height: 1.4;
+}
+.mozambique-case__native-note {
+  padding: 10px 12px;
+  border-left: 2px solid #9a7947;
+  background: #fbf7ed;
+}
+.mozambique-case__native-method {
+  border-top: 1px solid #cbd6ce;
+}
+.mozambique-case__native-method summary {
+  min-height: 38px;
+  padding: 8px 0;
+  color: #075f65;
+  font-size: .72rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+.mozambique-case__native-method p + p { margin-top: 8px; }
+.mozambique-case__native-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+.mozambique-case__native-links a {
+  color: #006a7c;
+  font-size: .69rem;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.mozambique-case__native :is(a, summary):focus-visible {
+  outline: 2px solid #006a7c;
+  outline-offset: 3px;
+}
+@media (max-width: 700px) {
+  .mozambique-case__native-heading { flex-direction: column; }
+  .mozambique-case__native-grid { grid-template-columns: minmax(0, 1fr); }
+}
+
+
+
+/* Chókwè native-grid evidence: the Learn drawer is dark, but this evidence card is intentionally light. */
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native :is(h3, strong) {
+  color: #17231d;
+}
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native :is(p, span, small) {
+  color: #425149;
+}
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native .global-eyebrow,
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native-method summary,
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native-links a {
+  color: #006a7c;
+}
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native-grid strong {
+  color: #075f65;
+}
+.wx-root.wx-hazard-shell .wx-drawer .mozambique-case__native-grid small {
+  color: #526158;
+}
+@container (max-width: 500px) {
+  .mozambique-case__native-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+
+/* Landing-page readability fixes from the final visual audit. */
+.hydro-bars .hydro-bar .hydro-val {
+  opacity: 0;
+  transition: opacity 140ms ease;
+}
+.hydro-bars .hydro-bar.is-active .hydro-val {
+  opacity: 1;
+}
+.hydro-meta > div:first-child {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  column-gap: 6px;
+  row-gap: 2px;
+}
+.hydro-meta > div:first-child strong,
+.hydro-meta > div:first-child span {
+  display: inline;
+}
+@media (max-width: 480px) {
+  /* Marker names remain available in the adjacent study-location list.
+     Hiding floating labels prevents them colliding with the hero copy. */
+  .globe-tag--case {
+    display: none !important;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hydro-bars .hydro-bar .hydro-val {
+    transition: none;
+  }
+}
+
+
+/* Keep the Chókwè facts labels readable against the dark case panel. */
+.mozambique-case__facts > div:nth-child(2) > dt {
+  color: #e2bd82;
+}
+
+
+/* Keep every compact-menu destination a real, comfortable touch target.
+   Explicit height and flex sizing prevent inherited link rules from shrinking it. */
+@media (max-width: 860px) {
+  .hazard-nav__mobile[open] > nav a {
+    box-sizing: border-box;
+    display: flex;
+    flex: 0 0 auto;
+    width: 100%;
+    min-height: 44px;
+    height: 44px;
+    align-items: center;
+    padding: 0 12px;
+    line-height: 1.25;
+  }
 }

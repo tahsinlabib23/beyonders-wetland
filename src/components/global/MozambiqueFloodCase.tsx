@@ -6,6 +6,7 @@ import { useState } from "react";
 import RadarPixelPhysicsInspector from "@/components/shared/RadarPixelPhysicsInspector";
 import TriageBriefButton from "@/components/shared/TriageBriefButton";
 import OpticalCoverageComparison from "@/components/shared/OpticalCoverageComparison";
+import { CHOKWE_RUN_ID } from "@/lib/chokwe-study";
 
 const ChokwePixelMap = dynamic(() => import("./ChokwePixelMap"), { ssr: false, loading: () => <div className="chokwe-pixel-map">Loading the sampled NISAR map…</div> });
 
@@ -13,7 +14,6 @@ const NASA_CASE_URL = "https://svs.gsfc.nasa.gov/5661";
 const UNOSAT_REFERENCE_URL = "https://unosat.org/products/4232";
 const UNOSAT_SHP_URL = "https://unosat.org/static/unosat_filesystem/4232/FL20251231MOZ_SHP.zip";
 const CIMA_REFERENCE_URL = "https://www.cimafoundation.org/en/news/mozambique-heavy-rainfall-in-the-south-cooperation-and-monitoring-to-manage-flood-risk/";
-const CHOKWE_RUN_ID = "ec8fa5ee15ae41d1aa89f930f2b47e36";
 const CHOKWE_RELEASE = `/studies/releases/2026.10.29-chokwe/runs/${CHOKWE_RUN_ID}`;
 
 const images = [
@@ -79,7 +79,7 @@ export default function MozambiqueFloodCase({ onLocate, onOpenRun }: { onLocate:
     <section className="mozambique-case" aria-labelledby="mozambique-case-title">
       <div className="mozambique-case__heading">
         <div>
-          <p className="global-eyebrow">SECOND EVENT CASE · CHÓKWÈ, MOZAMBIQUE</p>
+          <p className="global-eyebrow">FEATURED EVENT INVESTIGATION · CHÓKWÈ, MOZAMBIQUE</p>
           <h2 id="mozambique-case-title">Chókwè: independent maps support the flood event</h2>
         </div>
         <span className="mozambique-case__verdict"><i aria-hidden="true" /> Follow-up support · accuracy unverified</span>
@@ -140,13 +140,55 @@ export default function MozambiqueFloodCase({ onLocate, onOpenRun }: { onLocate:
                 <Image src={image.imagePath} alt={image.alt} width={image.width} height={image.height} sizes="(max-width: 700px) 100vw, 50vw" unoptimized={image.imagePath.endsWith(".avif")} />
               </a>
               {image.note && <p className="mozambique-case__image-note">{image.note}</p>}
-              <a className="mozambique-case__attribution" href={image.sourcePage} target={image.local ? undefined : "_blank"} rel={image.local ? undefined : "noopener noreferrer"}>{image.local ? "Beyonders processed output · see run details ↗" : image.sourceName === "CIMA" ? "CIMA Sentinel-1/2 map ↗" : "NASA NISAR source image ↗"}</a>
+              <a className="mozambique-case__attribution" href={image.sourcePage} target={image.local ? undefined : "_blank"} rel={image.local ? undefined : "noopener noreferrer"}>{image.local ? `Beyonders processed output · see run details · ${image.date} ↗` : image.sourceName === "CIMA" ? `CIMA Sentinel-1/2 map · ${image.date} ↗` : `NASA NISAR source image · ${image.date} ↗`}</a>
             </figure>
           ))}
         </div>
       </div>
 
       <OpticalCoverageComparison />
+      <section className="mozambique-case__native" aria-labelledby="chokwe-native-title">
+        <div className="mozambique-case__native-heading">
+          <div>
+            <p className="global-eyebrow">FOLLOW-UP · NATIVE GRID · 10 NOV 2026</p>
+            <h3 id="chokwe-native-title">A second satellite product provides positive spatial support</h3>
+          </div>
+          <span>Not field validation</span>
+        </div>
+        <p className="mozambique-case__native-intro">
+          A separate recovery reprocessed the pinned 5 and 17 January NISAR L2 GCOV BETA scenes, then compared the new 10 m native NISAR grid with Copernicus Global Flood Monitoring (GFM) NRT v4.1.0. The selected GFM scene, ENSEMBLE_FLOOD_20260117T031847_VV_AF020M_E066N021T3, was acquired at 03:18:47 UTC on 17 January — 23 minutes 45 seconds before the NISAR event scene. GFM layers and their validity masks were sampled onto the NISAR grid; the NISAR rasters were not resampled.
+        </p>
+        <div className="mozambique-case__native-grid">
+          <div>
+            <strong>39.4%</strong>
+            <span>eligible open-water candidates with positive GFM flood support</span>
+            <small>57,997 of 147,151 pixels</small>
+          </div>
+          <div>
+            <strong>5.80 km²</strong>
+            <span>native-grid positive overlap</span>
+            <small>Of 14.72 km² eligible candidates</small>
+          </div>
+          <div>
+            <strong>88.6%</strong>
+            <span>native AOI with common-valid GFM data</span>
+            <small>993,517 of 1,121,391 pixels</small>
+          </div>
+        </div>
+        <p className="mozambique-case__native-note">
+          The recovery produced 29.8718 km² of open-water radar-change candidates. The comparison reports 14.7151 km² of eligible candidates after applying GFM exclusion, reference-water and common-validity masks. Exclusion and reference-water masks are reported independently and may overlap, so their counts must not be subtracted as a simple sequence. The remaining 89,154 eligible candidate pixels were not mapped as flood by this GFM scene; they are not treated as false alarms or ground-truth negatives.
+        </p>
+        <details className="mozambique-case__native-method">
+          <summary>Method, provenance, and limits</summary>
+          <p>Published source run: <code>ec8fa5ee15ae41d1aa89f930f2b47e36</code>. Separate reprocessing run: <code>6cbe03836ada44b09188b9aee2b94bc3</code>. The follow-up does not replace or rewrite the original published candidate layer.</p>
+          <p>The GFM flood-extent, likelihood, exclusion and reference-water layers were each sampled with nearest-neighbour alignment onto the 10 m NISAR grid. A pixel counted as common-valid only when all four sampled GFM layers were valid. Permanent/seasonal reference water and excluded pixels were kept out of the eligible denominator. Common-valid coverage was 993,517 of 1,121,391 native AOI pixels (88.5968%). On the 57,997-pixel positive overlap, GFM likelihood had a median of 76 and mean of 78.3054 (range 32–100); 129 overlap pixels had likelihood below 50. These are descriptive product values, not confidence-calibrated validation scores.</p>
+          <p>This is positive-only spatial support between two satellite algorithms. It is not field validation and does not provide precision, recall, F1 or accuracy. The original HLS optical comparison remains inconclusive. This follow-up is reprocessing, not restoration of the original missing TIFF bytes, and it does not upgrade the original published Chókwè result.</p>
+        </details>
+        <nav className="mozambique-case__native-links" aria-label="Native Chókwè follow-up evidence files">
+          <a href="/evidence/chokwe-native-recovery-2026-11-10.json">Recovery provenance summary JSON ↗</a>
+          <a href="/evidence/chokwe-native-gfm-comparison-2026-11-10.json">Native-grid GFM comparison JSON ↗</a>
+        </nav>
+      </section>
       <section className="chokwe-physics" aria-label="Interactive Chókwè radar pixel inspection">
         <div><h3>Inspect the NISAR signal</h3><p>Click the HH event map or enter coordinates. The readout samples published L-band HH/HV pixels at the nearest preview-grid cell.</p></div>
         <ChokwePixelMap point={samplePoint} onPick={setSamplePoint}/>
@@ -168,7 +210,7 @@ export default function MozambiqueFloodCase({ onLocate, onOpenRun }: { onLocate:
           <a href={UNOSAT_SHP_URL} target="_blank" rel="noopener noreferrer">UNOSAT GIS download ↗</a>
           <a href={CIMA_REFERENCE_URL} target="_blank" rel="noopener noreferrer">CIMA Sentinel-1/2 report ↗</a>
         </nav>
-        <div className="radar-brief-row"><TriageBriefButton filename="chokwe-flood-evidence-triage.json" title="Chókwè flood-candidate triage brief" brief={{ site: "Chókwè, Mozambique", nisar_input_dates: ["2026-01-05", "2026-01-17"], product: "NISAR L2 GCOV BETA", method: "One-date HH backscatter decrease ≤ −2.5 dB", candidate_patches: 127, candidate_area_km2: 29.8718, analysis_box_area_km2: 112.1391, hls_common_clear_fraction: 0.012554942923565465, hls_candidate_assessed_fraction: 0, near_date_cima_context: { date: "2026-01-16", sensor: "Copernicus Sentinel-1/2", offset_days_from_nisar_event: -1, status: "REGIONAL_EVENT_CONTEXT_ONLY_NOT_PIXEL_REGISTERED_REFERENCE", source: CIMA_REFERENCE_URL }, unosat_follow_up: [{ date: "2026-01-23", positive_overlap_fraction: 0.8822 }, { date: "2026-01-24", positive_overlap_fraction: 0.8914 }], interpretation: "The regional January flood event is supported by independent mapping; local NISAR radar-darkening candidates remain unverified, with later positive spatial support from preliminary UNOSAT Sentinel-1 water extent.", unavailable: { population_or_road_exposure: "Not assessed.", field_verified_flood_extent: "Unavailable.", operational_warning: "Not issued." }, limitations: ["HLS comparison is inconclusive: only 1.26% common-clear coverage and no candidates assessed.", "CIMA's 16 January regional map is not pixel-registered to the local study box.", "UNOSAT dates are 6–7 days later, preliminary, unvalidated, and contain no reference-negative labels.", "Candidate overlap is not an accuracy score; not every radar candidate is confirmed as floodwater."] }}/><span>No population exposure or operational flood warning is inferred.</span></div>
+        <div className="radar-brief-row"><TriageBriefButton filename="chokwe-flood-evidence-triage.json" title="Chókwè flood-candidate triage brief" brief={{ site: "Chókwè, Mozambique", nisar_input_dates: ["2026-01-05", "2026-01-17"], product: "NISAR L2 GCOV BETA", method: "One-date HH backscatter decrease ≤ −2.5 dB", candidate_patches: 127, candidate_area_km2: 29.8718, analysis_box_area_km2: 112.1391, hls_common_clear_fraction: 0.012554942923565465, hls_candidate_assessed_fraction: 0, near_date_cima_context: { date: "2026-01-16", sensor: "Copernicus Sentinel-1/2", offset_days_from_nisar_event: -1, status: "REGIONAL_EVENT_CONTEXT_ONLY_NOT_PIXEL_REGISTERED_REFERENCE", source: CIMA_REFERENCE_URL }, unosat_follow_up: [{ date: "2026-01-23", positive_overlap_fraction: 0.8822 }, { date: "2026-01-24", positive_overlap_fraction: 0.8914 }], native_grid_follow_up: { recovery_run_id: "6cbe03836ada44b09188b9aee2b94bc3", recovery_type: "Reprocessing of the pinned NISAR pair; not restoration of original TIFF bytes", gfm_item: "ENSEMBLE_FLOOD_20260117T031847_VV_AF020M_E066N021T3", gfm_nrt_version: "4.1.0", gfm_minutes_from_nisar_event: -23.75, native_grid: { crs: "EPSG:32736", pixel_size_m: 10, dimensions: [1014, 1108] }, common_valid_gfm_fraction: 0.8859684088779025, native_open_water_candidate_pixels: 298718, native_open_water_candidate_area_km2: 29.8718, eligible_candidate_pixels_after_gfm_masks: 147151, eligible_candidate_area_km2: 14.7151, gfm_positive_overlap_pixels: 57997, gfm_positive_overlap_area_km2: 5.7997, positive_support_fraction: 0.3941325577128256, eligible_candidates_not_mapped_as_gfm_flood: 89154, accuracy_metrics: { precision: null, recall: null, f1: null, accuracy: null }, report: "/evidence/chokwe-native-gfm-comparison-2026-11-10.json", recovery_provenance_summary: "/evidence/chokwe-native-recovery-2026-11-10.json" }, interpretation: "The regional January flood event is supported by independent mapping; local NISAR radar-darkening candidates remain unverified, with later positive spatial support from preliminary UNOSAT Sentinel-1 water extent.", unavailable: { population_or_road_exposure: "Not assessed.", field_verified_flood_extent: "Unavailable.", operational_warning: "Not issued." }, limitations: ["HLS comparison is inconclusive: only 1.26% common-clear coverage and no candidates assessed.", "CIMA's 16 January regional map is not pixel-registered to the local study box.", "UNOSAT dates are 6–7 days later, preliminary, unvalidated, and contain no reference-negative labels.", "Candidate overlap is not an accuracy score; not every radar candidate is confirmed as floodwater."] }}/><span>No population exposure or operational flood warning is inferred.</span></div>
       </div>
     </section>
   );

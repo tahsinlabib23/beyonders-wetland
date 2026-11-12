@@ -21,36 +21,62 @@ with sync_playwright() as p:
 
     # ── 3D landing ──
     pg.goto(BASE + "/"); pg.wait_for_timeout(9000); t = pg.inner_text("body")
-    check("landing: clear first action", "Open the Tanguar Haor case" in t and "nisar worldwide" in t.lower())
+    tanguar_card = pg.locator(".g3-domain-card[data-domain='wetland']")
+    check(
+        "landing: focused primary action and supporting Tanguar case entry",
+        pg.get_by_role("link", name="Explore NISAR coverage").count() == 1
+        and pg.get_by_role("button", name="Drop a pin anywhere").count() == 1
+        and tanguar_card.locator("a[href='/wetland']").count() == 1,
+    )
     check("landing: 3D globe canvas renders", pg.locator(".globe-mount canvas").count() == 1)
     check("landing: real-case marker on the globe", pg.locator(".globe-tag--case").count() >= 1)
-    check("landing: forest/volcano cards link to briefings", pg.locator(".g3-phen-card a[href='/forest']").count() == 1 and pg.locator(".g3-phen-card a[href='/volcano']").count() == 1)
-    check("landing: brand is GeoNexSAR", "geonexsar" in pg.inner_text(".g3-top").lower())
-    check("landing: telemetry ticker shows real stats", "radar observations" in pg.inner_text(".g3-ticker").lower())
-    pg.get_by_role("link", name="Open the Tanguar Haor case").click(); pg.wait_for_url("**/wetland", timeout=20000)
-    check("landing -> case navigation", pg.url.rstrip("/").endswith("/wetland"))
+    check(
+        "landing: forest/volcano cards link to global briefings",
+        pg.locator(".g3-domain-card[data-domain='forest'] a[href='/forest/global']").count() == 1
+        and pg.locator(".g3-domain-card[data-domain='volcano'] a[href='/volcano/global']").count() == 1,
+    )
+    check(
+        "landing: agriculture card links to the SME2 workspace",
+        pg.locator(".g3-domain-card[data-domain='agriculture'] a[href='/agriculture']").count() == 1,
+    )
+    check("landing: brand is GEONEXSER", pg.inner_text(".hazard-nav__brand") == "GEONEXSER")
+    landing_title = pg.inner_text(".g3-title").lower()
+    check("landing: headline explains the evidence-first proposition", "see what radar sees" in landing_title and "challenge what it means" in landing_title)
+    spotlight = pg.inner_text(".g3-case-spotlight").lower()
+    check("landing: Chókwè evidence spotlight is prominent", "127" in spotlight and "29.87" in spotlight and "39.4" in spotlight)
+    check("landing: scientific caveat sits beside metrics", "1.26%" in spotlight and "not accuracy" in spotlight)
+    check("landing: obsolete Tanguar ticker and hydrograph are absent", pg.locator(".g3-ticker, .hydro").count() == 0)
+    check("landing: featured investigation CTA exists", pg.locator(".g3-case-spotlight a[href='/wetland/global?story=chokwe']").count() == 1)
+    tanguar_card.locator("a[href='/wetland']").click(); pg.wait_for_url("**/wetland", timeout=20000)
+    check("landing -> Tanguar case navigation", pg.url.rstrip("/").endswith("/wetland"))
 
-    # ── global mission control ──
-    pg.goto(BASE + "/wetland/global"); pg.wait_for_selector(".atlas-featured", timeout=20000); pg.wait_for_timeout(2500); t = pg.inner_text("body")
-    check("explore: three goals offered", all(x in t for x in ("Explore worldwide observations", "Explore processed cases", "Process another place")))
-    check("explore: Tanguar case easy to find", "Tanguar Haor" in pg.inner_text(".atlas-featured") and "24.48" in t and "295" in t)
-    check("explore: independent check shown as inconclusive", "inconclusive" in t.lower() and "0.3%" in t)
-    check("explore: no Hakaluki describing the active case", "Wetland story: Hakaluki" not in t)
-    check("explore: footprints described as observations, not detections", "Satellite coverage only. Nothing is detected here." in t)
-    check("explore: processing flagged advanced", "C · Advanced" in t.replace("C · ADVANCED", "C · Advanced"))
-    check("explore: Earthdata guidance lives in the processing section", "Earthdata" in pg.locator("#process").inner_text() and "Earthdata" not in pg.locator(".atlas-featured").inner_text())
-    check("explore: missing local run is not shown as a red error", "could not load detector output" not in t.lower())
-    pg.click("text=Show on the world map"); pg.wait_for_timeout(1500); check("explore: locate case control works (no crash)", pg.locator("#global-nisar-map").count() == 1)
-    pg.click(".atlas-featured >> text=Open the case"); pg.wait_for_url("**/wetland"); check("explore -> case navigation", True)
-    pg.goto(BASE + "/wetland"); pg.wait_for_selector(".wx-nav", timeout=20000); pg.click("text=Explore NISAR worldwide"); pg.wait_for_url("**/wetland/global"); check("case -> explore navigation", True)
+    # ── global mission control (live UI: FIELD ASSIGNMENT explorer) ──
+    pg.goto(BASE + "/wetland/global"); pg.wait_for_selector(".global-map-wrap", timeout=25000); pg.wait_for_timeout(5000); t = pg.inner_text("body")
+    check("explore: field assignment explorer loads", "FIELD ASSIGNMENT" in t and "Explore NISAR across the world" in t)
+    check("explore: honest empty state, no selected study", "No processed study selected" in t)
+    check("explore: empty state surfaces the featured Tanguar case", "explore the featured Tanguar Haor case" in t and pg.locator('.global-quest-empty a[href="/wetland"]').count() == 1)
+    check("explore: real scene footprints counted", "scene footprints" in t)
+    check("explore: footprints described as acquisitions, not detections", "Worldwide footprints show acquisitions, not detections" in t)
+    check("explore: backscatter is not a flood classification", "it is not a flood classification" in t)
+    check("explore: blank map areas are not classified", "A blank map area has no processed result" in t)
+    check("explore: process-another-place entry exists", "Process another place" in t)
+    check("explore: case walkthrough entry exists", "Start case walkthrough" in t)
+    check("explore: map renders", pg.locator("#global-nisar-map").count() == 1)
+    # The homepage's primary CTA opens the global observation explorer.
+    pg.goto(BASE + "/"); pg.wait_for_timeout(3000)
+    pg.get_by_role("link", name="Explore NISAR coverage").click()
+    pg.wait_for_url("**/wetland/global")
+    check("homepage -> global observation explorer navigation", True)
     for w in (1100, 820, 390):
         pg.set_viewport_size({"width": w, "height": 900}); pg.wait_for_timeout(600)
         check(f"explore: no horizontal overflow at {w}px", not pg.evaluate("document.documentElement.scrollWidth > innerWidth"))
     # ── phenomena briefings ──
     pg.set_viewport_size({"width": 1440, "height": 900})
-    for route in ("/forest", "/volcano"):
+    for route, framing in (("/forest", ("exploratory", "candidate", "limited")), ("/volcano", ("interferogram", "published", "check whether"))):
         pg.goto(BASE + route); pg.wait_for_timeout(1500)
-        check(f"{route}: briefing loads", "Signal incoming" in pg.inner_text("body") or "SIGNAL INCOMING" in pg.inner_text("body"))
+        body = pg.inner_text("body")
+        check(f"{route}: workspace loads with honest framing",
+              route.strip("/") in body.lower() and any(word in body.lower() for word in framing))
     b.close()
 bad = results.count(False)
 print(f"\n{len(results) - bad}/{len(results)} checks passed; application errors: {errors or 'none'}")

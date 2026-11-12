@@ -1,23 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { useCallback, useEffect, useRef, useState, type MouseEvent, type ReactNode } from "react";
+import { useCallback, useEffect, useId, useRef, useState, type KeyboardEvent as ReactKeyboardEvent, type MouseEvent, type ReactNode } from "react";
 import type { DataTier } from "@/lib/store";
+import { findDrawerTabForAnchor } from "@/lib/workspace-navigation";
 import { Icon } from "../wetland/icons";
 import { TierBadge } from "../wetland/ui";
 
-type Hazard = "wetland" | "volcano" | "forest";
-
-const sections: Array<{ id: Hazard; label: string; href: string }> = [
-  { id: "wetland", label: "Wetlands", href: "/wetland/global" },
-  { id: "forest", label: "Forests", href: "/forest/global" },
-  { id: "volcano", label: "Volcanoes", href: "/volcano/global" },
-];
+type Hazard = "wetland" | "volcano" | "forest" | "agriculture";
 
 const sourceLabel: Record<Hazard, string> = {
   wetland: "NASA NISAR · L-band",
   forest: "NASA NISAR · L-band",
   volcano: "NASA NISAR · phase",
+  agriculture: "NASA NISAR · SME2 soil moisture",
 };
 
 export type InvestigationDrawerTab = {
@@ -41,6 +36,7 @@ export default function InvestigationWorkspace({
   mapToolbar,
   drawer,
   drawerTabs,
+  initialAnchorId,
   drawerTabsPlacement = "map",
   drawerPersistent,
   footer,
@@ -60,8 +56,9 @@ export default function InvestigationWorkspace({
   rail: ReactNode;
   map: ReactNode;
   mapToolbar?: ReactNode;
-  drawer: ReactNode;
+  drawer?: ReactNode;
   drawerTabs?: InvestigationDrawerTab[];
+  initialAnchorId?: string;
   drawerTabsPlacement?: "map" | "drawer";
   drawerPersistent?: ReactNode;
   footer: ReactNode;
@@ -73,8 +70,12 @@ export default function InvestigationWorkspace({
   onReturnToOverview?: () => void;
 }) {
   const [drawerOpen, setDrawerOpen] = useState(true);
-  const [activeTab, setActiveTab] = useState(drawerTabs?.[0]?.id ?? "");
-  const pendingAnchor = useRef<string | null>(null);
+  const workspaceId = useId();
+  const drawerPanelId = `${workspaceId}-panel`;
+  const tabElementId = (tabId: string) => `${workspaceId}-tab-${tabId}`;
+  const initialAnchorTab = findDrawerTabForAnchor(drawerTabs, initialAnchorId);
+  const [activeTab, setActiveTab] = useState(initialAnchorTab?.id ?? drawerTabs?.[0]?.id ?? "");
+  const pendingAnchor = useRef<string | null>(initialAnchorTab ? initialAnchorId ?? null : null);
   const anchorObserver = useRef<MutationObserver | null>(null);
   const anchorFrame = useRef<number | null>(null);
   const documentFlow = className.includes("volcano-case-workspace") || className.includes("detection-page-workspace");
@@ -116,7 +117,7 @@ export default function InvestigationWorkspace({
   }, [stopAnchorWait]);
 
   function openAnchor(targetId: string) {
-    const tab = drawerTabs?.find((item) => item.anchorIds?.includes(targetId));
+    const tab = findDrawerTabForAnchor(drawerTabs, targetId);
     if (!tab) return false;
     clearPendingAnchor();
     pendingAnchor.current = targetId;
@@ -128,6 +129,7 @@ export default function InvestigationWorkspace({
     setDrawerOpen(true);
     return true;
   }
+
 
   useEffect(() => {
     const targetId = pendingAnchor.current;
@@ -151,6 +153,38 @@ export default function InvestigationWorkspace({
     if (targetId && openAnchor(decodeURIComponent(targetId))) event.preventDefault();
   }
 
+  function handleDrawerTabKeyDown(event: ReactKeyboardEvent<HTMLButtonElement>) {
+    if (!drawerTabs?.length || !tabsInDrawer) return;
+    const currentIndex = drawerTabs.findIndex((tab) => tab.id === event.currentTarget.dataset.tabId);
+    if (currentIndex < 0) return;
+
+    let nextIndex: number;
+    switch (event.key) {
+      case "ArrowRight":
+        nextIndex = (currentIndex + 1) % drawerTabs.length;
+        break;
+      case "ArrowLeft":
+        nextIndex = (currentIndex - 1 + drawerTabs.length) % drawerTabs.length;
+        break;
+      case "Home":
+        nextIndex = 0;
+        break;
+      case "End":
+        nextIndex = drawerTabs.length - 1;
+        break;
+      default:
+        return;
+    }
+
+    event.preventDefault();
+    clearPendingAnchor();
+    setActiveTab(drawerTabs[nextIndex].id);
+    const tabButtons = Array.from(
+      event.currentTarget.parentElement?.querySelectorAll<HTMLButtonElement>('button[role="tab"]') ?? [],
+    );
+    tabButtons[nextIndex]?.focus();
+  }
+
   return (
     <div
       className={`wx-root wx-hazard-shell${documentFlow ? " wx-root--document" : ""}${tabsInDrawer ? " wx-root--drawer-tabs" : ""} ${className}`}
@@ -159,9 +193,6 @@ export default function InvestigationWorkspace({
       onClickCapture={handleFragmentLink}
     >
       <header className="wx-mast">
-        <Link href="/" className="wx-brand" aria-label="GeoNexSAR home">
-          GeoNexSAR
-        </Link>
         <span className="wx-case">
           <span className="wx-micro">Case</span>
           {caseControl ?? <span className="wx-case__title">{caseName}</span>}
@@ -171,11 +202,9 @@ export default function InvestigationWorkspace({
           <span className="wx-tier__full">{sourceLabel[hazard]}</span>
           <span className="wx-tier__short">NISAR</span>
         </span>}
-        <nav className="wx-nav" aria-label="Earth change topics">
-          <Link href="/wetland/global" aria-label="Wetlands: worldwide observations and change studies" title="Worldwide observations and processed wetland studies"><span>Wetlands</span></Link>
-          {sections.map((section) => (
-            section.id !== "wetland" && <Link key={section.id} href={section.href} aria-current={hazard === section.id ? "page" : undefined}>{section.label}</Link>
-          ))}
+        <nav className="wx-nav" aria-label="Workspace controls">
+          {/* Domain navigation lives in the single global primary nav. Keep only
+              controls that act on this workspace in the masthead. */}
           {onToggleBasemap && <button type="button" onClick={onToggleBasemap} aria-pressed={satelliteBasemap} aria-label="Satellite basemap" title="Toggle the satellite basemap">{Icon.layers}<span>Basemap</span></button>}
           {onReturnToOverview && <button type="button" onClick={onReturnToOverview} title="Clear selection and return to the world view">Return<span className="wx-nav__long"> to overview</span></button>}
         </nav>
@@ -197,14 +226,13 @@ export default function InvestigationWorkspace({
       <main className="wx-map" aria-label={`${title} map`}>
         <div className="wx-hazard-map">{map}</div>
         {mapToolbar}
-        {!tabsInDrawer && <div className="wx-tabs" role={drawerTabs ? "tablist" : "group"} aria-label={drawerTabs ? "Investigation" : "Map controls"}>
+        {!tabsInDrawer && <div className="wx-tabs" role="group" aria-label={drawerTabs ? "Investigation sections" : "Map controls"}>
           {drawerTabs?.map((tab) => (
             <button
               key={tab.id}
               type="button"
-              role="tab"
               className="wx-tab"
-              aria-selected={drawerOpen && selectedTab?.id === tab.id}
+              aria-pressed={drawerOpen && selectedTab?.id === tab.id}
               aria-label={`${tab.label}: ${tab.hint}`}
               title={tab.hint}
               onClick={() => {
@@ -234,14 +262,19 @@ export default function InvestigationWorkspace({
       {drawerOpen && (
         <aside className="wx-drawer" aria-label="Study controls and evidence">
           <div className={`wx-drawer__bar${tabsInDrawer ? " wx-drawer__bar--tabs" : ""}`}>
-            {tabsInDrawer ? <nav className="wx-drawer__tabs" role="tablist" aria-label="Investigation sections">
+            {tabsInDrawer ? <nav className="wx-drawer__tabs" role="tablist" aria-label="Investigation sections" aria-orientation="horizontal">
               {drawerTabs?.map((tab) => <button
                 key={tab.id}
+                id={tabElementId(tab.id)}
+                data-tab-id={tab.id}
                 type="button"
                 role="tab"
+                tabIndex={selectedTab?.id === tab.id ? 0 : -1}
+                aria-controls={drawerPanelId}
                 aria-selected={selectedTab?.id === tab.id}
                 aria-label={`${tab.label}: ${tab.hint}`}
                 title={tab.hint}
+                onKeyDown={handleDrawerTabKeyDown}
                 onClick={() => { clearPendingAnchor(); setActiveTab(tab.id); }}
               >{tab.label}</button>)}
             </nav> : <span className="wx-micro">{selectedTab?.label ?? "Investigation"}</span>}
@@ -254,7 +287,13 @@ export default function InvestigationWorkspace({
             </button>
           </div>
           {drawerPersistent && <div className="wx-drawer__persistent">{drawerPersistent}</div>}
-          <div className="wx-drawer__body">{selectedTab?.content ?? drawer}</div>
+          <div
+            className="wx-drawer__body"
+            role={tabsInDrawer ? "tabpanel" : undefined}
+            id={tabsInDrawer ? drawerPanelId : undefined}
+            aria-labelledby={tabsInDrawer && selectedTab ? tabElementId(selectedTab.id) : undefined}
+            tabIndex={tabsInDrawer ? 0 : undefined}
+          >{selectedTab?.content ?? drawer}</div>
         </aside>
       )}
 

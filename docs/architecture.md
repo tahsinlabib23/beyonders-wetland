@@ -32,3 +32,12 @@ The public APIs use a bounded run ID and published catalog entry, not user-provi
 ## Mode configuration
 
 Local default: `BEYONDERS_MODE=local`, `NEXT_PUBLIC_BEYONDERS_MODE=local`. Public deploy: both set to `public`; Vercel's `VERCEL=1` also forces server-side public mode. Client controls use the public build flag. Never deploy with local mode accidentally enabled.
+
+
+## Agriculture / SME2 module
+
+Agriculture is a fourth independent workspace at /agriculture. It reads only the published display package under public/agriculture/current and verifies the study manifest and active preview against its byte-count/SHA-256 manifest before display. Online catalogue discovery is provided by the same-origin read-only endpoint /api/agriculture/catalogue: it queries public NASA CMR metadata, validates the WGS84/date request, groups compatible SME2 granules by full product identity, and returns a download-compatible series ID plus actual acquisition dates. This public metadata search requires neither local Python nor Earthdata credentials; it does not download granules or assert pixel validity.
+
+The scientific processing implementation is pipeline/agriculture_sme2.py. The production operator workflow is the manual, master-only GitHub Actions workflow .github/workflows/agriculture-cloud.yml. It uses the repository Actions secret EARTH_DATA on a GitHub-hosted runner to discover and download exact SME2 granules, process the selected series, optionally attempt IMERG context, validate the publication, and commit only the checksum-verified display package under public/agriculture/current. The website prepares the selected AOI/date/series inputs and links to the workflow; an operator confirms the GitHub Actions run. The browser does not receive credentials and does not trigger processing silently.
+
+Optional Dynamic World crop evidence is acquired through the separate manual, master-only .github/workflows/agriculture-dynamic-world.yml workflow. Its absence leaves crop observability NOT ASSESSED; the published Naogaon release contains no crop mask, IMERG context or independent field validation. Raw HDF5/NetCDF granules, native GeoTIFFs and private receipts remain outside the public display package. SME2 PROVISIONAL maturity, the fixed coverage floor and the lack of independent validation remain visible limits; no crop-stress or drought classification is claimed.

@@ -88,6 +88,10 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
   const labelRefs = useRef(new Map<string, HTMLElement | null>());
   const markerLayerRef = useRef<THREE.Group | null>(null);
   const globeGroupRef = useRef<THREE.Group | null>(null);
+  const viewControlsRef = useRef<{
+    rotate: (horizontal: number, vertical: number) => void;
+    zoom: (amount: number) => void;
+  } | null>(null);
   const glowTexRef = useRef<THREE.Texture | null>(null);
   const markerObjs = useRef<MarkerObj[]>([]);
   const hitMeshes = useRef<THREE.Mesh[]>([]);
@@ -111,7 +115,7 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
 
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(42, 1, 0.1, 100);
-    camera.position.set(0, 0.25, 5.6);
+    camera.position.set(0, 0.25, reduceMotion ? 2.75 : 5.6);
 
     const globeGroup = new THREE.Group();
     globeGroupRef.current = globeGroup;
@@ -183,6 +187,7 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
     const satGlow = new THREE.Sprite(new THREE.SpriteMaterial({ map: glowTex, color: 0xffe9b8, transparent: true, opacity: 0.9, depthWrite: false }));
     satGlow.scale.setScalar(0.09);
     sat.add(satGlow);
+    sat.position.set(0, 0, 1.42);
     scene.add(sat);
     const TRAIL = 90;
     const trailPos = new Float32Array(TRAIL * 3);
@@ -196,9 +201,28 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
     // — Interaction: drag-to-spin with inertia, wheel zoom, click vs drag —
     const ray = new THREE.Raycaster();
     const ndc = new THREE.Vector2();
-    let dragging = false, moved = 0, lastX = 0, lastY = 0, velX = 0, velY = 0, lastInteract = 0, introT = 0;
+    let dragging = false, moved = 0, lastX = 0, lastY = 0, velX = 0, velY = 0, lastInteract = 0, introT = reduceMotion ? 1 : 0;
+    let lastFrameAt = 0;
+    viewControlsRef.current = {
+      rotate: (horizontal, vertical) => {
+        velX = 0;
+        velY = 0;
+        globeGroup.rotation.y += horizontal * 0.12;
+        globeGroup.rotation.x = THREE.MathUtils.clamp(globeGroup.rotation.x + vertical * 0.12, -0.85, 0.85);
+        lastInteract = performance.now();
+      },
+      zoom: (amount) => {
+        camera.position.z = THREE.MathUtils.clamp(camera.position.z + amount, 1.85, 5.2);
+        lastInteract = performance.now();
+      },
+    };
     let hoverCheck = false, hoverX = 0, hoverY = 0;
     const el = renderer.domElement;
+    el.tabIndex = 0;
+    el.setAttribute(
+      "aria-label",
+      "Interactive 3D Earth. Use the arrow keys or on-screen movement controls to rotate the globe, and plus or minus or the on-screen controls to zoom. Use the study location list to center a published case.",
+    );
     el.style.cursor = "grab";
     el.style.display = "block";
 
@@ -250,6 +274,40 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
       camera.position.z = THREE.MathUtils.clamp(camera.position.z + e.deltaY * 0.0022, 1.85, 5.2);
       lastInteract = performance.now();
     }, { passive: false });
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const step = event.shiftKey ? 0.28 : 0.12;
+      let handled = true;
+      switch (event.key) {
+        case "ArrowLeft":
+          globeGroup.rotation.y += step;
+          break;
+        case "ArrowRight":
+          globeGroup.rotation.y -= step;
+          break;
+        case "ArrowUp":
+          globeGroup.rotation.x = THREE.MathUtils.clamp(globeGroup.rotation.x + step, -0.85, 0.85);
+          break;
+        case "ArrowDown":
+          globeGroup.rotation.x = THREE.MathUtils.clamp(globeGroup.rotation.x - step, -0.85, 0.85);
+          break;
+        case "+":
+        case "=":
+          camera.position.z = THREE.MathUtils.clamp(camera.position.z - 0.2, 1.85, 5.2);
+          break;
+        case "-":
+        case "_":
+          camera.position.z = THREE.MathUtils.clamp(camera.position.z + 0.2, 1.85, 5.2);
+          break;
+        default:
+          handled = false;
+      }
+      if (!handled) return;
+      event.preventDefault();
+      velX = 0;
+      velY = 0;
+      lastInteract = performance.now();
+    };
+    el.addEventListener("keydown", handleKeyDown);
 
     const resize = () => {
       const w = mount.clientWidth || 1, h = mount.clientHeight || 1;
@@ -278,52 +336,61 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
     };
 
     let raf = 0;
+    // Pause the render loop whenever the globe is off-screen or the tab is
+    // hidden: no frames are scheduled at all in that state, so the WebGL
+    // cost drops to zero. resume() restarts it when the globe returns.
+    // (VP-1: the loop previously rendered a full frame every animation
+    // frame forever, even scrolled out of view or in a hidden tab.)
+    let inView = true;
+    let pageVisible = !document.hidden;
     const timer = new THREE.Timer();
     timer.connect(document);
     const animate = () => {
+      if (!inView || !pageVisible) { raf = 0; return; }
       raf = requestAnimationFrame(animate);
+      const now = performance.now();
+      if (reduceMotion && now - lastFrameAt < 1000 / 24) return;
+      lastFrameAt = now;
       timer.update();
       const t = timer.getElapsed();
-      const now = performance.now();
 
-      // Intro flight.
-      if (introT < 1) {
+      // Reduced-motion mode renders a steady globe. Users can still rotate and
+      // zoom it directly with the keyboard or pointer.
+      if (!reduceMotion && introT < 1) {
         introT = Math.min(1, introT + 0.008);
         const e = 1 - Math.pow(1 - introT, 3);
         camera.position.z = 5.6 - e * (5.6 - 2.75);
       }
-      // Inertia + idle auto-spin.
-      if (!dragging) {
+      if (!dragging && !reduceMotion) {
         globeGroup.rotation.y += velX;
         globeGroup.rotation.x = THREE.MathUtils.clamp(globeGroup.rotation.x + velY, -0.85, 0.85);
-        velX *= 0.94; velY *= 0.94;
-        // Keep published case locations in view after the initial category
-        // framing. Users can still drag the globe; unattended auto-spin would
-        // otherwise carry one or more study markers behind the planet.
-        if (!reduceMotion && markerObjs.current.length === 0 && now - lastInteract > 3000) globeGroup.rotation.y += 0.0011;
+        velX *= 0.94;
+        velY *= 0.94;
+        if (markerObjs.current.length === 0 && now - lastInteract > 3000) {
+          globeGroup.rotation.y += 0.0011;
+        }
       }
-      // Marker pulses (phase-offset per case).
-      markerObjs.current.forEach((mo, i) => {
-        const s = 0.13 + Math.sin(t * 2.6 + i * 1.7) * 0.025;
-        mo.pulse.scale.setScalar(s);
-        (mo.pulse.material as THREE.SpriteMaterial).opacity = 0.78 + Math.sin(t * 2.6 + i * 1.7) * 0.17;
-      });
-
-      // Satellite orbit (inclined, period ~14s).
-      const orbR = 1.42, w = (t * 2 * Math.PI) / 14;
-      const inc = 0.62;
-      sat.position.set(
-        orbR * Math.cos(w),
-        orbR * Math.sin(w) * Math.sin(inc),
-        orbR * Math.sin(w) * Math.cos(inc),
-      );
-      trailPts.unshift(sat.position.clone());
-      if (trailPts.length > TRAIL) trailPts.pop();
-      for (let i = 0; i < TRAIL; i++) {
-        const p = trailPts[Math.min(i, trailPts.length - 1)] ?? sat.position;
-        trailPos.set([p.x, p.y, p.z], i * 3);
+      if (!reduceMotion) {
+        markerObjs.current.forEach((mo, i) => {
+          const s = 0.13 + Math.sin(t * 2.6 + i * 1.7) * 0.025;
+          mo.pulse.scale.setScalar(s);
+          (mo.pulse.material as THREE.SpriteMaterial).opacity = 0.78 + Math.sin(t * 2.6 + i * 1.7) * 0.17;
+        });
+        const orbR = 1.42, w = (t * 2 * Math.PI) / 14;
+        const inc = 0.62;
+        sat.position.set(
+          orbR * Math.cos(w),
+          orbR * Math.sin(w) * Math.sin(inc),
+          orbR * Math.sin(w) * Math.cos(inc),
+        );
+        trailPts.unshift(sat.position.clone());
+        if (trailPts.length > TRAIL) trailPts.pop();
+        for (let i = 0; i < TRAIL; i++) {
+          const p = trailPts[Math.min(i, trailPts.length - 1)] ?? sat.position;
+          trailPos.set([p.x, p.y, p.z], i * 3);
+        }
+        trailGeo.attributes.position.needsUpdate = true;
       }
-      trailGeo.attributes.position.needsUpdate = true;
 
       // Hover coordinate readout.
       if (hoverCheck && !dragging) {
@@ -350,10 +417,27 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
 
       renderer.render(scene, camera);
     };
+    const resume = () => {
+      if (inView && pageVisible && !raf) raf = requestAnimationFrame(animate);
+    };
+    const io = new IntersectionObserver((entries) => {
+      inView = entries[0]?.isIntersecting ?? true;
+      if (inView) resume();
+    });
+    io.observe(mount);
+    const onVisibilityChange = () => {
+      pageVisible = !document.hidden;
+      if (pageVisible) resume();
+    };
+    document.addEventListener("visibilitychange", onVisibilityChange);
     animate();
 
     return () => {
       cancelAnimationFrame(raf);
+      io.disconnect();
+      document.removeEventListener("visibilitychange", onVisibilityChange);
+      el.removeEventListener("keydown", handleKeyDown);
+      viewControlsRef.current = null;
       timer.dispose();
       ro.disconnect();
       markerLayerRef.current = null;
@@ -468,6 +552,14 @@ export default function Globe3D({ pinMode, pin, caseMarkers, focusLocation, onPi
       <div ref={labelPinRef} className="globe-tag globe-tag--pin">
         <strong>{pin ? `${Math.abs(pin.lat).toFixed(2)}°${pin.lat >= 0 ? "N" : "S"} ${Math.abs(pin.lng).toFixed(2)}°${pin.lng >= 0 ? "E" : "W"}` : ""}</strong>
         <span>selected study location</span>
+      </div>
+      <div className="g3-globe-controls" role="group" aria-label="Globe movement controls">
+        <button type="button" aria-label="Rotate globe left" title="Rotate left" onClick={() => viewControlsRef.current?.rotate(-1, 0)}>←</button>
+        <button type="button" aria-label="Tilt globe up" title="Tilt up" onClick={() => viewControlsRef.current?.rotate(0, 1)}>↑</button>
+        <button type="button" aria-label="Rotate globe right" title="Rotate right" onClick={() => viewControlsRef.current?.rotate(1, 0)}>→</button>
+        <button type="button" aria-label="Tilt globe down" title="Tilt down" onClick={() => viewControlsRef.current?.rotate(0, -1)}>↓</button>
+        <button type="button" aria-label="Zoom globe out" title="Zoom out" onClick={() => viewControlsRef.current?.zoom(0.2)}>−</button>
+        <button type="button" aria-label="Zoom globe in" title="Zoom in" onClick={() => viewControlsRef.current?.zoom(-0.2)}>+</button>
       </div>
     </div>
   );

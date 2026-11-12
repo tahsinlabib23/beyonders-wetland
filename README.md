@@ -1,35 +1,33 @@
-# Beyonders — Earth in Motion
+# GEONEXSER — Earth in Motion
 
-A NISAR Earth-change explorer with separate **Wetlands**, **Volcanoes** and **Forests** sections. Wetland and forest polygons are local analysis outputs and remain unverified candidates. The worldwide volcano map shows Smithsonian inventory locations and NISAR interferogram coverage; it does not classify eruptions or claim global deformation detections.
+GEONEXSER is an evidence-first Earth-observation investigation platform built with NASA–ISRO NISAR data. It helps analysts inspect radar observations, examine candidate changes, compare independent datasets, and trace every result to its source.
+
+The current prototype includes four distinct measurement workspaces: wetlands and forests (NISAR L2 GCOV backscatter), volcanoes (NISAR L2 GUNW phase/coherence), and agriculture (NISAR L3 SME2 soil-moisture estimates). These are not interchangeable detectors. Published results are exploratory candidates unless explicitly supported by the case evidence; no worldwide hazard classification or operational alert is claimed.
 
 ## Run locally
 
-- Install Node.js 20 or newer and Python 3.13; see [installation](docs/operator-guide.md).
+- Install Node.js 20.9.0 or newer and Python 3.13; see [installation](docs/operator-guide.md).
 - In the repository, run `npm ci`, create `pipeline/venv`, and install `pipeline/requirements.txt`.
 - Start `npm run dev -- --port 3015` and open `http://localhost:3015/wetland/global`.
-- Fake-data experience: `/wetland`. Real saved studies: `/wetland?source=raster`.
-- Volcano directory: `/volcano/global`; published Hayli Gubbi/Erta Ale case: `/volcano/hayli-gubbi`.
-- Forest explorer: `/forest/global`; real Rondônia NISAR study: `/forest/rondonia`. The study reads seven PROVISIONAL GCOV observations, checks HLS coverage/change evidence, and publishes one small unverified radar-change candidate. Run `python pipeline/forest_pipeline.py verify-run --run RUN_ID` to reproduce its saved classifications offline. [Forest method](docs/forest-method.md) · [operator workflow](docs/forest-operator-guide.md).
-- The volcano case contains three real NISAR HH BETA GUNW intervals, independent ascending/descending Sentinel-1 phase views, timeline, coordinate/pixel inspector and evidence export. Interpret these as relative apparent LOS candidates; atmospheric corrections and measurement accuracy are not established.
-- New study searches and processing run on the local computer. Earthdata login is entered in the terminal, never in the web form.
+- Wetlands: the map-first experience is at `/wetland`; global discovery and processing are at `/wetland/global`.
+- Forests: global discovery is at `/forest/global`; the published Rondônia study is at `/forest/rondonia`. Its seven-date PROVISIONAL GCOV series and HLS/GLAD context remain exploratory, unverified radar-change evidence. Reproduce a saved native run with `python pipeline/forest_pipeline.py verify-run --run RUN_ID`; see [Forest method](docs/forest-method.md) and the [operator workflow](docs/forest-operator-guide.md).
+- Volcanoes: global discovery is at `/volcano/global`; the published cases are `/volcano/hayli-gubbi` and `/volcano/kilauea`. Interpret official GUNW phase products as relative apparent line-of-sight candidates, not confirmed volcanic deformation or forecasts.
+- Agriculture / SME2: `/agriculture` serves the checksum-verified Naogaon study `agri-41647231453`, an exploratory NISAR L3 SME2 PROVISIONAL DSG series with six valid dates (12 August–23 October 2026) and four documented quality exclusions. It is not field-validated and has no independent crop mask or published IMERG rainfall context. NASA CMR discovery and secure cloud-processing handoff are available in the browser; Earthdata credentials remain in the `EARTH_DATA` repository secret. See [Agriculture method](docs/agriculture-method.md) and [release/QA status](docs/agriculture-release.md).
 
-## Publish the public viewer
+## Publishing
 
-Publish only reviewed study packages. Prepare first: `python pipeline/publish_study.py RUN_ID --version YYYY.MM.DD`. See [deployment and recovery](docs/deployment.md). Do not commit raw satellite files, virtual environments, credentials, recordings, or processing logs.
+Publish only reviewed, checksum-verified study packages. See [deployment and recovery](docs/deployment.md). Keep credentials, downloaded granules, native processing outputs and logs out of Git.
 
-## Documentation
+## Scientific evidence and limitations
 
-- [Project plan and release gates](docs/project-plan.md)
-- [NASA Space Apps challenge coverage](docs/challenge-coverage.md)
-- [Architecture](docs/architecture.md)
-- [Scientific method and limitations](docs/scientific-method.md)
-- [Evidence inventory](docs/evidence-report.md) · [machine-readable checks](docs/evidence-inventory.json)
-- [Data and publication formats](docs/data-specification.md)
-- [Operator guide](docs/operator-guide.md)
-- [Deployment, publishing, recovery](docs/deployment.md)
-- [User guide and roadmap](docs/user-guide.md)
-- [Volcano method, data provenance, and limitations](docs/volcano-method.md)
-- [Volcano release and acceptance report](docs/volcano-release.md)
-- [Chókwè catalog investigation](docs/chokwe-catalog-check.json)
+See the [evidence report](docs/evidence-report.md), [scientific method](docs/scientific-method.md), [data specification](docs/data-specification.md), and [project plan](docs/project-plan.md). The Chókwè evidence is particularly important: the HLS comparison is inconclusive; temporally close and later independent radar products provide positive-only algorithm agreement/spatial support, not field validation or an accuracy score. A separate native-grid GFM follow-up found positive support in 57,997 of 147,151 eligible OPEN_WATER candidate pixels (39.4133%; 5.7997 km²). This is positive-only agreement between satellite algorithms, not field validation, precision, recall, F1, accuracy, or candidate-level confirmation. The original published candidate package remains unchanged.
 
-Catalog availability may change; verify NASA CMR before another study. Chókwè is processed separately from the PROVISIONAL time series using its matching January 5–17 NISAR BETA pair. Its HLS optical check is inconclusive; a later UNOSAT Sentinel-1 overlay provides positive spatial support but not an accuracy assessment.
+## Regression checks
+
+- `npm test` — deterministic TypeScript unit/regression suite.
+- `npm run lint` — ESLint.
+- `npm run build` — production build (Webpack).
+- `npx tsc --noEmit` — TypeScript check.
+- Production-browser checks are listed in [the operator guide](docs/operator-guide.md).
+
+GitHub Actions runs the project QA workflow on pushes to `master` and pull requests targeting `master`.

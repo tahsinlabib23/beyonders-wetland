@@ -287,9 +287,10 @@ function GlobalTimeMachine({ dates, activeDate, stats, loading, onSelect }: {
   </>;
 }
 
-export default function GlobalDetectionsExplorer({ initialLocation, initialRunId }: {
+export default function GlobalDetectionsExplorer({ initialLocation, initialRunId, initialAnchorId }: {
   initialLocation?: { latitude: string; longitude: string; site: string };
   initialRunId?: string;
+  initialAnchorId?: string;
 }) {
   const queryLatitude = initialLocation?.latitude ?? "";
   const queryLongitude = initialLocation?.longitude ?? "";
@@ -320,10 +321,11 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
   const [focusStudyArea, setFocusStudyArea] = useState(false);
   const [mapMode, setMapMode] = useState<ViewMode>("MOTION");
   const [satelliteBasemap, setSatelliteBasemap] = useState(true);
-  const [showFootprints, setShowFootprints] = useState(false);
+  const [showFootprints, setShowFootprints] = useState(true);
   const [showNisarMosaic, setShowNisarMosaic] = useState(false);
   const [showLocalRadar, setShowLocalRadar] = useState(false);
   const [mapComparisonOpen, setMapComparisonOpen] = useState(false);
+  const [comparisonSession, setComparisonSession] = useState(0);
   const [comparisonPosition, setComparisonPosition] = useState(50);
   const comparisonTriggerRef = useRef<HTMLButtonElement>(null);
   const [radarChannel, setRadarChannel] = useState<RadarChannel>("hh");
@@ -337,7 +339,7 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
   const [coverageRefreshing, setCoverageRefreshing] = useState(false);
   const [coverageError, setCoverageError] = useState("");
   const [coverageRefreshKey, setCoverageRefreshKey] = useState(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(Boolean(initialRunId));
   const [error, setError] = useState("");
   const [refreshKey, setRefreshKey] = useState(0);
   const closeMapComparison = useCallback(() => {
@@ -363,7 +365,16 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
     setCandidateDate("");
     setCandidateSelection(null);
     setError("");
-    setLoading(true);
+    if (!runId) {
+      // No run chosen: clear any previous run's detections in this same
+      // event, so the explorer shows the honest empty state. The fetch
+      // effect below skips entirely when no run is selected; it must not
+      // set state itself (React 19 forbids setState directly in an effect).
+      setData(null);
+      setLoading(false);
+    } else {
+      setLoading(true);
+    }
     setFocusStudyArea(Boolean(runId));
     setAreaBounds(null);
     setAreaBoundary(null);
@@ -421,6 +432,14 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
   }, [refreshKey]);
 
   useEffect(() => {
+    // No run chosen means no detections: the explorer must not silently load
+    // the latest completed run (Tanguar in public mode) and present it as the
+    // initial state. Worldwide footprints are acquisitions, not detections,
+    // until the user explicitly picks a saved study (or arrives via ?run=).
+    // Clearing happens in selectRun, the event that changes the selection.
+    if (!selectedRun) {
+      return;
+    }
     const controller = new AbortController();
     const params = new URLSearchParams();
     if (candidateDate) params.set("date", candidateDate);
@@ -585,14 +604,14 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
   const headerCaseName = data?.site_name || data?.case_study?.site || (isNisar ? "Latest processed study" : "Global observations");
   const railCaseName = headerCaseName.replace(/\s+(?:event\s+)?study box$/i, "").replace(/\s+mapped boundary$/i, "");
   const caseControl = <select className="wx-casepick" aria-label="Choose a saved study run" value={selectedRun} onChange={(event) => selectRun(event.target.value)}>
-    <option value="">Latest completed result</option>
+    <option value="">No study selected</option>
     {savedRuns.map((run) => <option key={run.run_id} value={run.run_id}>{run.site_name} · {run.baseline_date} → {run.selected_date}</option>)}
   </select>;
   const questContent = questCandidates.length ? <div className="wx-quest__chips" aria-label="Largest candidates in this selected observation">
     {questCandidates.map((feature, index) => <button key={feature.properties.id} type="button" onClick={() => selectCandidate(feature.properties.id ?? null)} title="Select and inspect this candidate">
       <span>{index + 1}</span><span className="wx-mono">{(feature.properties.area_km2 ?? 0).toFixed(2)} km²</span>
     </button>)}
-  </div> : <span className="global-quest-empty">{isNisar ? "No candidates for this observation" : "No processed study selected"}</span>;
+  </div> : <span className="global-quest-empty">{isNisar ? "No candidates for this observation" : <>No processed study selected — <Link className="global-data-link" href="/wetland">explore the featured Tanguar Haor case</Link> (7 real NISAR dates, 30 Jun → 22 Sep 2026; 24.48 km² of radar-change candidates at peak)</>}</span>;
   const processingPanel = <>
 <NisarProcessingPanel bounds={areaBounds} boundary={areaBoundary} drawing={areaDrawing}
         onDraw={setAreaDrawing} onAreaChange={applyArea}
@@ -608,7 +627,7 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
         <span>{loading
           ? "Radar comparisons and independent-reference checks will appear when the selected study finishes loading."
           : "The Radar comparison, date-specific reference check, and optical evidence are still available here. Load a saved run from Explore to show its measured inputs."}</span>
-        {!loading && <Link className="global-data-link" href="#nisar-run-controls">Choose a saved study in Explore ↑</Link>}
+        {!loading && <><Link className="global-data-link" href="#nisar-run-controls">Choose a saved study in Explore ↑</Link> or <Link className="global-data-link" href="/wetland">explore the featured Tanguar Haor case →</Link></>}
       </div>}
 {isNisar && data?.selected_date && !loading && <RadarComparison runId={data.run_id} date={data.selected_date} refreshKey={refreshKey} />}
       {isNisar && data?.selected_date && !loading && <SavedDateCheck runId={data.run_id} date={data.selected_date} refreshKey={refreshKey} />}
@@ -638,7 +657,7 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
             <p className="nisar-case-step__detail">NISAR L2 GCOV provisional · {(data.case_study.polarizations ?? ["HHHH", "HVHV"]).join(" / ")}</p>
             {data.case_study.input_origin === "SAVED_NISAR_DB_SUBSETS" && <p className="nisar-case-step__detail">Measured radar subsets reused from saved run {data.case_study.source_run_id?.slice(0, 8)}. The original case remains in Saved analyses.</p>}
             {data.case_study.date_pair_selection && <p className="nisar-case-step__detail">Date selection screened {data.case_study.date_pair_selection.screened_scenes} optical scenes across {data.case_study.date_pair_selection.candidate_pairs} radar pairs. {data.case_study.date_pair_selection.method}</p>}
-            <code title={`${(data.case_study.baseline_scenes ?? [data.case_study.baseline_scene]).filter(Boolean).join("\n")}\n${data.case_study.event_scene ?? ""}`}>{data.case_study.baseline_scenes?.length ? `${data.case_study.baseline_scenes.length} baseline scenes · ${data.case_study.baseline_scenes[0]}${data.case_study.baseline_scenes.length > 1 ? " …" : ""}` : data.case_study.baseline_scene ?? "Baseline scene not recorded"}<br />{data.case_study.event_scene ?? "Comparison scene not recorded"}</code>
+            <code tabIndex={0} title={`${(data.case_study.baseline_scenes ?? [data.case_study.baseline_scene]).filter(Boolean).join("\n")}\n${data.case_study.event_scene ?? ""}`}>{data.case_study.baseline_scenes?.length ? `${data.case_study.baseline_scenes.length} baseline scenes · ${data.case_study.baseline_scenes[0]}${data.case_study.baseline_scenes.length > 1 ? " …" : ""}` : data.case_study.baseline_scene ?? "Baseline scene not recorded"}<br />{data.case_study.event_scene ?? "Comparison scene not recorded"}</code>
           </article>
           <article className="nisar-case-step">
             <span className="nisar-case-step__number">02 · DETECTOR RESULT</span>
@@ -706,6 +725,7 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
     selectedDate: activeObservationDate || null,
     channel: radarChannel,
     refreshKey,
+    session: comparisonSession,
   });
   const comparisonMapLayer = mapComparisonOpen && opticalRadarComparison.layer
     ? { ...opticalRadarComparison.layer, position: comparisonPosition }
@@ -784,7 +804,7 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
             : "";
 
   return (
-      <InvestigationWorkspace hazard="wetland" className="wetland-global-workspace" caseName={headerCaseName} caseControl={caseControl} dataTier={dataTier} satelliteBasemap={satelliteBasemap} onToggleBasemap={() => setSatelliteBasemap((value) => !value)} onReturnToOverview={returnToOverview} title="Explore NISAR across the world" subtitle="Track observations through time, then inspect candidates only where a real study has been processed." questContent={questContent} mapToolbar={<div className="wx-map-controls" aria-label="Map view and HH/HV radar layers">
+      <InvestigationWorkspace hazard="wetland" initialAnchorId={initialAnchorId} className="wetland-global-workspace" caseName={headerCaseName} caseControl={caseControl} dataTier={dataTier} satelliteBasemap={satelliteBasemap} onToggleBasemap={() => setSatelliteBasemap((value) => !value)} onReturnToOverview={returnToOverview} title="Explore NISAR across the world" subtitle="Track observations through time, then inspect candidates only where a real study has been processed." questContent={questContent} mapToolbar={<div className="wx-map-controls" aria-label="Map view and HH/HV radar layers">
         <ModeSwitch value={mapMode} onChange={handleMapModeChange} />
         <GlobalRadarLayerControls dateLabel={radarStageDateLabel} channel={radarChannel} stage={radarStage} disabled={radarControlsDisabled}
           showing={Boolean(localRadarLayer && radarImageStatus === "ready")} notice={radarControlNotice} onSelect={handleLocalRadarSelection} />
@@ -793,13 +813,13 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
           title={`${mapComparisonOpen ? "Hide" : "Compare"} optical and radar images over the map`}
           onClick={() => {
             if (mapComparisonOpen) closeMapComparison();
-            else { setComparisonPosition(50); setFocusStudyArea(true); setMapComparisonOpen(true); }
+            else { setComparisonSession((value) => value + 1); setComparisonPosition(50); setFocusStudyArea(true); setMapComparisonOpen(true); }
           }}>
           {Icon.compare}<span>Optical ↔ radar</span>
         </button>
       </div>} rail={<>
           <p className="wx-micro">WORLDWIDE OBSERVATIONS · NASA NISAR L2 GCOV</p>
-          <h1 id="global-detections-title">{isNisar ? railCaseName : "Global NISAR coverage"}</h1>
+          <h2 id="global-detections-title">{isNisar ? railCaseName : "Global NISAR coverage"}</h2>
           <p className="wx-sub">Browse global radar observations and local change candidates. A blank map area has no processed result.</p>
           <p className="wx-mono wx-meta">{data?.product ?? "NASA NISAR L2 GCOV"} · {coverageData?.loadedFeatures.toLocaleString() ?? "—"} scene footprints · {coverageDate}</p>
           <div className={`wx-obsbox${isNisar ? " is-peak" : ""}`} aria-live="polite">
@@ -964,7 +984,7 @@ export default function GlobalDetectionsExplorer({ initialLocation, initialRunId
             </div>
               <label className="detection-field-label" htmlFor="nisar-saved-run">Saved study areas and runs</label>
               <select id="nisar-saved-run" className="detection-select" value={selectedRun} onChange={(event) => selectRun(event.target.value)}>
-                <option value="">Latest completed result</option>
+                <option value="">No study selected</option>
                 {savedRuns.map((run) => <option key={run.run_id} value={run.run_id}>{run.site_name} · {run.baseline_date} → {run.selected_date} · {run.run_id.slice(0, 6)}</option>)}
               </select>
               {runsError && <p className="nisar-tool-error">{runsError}</p>}
